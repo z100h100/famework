@@ -1,32 +1,92 @@
 <template>
-  <div class="dashboard-container">
-    <div class="dashboard-text">name:{{name}}</div>
-    <div class="dashboard-text">roles:<span v-for='(role,index) in roles' :key='index'>{{role}}</span></div>
-  </div>
+  <el-tree
+    ref="treeAuth"
+    default-expand-all
+    highlight-current
+    :data="data2"
+    show-checkbox
+    node-key="key"
+    :props="defaultProps">
+  </el-tree>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
-export default {
-  name: 'dashboard',
-  computed: {
-    ...mapGetters([
-      'name',
-      'roles'
-    ])
+  export default {
+    data () {
+      return {
+        defaultProps: {
+          children: 'children',
+          label: 'label'
+        }
+      }
+    },
+    mounted () {
+    },
+    computed: {
+      data2 () {
+        let aa = []
+        this.$router.options.routes.map(item => {
+          if (!item.hidden) {
+            aa.push(item)
+          }
+        })
+        return aa
+      }
+    },
+    methods: {
+    }
   }
-}
 </script>
 
-<style rel="stylesheet/scss" lang="scss" scoped>
-.dashboard {
-  &-container {
-    margin: 30px;
+<style>
+  .blk_border {
+    border: 1px solid #d1dbe5;
+    padding-bottom: 15px;
   }
-  &-text {
-    font-size: 30px;
-    line-height: 46px;
+
+  .blk_border ul {
+    padding-left: 15px;
   }
-}
+
+  ul {
+    list-style: none;
+  }
+
+  i.icon {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    background-repeat: no-repeat;
+    vertical-align: middle;
+  }
+
+  .icon.folder {
+    /*background-image: url(../../images/close.png);*/
+  }
+
+  .icon.folder-open {
+    /*background-image: url(../../images/open.png);*/
+  }
+
+  .tree-menu li {
+    line-height: 1.5;
+  }
+
+  li.btnCls {
+    float: left;
+    margin-right: 10px;
+  }
+
+  li.menuCls {
+    clear: both;
+    line-height: 30px;
+  }
+
+  .checkCls {
+    vertical-align: middle;
+  }
+
+  .el-tabs__content {
+    color: #48576A;
+  }
 </style>

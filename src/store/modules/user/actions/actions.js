@@ -6,7 +6,6 @@ import { setToken, removeToken } from '@/utils/auth'
 export default {
   // 登录
   Login ({ commit }, userInfo) {
-    const username = userInfo.username.trim()
     return new Promise((resolve, reject) => {
       return getDate.GET_LOGIN(username, userInfo.password).then(response => {
         const data = response.data
@@ -18,7 +17,6 @@ export default {
       })
     })
   },
-
   // 获取用户信息
   GetInfo ({ commit, state }) {
     return new Promise((resolve, reject) => {
@@ -37,7 +35,6 @@ export default {
       })
     })
   },
-
   // 登出
   LogOut ({ commit, state }) {
     return new Promise((resolve, reject) => {
