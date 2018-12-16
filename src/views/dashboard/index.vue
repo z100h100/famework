@@ -1,18 +1,18 @@
 <template>
   <el-tree
     ref="treeAuth"
+    :data="data2"
+    :props="defaultProps"
     default-expand-all
     highlight-current
-    :data="data2"
     show-checkbox
-    node-key="key"
-    :props="defaultProps">
+    node-key="key">
   </el-tree>
 </template>
 
 <script>
   export default {
-    data () {
+    data() {
       return {
         defaultProps: {
           children: 'children',
@@ -20,10 +20,10 @@
         }
       }
     },
-    mounted () {
+    mounted() {
     },
     computed: {
-      data2 () {
+      data2() {
         let aa = []
         this.$router.options.routes.map(item => {
           if (!item.hidden) {
@@ -33,8 +33,7 @@
         return aa
       }
     },
-    methods: {
-    }
+    methods: {}
   }
 </script>
 

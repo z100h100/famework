@@ -4,7 +4,9 @@
     <breadcrumb></breadcrumb>
     <el-dropdown class="avatar-container" trigger="click">
       <div class="avatar-wrapper">
-        <img class="user-avatar" :src="avatar+'?imageView2/1/w/80/h/80'">
+        <el-button>123</el-button>
+        <img class="user-avatar" :src="avatar?avatar:avatarDefault">
+        周文员
         <i class="el-icon-caret-bottom"></i>
       </div>
       <el-dropdown-menu class="user-dropdown" slot="dropdown">
@@ -23,10 +25,16 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import avatarDefault from '@/assets/images/avtor.png'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
 
 export default {
+  data () {
+    return {
+      avatarDefault
+    }
+  },
   components: {
     Breadcrumb,
     Hamburger
