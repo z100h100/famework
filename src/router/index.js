@@ -42,20 +42,20 @@ export const constantRouterMap = [
     meta: { title: '运单管理', icon: 'edit' },
     children: [
       {
-        path: 'orderList',
-        name: 'orderList',
-        label: '运单列表',
-        key: 'Auths_OrderList',
-        component: resolve => require(['@/views/order/orderList'], resolve),
-        meta: { title: '运单列表', icon: 'share' }
-      },
-      {
         path: 'orderAdd',
         name: 'orderAdd',
         label: '创建运单',
         key: 'Auths_OrderAdd',
         component: resolve => require(['@/views/order/orderAdd'], resolve),
         meta: { title: '创建运单', icon: 'delete' }
+      },
+      {
+        path: 'orderList',
+        name: 'orderList',
+        label: '运单列表',
+        key: 'Auths_OrderList',
+        component: resolve => require(['@/views/order/orderList'], resolve),
+        meta: { title: '运单列表', icon: 'share' }
       },
       {
         path: 'orderDetail',
@@ -78,9 +78,9 @@ export const constantRouterMap = [
   // 表单
   {
     path: '/jurisdiction',
-    label: '权限',
+    label: '权限控制',
     key: 'Auths_Jurisdiction',
-    meta: { title: '权限', icon: 'location' },
+    meta: { title: '权限控制', icon: 'location' },
     component: resolve => require(['@/views/layout/Layout'], resolve),
     children: [
       {
@@ -88,35 +88,25 @@ export const constantRouterMap = [
         name: 'justList',
         label: '人员列表',
         key: 'Auths_justList',
-        component: resolve => require(['@/views/jurisdiction/index'], resolve),
-        meta: { title: '权限', icon: 'location' }
+        component: resolve => require(['@/views/jurisdiction/justList'], resolve),
+        meta: { title: '人员列表', icon: 'location' }
       },
       {
         path: 'index',
         name: 'justModify',
         label: '权限修改',
         key: 'Auths_justModify',
-        component: resolve => require(['@/views/jurisdiction/index'], resolve),
-        meta: { title: '权限', icon: 'location' }
+        component: resolve => require(['@/views/jurisdiction/justModify'], resolve),
+        meta: { title: '权限修改', icon: 'location' }
       }
     ]
   },
   // 表单
   {
-    path: '/form',
-    label: 'Form',
-    key: 'Auths_Form',
-    component: resolve => require(['@/views/layout/Layout'], resolve),
-    children: [
-      {
-        path: 'index',
-        name: 'Form',
-        label: 'Form',
-        key: 'Auths_Form',
-        component: resolve => require(['@/views/form/index'], resolve),
-        meta: { title: 'Form', icon: 'location' }
-      }
-    ]
+    path: '/trackDetails',
+    label: 'trackDetails',
+    component: resolve => require(['@/views/trackDetails/index'], resolve),
+    hidden: true
   },
 
   { path: '*', redirect: '/404', hidden: true }

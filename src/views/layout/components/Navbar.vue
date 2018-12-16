@@ -4,7 +4,7 @@
     <breadcrumb></breadcrumb>
     <el-dropdown class="avatar-container" trigger="click">
       <div class="avatar-wrapper">
-        <el-button>123</el-button>
+        <el-button type="primary" class="navbarButton" @click="pushToOrderAdd">创建运单</el-button>
         <img class="user-avatar" :src="avatar?avatar:avatarDefault">
         周文员
         <i class="el-icon-caret-bottom"></i>
@@ -52,6 +52,9 @@ export default {
     toggleSideBar () {
       this.ToggleSideBar()
     },
+    pushToOrderAdd () {
+      this.$router.push('/order/orderAdd')
+    },
     logout () {
       this.$router.push('/login')
       // this.LogOut().then(() => {
@@ -66,7 +69,7 @@ export default {
 .navbar {
   height: 50px;
   line-height: 50px;
-  border-radius: 0px !important;
+  border-radius: 0 !important;
   .hamburger-container {
     line-height: 58px;
     height: 50px;
@@ -85,9 +88,15 @@ export default {
     position: absolute;
     right: 35px;
     .avatar-wrapper {
+      display: flex;
       cursor: pointer;
       margin-top: 5px;
       position: relative;
+      .navbarButton {
+        width: 100px;
+        height: 40px;
+        margin-right: 10px;
+      }
       .user-avatar {
         width: 40px;
         height: 40px;

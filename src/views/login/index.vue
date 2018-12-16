@@ -1,7 +1,7 @@
 <template>
   <div class="login-container">
     <el-form class="login-form" autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left">
-      <h3 class="title">vue-element-admin</h3>
+      <h3 class="title">邦达通物流管理系统</h3>
       <el-form-item prop="username">
         <el-input placeholder="请输入用户名" v-model="loginForm.username" autoComplete="off">
           <i slot="prefix" class="el-input__icon el-icon-search"></i>
@@ -14,7 +14,7 @@
         </el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" style="width:100%;" :loading="loading" @click.native.prevent="handleLogin">Sign in</el-button>
+        <el-button type="primary" style="width:100%;" :loading="loading" @click.native.prevent="handleLogin">登 录</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -150,6 +150,13 @@ export default {
       &_login {
         font-size: 20px;
       }
+    }
+    .title {
+      font-size: 26px;
+      color: $light_gray;
+      margin: 0 auto 40px auto;
+      text-align: center;
+      font-weight: bold;
     }
     .title-container {
       position: relative;
