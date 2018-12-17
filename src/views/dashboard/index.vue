@@ -1,6 +1,6 @@
 <template>
   <div class="index_banner">
-    <img src="@/assets/images/index_banner.png" alt="">
+    <img src="@/assets/images/index_banner.png" alt=""/>
   </div>
 </template>
 
@@ -20,7 +20,8 @@
     width: 100%;
     height: 100%;
     margin-top: 20px;
-    >img {
+
+    > img {
       min-width: 100%;
     }
   }
