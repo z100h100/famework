@@ -2,37 +2,33 @@ import router from './router'
 import store from './store'
 import NProgress from 'nprogress' // Progress 进度条
 import 'nprogress/nprogress.css'// Progress 进度条样式
-import { Message } from 'element-ui'
-import { getToken } from '@/utils/auth' // 验权
+// import { Message } from 'element-ui'
+// import { getToken } from '@/utils/auth' // 验权
 
-const whiteList = ['/login'] // 不重定向白名单
+// const whiteList = ['/login'] // 不重定向白名单
 
 router.beforeEach((to, from, next) => {
   NProgress.start()
-  if (getToken()) {
-    if (to.path === '/login') {
-      next({ path: '/' })
-      NProgress.done()
-    } else {
-      if (!store.state.permission.permissionList) {
-        store.dispatch('GetInfo').then(res => { // 拉取用户信息
-          next({ path: to.path })
-        }).catch((err) => {
-          store.dispatch('FedLogOut').then(() => {
-            Message.error(err || 'Verification failed, please login again')
-            next({ path: '/' })
-          })
-        })
-      } else {
-        next()
-      }
-    }
-  } else {
-    if (whiteList.indexOf(to.path) !== -1) {
+  if (!store.state.user.UserToken) {
+    if (
+      to.matched.length > 0 &&
+      !to.matched.some(record => record.meta.requiresAuth)
+    ) {
       next()
     } else {
-      next('/login')
-      NProgress.done()
+      next({ path: '/login' })
+    }
+  } else {
+    if (!store.state.user.permissionList) {
+      store.dispatch('FETCH_PERMISSION').then(() => {
+        next({ path: to.path })
+      })
+    } else {
+      if (to.path !== '/login') {
+        next()
+      } else {
+        next(from.fullPath)
+      }
     }
   }
 })

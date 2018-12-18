@@ -8,10 +8,16 @@ export const TOGGLEDEVICE = 'ToggleDevice'
 
 // user
 // 登陆设置token
-export const SETTOKEN = 'SetToken'
+export const SETTOKEN = 'SETTOKEN'
 // 设置name
-export const SETNAME = 'SetName'
+export const SETNAME = 'SETNAME'
 // 设置图像
-export const SETAVATAR = 'SetAvatar'
+export const SETAVATAR = 'SETAVATAR'
 // 设置权限角色
-export const SETROLES = 'SetRoles'
+export const SETROLES = 'SETROLES'
+// 设置当前权限路由
+export const SETCURRENTAUTHS = 'SETCURRENTAUTHS'
+
+export const SET_PERMISSION = 'SET_PERMISSION'
+export const CLEAR_PERMISSION = 'CLEAR_PERMISSION'
+export const SETMENU = 'SETMENU'

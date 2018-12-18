@@ -70,7 +70,15 @@ module.exports = {
         https: false,
         hotOnly: false,
         // See https://github.com/vuejs/vue-cli/blob/dev/docs/cli-service.md#configuring-proxy
-        proxy: null // string | Object
+        proxy: {
+          '/apis': {    //将www.exaple.com印射为/apis
+            target: 'http://122.112.211.21:8080',  // 接口域名
+            changeOrigin: false,  //是否跨域
+            pathRewrite: {
+              '^/apis': ''   //需要rewrite的,
+            }
+          }
+        } // string | Object
     },
 
     // options for 3rd party plugins

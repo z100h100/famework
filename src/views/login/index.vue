@@ -65,13 +65,16 @@ export default {
       }
     },
     handleLogin () {
-      this.$router.push({ path: '/' })
+      // this.$router.push({ path: '/' })
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
-          this.$store.dispatch('Login', this.loginForm).then(() => {
+          let params = {
+            ...this.loginForm
+          }
+          this.Login(params).then(() => {
             this.loading = false
-            this.$router.push({ path: '/' })
+            this.$router.replace('/')
           }).catch(() => {
             this.loading = false
           })

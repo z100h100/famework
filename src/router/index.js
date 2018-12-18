@@ -3,36 +3,33 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
-export const constantRouterMap = [
-  // 登陆
+export const constantRouterMapDefault = [
   {
-    path: '/login',
-    label: 'login',
-    component: resolve => require(['@/views/login/index'], resolve),
-    hidden: true
-  },
-  // 404
-  {
-    path: '/404',
-    label: '404',
-    component: resolve => require(['@/views/404'], resolve),
-    hidden: true
-  },
-  // dashboard example
-  {
-    path: '/',
+    path: '',
     component: resolve => require(['@/views/layout/Layout'], resolve),
     redirect: '/dashboard',
-    name: '首页',
     label: '首页',
     key: 'Auths_Dashboard',
     hidden: true,
-    meta: { title: '首页', icon: 'share' },
+    meta: { title: '首页', icon: 'share', requiresAuth: true, name: '首页' },
     children: [{
       path: 'dashboard',
+      name: '首页',
       component: resolve => require(['@/views/dashboard/index'], resolve)
     }]
   },
+  // 表单
+  {
+    path: '/trackDetails',
+    label: 'trackDetails',
+    component: resolve => require(['@/views/trackDetails/index'], resolve),
+    hidden: true
+  },
+
+  { path: '*', redirect: '/404', hidden: true }
+]
+
+export const constantRouterMap = [
   // 运单管理
   {
     path: '/order',
@@ -47,6 +44,7 @@ export const constantRouterMap = [
         path: 'orderAdd',
         name: 'orderAdd',
         label: '创建运单',
+        parent: 'Order',
         key: 'Auths_OrderAdd',
         component: resolve => require(['@/views/order/orderAdd'], resolve),
         meta: { title: '创建运单', icon: 'delete' }
@@ -55,6 +53,7 @@ export const constantRouterMap = [
         path: 'orderList',
         name: 'orderList',
         label: '运单列表',
+        parent: 'Order',
         key: 'Auths_OrderList',
         component: resolve => require(['@/views/order/orderList'], resolve),
         meta: { title: '运单列表', icon: 'share' }
@@ -63,6 +62,7 @@ export const constantRouterMap = [
         path: 'orderDetail',
         name: 'orderDetail',
         label: '运单详情',
+        parent: 'Order',
         key: 'Auths_OrderDetail',
         component: resolve => require(['@/views/order/orderDetail'], resolve),
         meta: { title: '运单详情', icon: 'delete' }
@@ -71,6 +71,7 @@ export const constantRouterMap = [
         path: 'orderTrack',
         name: 'orderTrack',
         label: '运单追踪',
+        parent: 'Order',
         key: 'Auths_OrderTrack',
         component: resolve => require(['@/views/order/orderTrack'], resolve),
         meta: { title: '运单追踪', icon: 'delete' }
@@ -102,18 +103,9 @@ export const constantRouterMap = [
         meta: { title: '权限修改', icon: 'location' }
       }
     ]
-  },
-  // 表单
-  {
-    path: '/trackDetails',
-    label: 'trackDetails',
-    component: resolve => require(['@/views/trackDetails/index'], resolve),
-    hidden: true
-  },
-
-  { path: '*', redirect: '/404', hidden: true }
+  }
 ]
-
+// 初始路由
 export default new Router({
   scrollBehavior: () => ({ y: 0 }),
   routes: [

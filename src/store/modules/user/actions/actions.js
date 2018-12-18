@@ -1,47 +1,60 @@
 import * as types from '../../../mutation_type'
 import getDate from '../../../../apis/api' // 接口
-// import Cookies from 'js-cookie' // cookie
-import { setToken, removeToken } from '@/utils/auth'
+// import { setToken, removeToken } from '@/utils/auth'
+import { recursionRouter, setDefaultRoute } from '@/utils/index'
+import router, { constantRouterMapDefault, constantRouterMap } from '@/router/index'
 
 export default {
   // 登录
   Login ({ commit }, userInfo) {
-    return getDate.GET_LOGIN(username, userInfo.password).then(response => {
-      const data = response.data
-      setToken(data.token)
-      commit(types.SETTOKEN, data.token)
+    return getDate.GET_LOGIN(userInfo).then(response => {
+      const data = response.data.data
+      commit(types.SETCURRENTAUTHS, data)
       return response
     })
   },
-  // 获取用户信息
-  GetInfo ({ commit, state }) {
-    return new Promise((resolve, reject) => {
-      return getDate.GET_INFO(state.token).then(response => {
-        const data = response.data
-        if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
-          commit('SET_ROLES', data.roles)
-        } else {
-          reject(response)
-        }
-        commit('SET_NAME', data.name)
-        commit('SET_AVATAR', data.avatar)
-        resolve(response)
-      }).catch(error => {
-        reject(error)
-      })
-    })
-  },
-  // 登出
-  LogOut ({ commit, state }) {
-    return new Promise((resolve, reject) => {
-      logout(state.token).then(() => {
-        commit('SET_TOKEN', '')
-        commit('SET_ROLES', [])
-        removeToken()
-        resolve()
-      }).catch(error => {
-        reject(error)
-      })
-    })
+  async FETCH_PERMISSION ({ commit, state }) {
+    let permissionList = await state.currentSign
+
+    /*  根据权限筛选出我们设置好的路由并加入到path=''的children */
+    let routes = recursionRouter(permissionList, constantRouterMap)
+    let MainContainer = constantRouterMapDefault.find(v => v.path === '')
+    let children = MainContainer.children
+    children.push(...routes)
+    /* 生成左侧导航菜单 */
+    commit(types.SETMENU, children)
+
+    /*
+        为所有有children的菜单路由设置第一个children为默认路由
+        主要是供面包屑用，防止点击面包屑后进入某个路由下的 '' 路由,比如/manage/
+        而我们的路由是
+        [
+            /manage/menu1,
+            /manage/menu2
+        ]
+    */
+    setDefaultRoute([MainContainer])
+
+    /*  初始路由 */
+    let initialRoutes = router.options.routes
+
+    /*  动态添加路由 */
+    router.addRoutes(constantRouterMapDefault)
+
+    /* 完整的路由表 */
+    commit('SET_PERMISSION', [...initialRoutes, ...constantRouterMapDefault])
   }
+  // 登出
+  // LogOut ({ commit, state }) {
+  //   return new Promise((resolve, reject) => {
+  //     logout(state.token).then(() => {
+  //       commit('SET_TOKEN', '')
+  //       commit('SET_ROLES', [])
+  //       removeToken()
+  //       resolve()
+  //     }).catch(error => {
+  //       reject(error)
+  //     })
+  //   })
+  // }
 }
