@@ -5,13 +5,15 @@ Vue.use(Router)
 
 export const constantRouterMap = [
   // 登陆
-  { path: '/login',
+  {
+    path: '/login',
     label: 'login',
     component: resolve => require(['@/views/login/index'], resolve),
     hidden: true
   },
   // 404
-  { path: '/404',
+  {
+    path: '/404',
     label: '404',
     component: resolve => require(['@/views/404'], resolve),
     hidden: true
@@ -114,5 +116,12 @@ export const constantRouterMap = [
 
 export default new Router({
   scrollBehavior: () => ({ y: 0 }),
-  routes: constantRouterMap
+  routes: [
+    {
+      path: '/login',
+      label: 'login',
+      component: resolve => require(['@/views/login/index'], resolve),
+      hidden: true
+    }
+  ]
 })

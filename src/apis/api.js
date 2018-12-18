@@ -35,5 +35,8 @@ let base = ''
 export default {
   GET_LOGIN (params) {
     return api.fetch('get', `${base}/projects`, params)
+  },
+  GET_INFO (params) {
+    return api.fetch('get', `${base}/me`, params)
   }
 }
