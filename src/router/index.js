@@ -87,7 +87,7 @@ export const constantRouterMap = [
     component: resolve => require(['@/views/layout/Layout'], resolve),
     children: [
       {
-        path: 'index',
+        path: 'justList',
         name: 'justList',
         label: '人员列表',
         key: 'Auths_justList',
@@ -95,7 +95,7 @@ export const constantRouterMap = [
         meta: { title: '人员列表', icon: 'location' }
       },
       {
-        path: 'index',
+        path: 'justModify',
         name: 'justModify',
         label: '权限修改',
         key: 'Auths_justModify',
@@ -114,6 +114,80 @@ export default new Router({
       label: 'login',
       component: resolve => require(['@/views/login/index'], resolve),
       hidden: true
+    },
+    // 运单管理
+    {
+      path: '/order',
+      component: resolve => require(['@/views/layout/Layout'], resolve),
+      redirect: '/order/orderList',
+      name: 'Order',
+      label: '运单管理',
+      key: 'Auths_Order',
+      meta: { title: '运单管理', icon: 'edit' },
+      children: [
+        {
+          path: 'orderAdd',
+          name: 'orderAdd',
+          label: '创建运单',
+          parent: 'Order',
+          key: 'Auths_OrderAdd',
+          component: resolve => require(['@/views/order/orderAdd'], resolve),
+          meta: { title: '创建运单', icon: 'delete' }
+        },
+        {
+          path: 'orderList',
+          name: 'orderList',
+          label: '运单列表',
+          parent: 'Order',
+          key: 'Auths_OrderList',
+          component: resolve => require(['@/views/order/orderList'], resolve),
+          meta: { title: '运单列表', icon: 'share' }
+        },
+        {
+          path: 'orderDetail',
+          name: 'orderDetail',
+          label: '运单详情',
+          parent: 'Order',
+          key: 'Auths_OrderDetail',
+          component: resolve => require(['@/views/order/orderDetail'], resolve),
+          meta: { title: '运单详情', icon: 'delete' }
+        },
+        {
+          path: 'orderTrack',
+          name: 'orderTrack',
+          label: '运单追踪',
+          parent: 'Order',
+          key: 'Auths_OrderTrack',
+          component: resolve => require(['@/views/order/orderTrack'], resolve),
+          meta: { title: '运单追踪', icon: 'delete' }
+        }
+      ]
+    },
+    // 表单
+    {
+      path: '/jurisdiction',
+      label: '权限控制',
+      key: 'Auths_Jurisdiction',
+      meta: { title: '权限控制', icon: 'location' },
+      component: resolve => require(['@/views/layout/Layout'], resolve),
+      children: [
+        {
+          path: 'justList',
+          name: 'justList',
+          label: '人员列表',
+          key: 'Auths_justList',
+          component: resolve => require(['@/views/jurisdiction/justList'], resolve),
+          meta: { title: '人员列表', icon: 'location' }
+        },
+        {
+          path: 'justModify',
+          name: 'justModify',
+          label: '权限修改',
+          key: 'Auths_justModify',
+          component: resolve => require(['@/views/jurisdiction/justModify'], resolve),
+          meta: { title: '权限修改', icon: 'location' }
+        }
+      ]
     }
   ]
 })

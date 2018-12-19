@@ -10,12 +10,12 @@ export function recursionRouter (userRouter = [], allRouter = []) {
   var realRoutes = []
   allRouter.forEach((v, i) => {
     userRouter.forEach((item, index) => {
+      // 历史遗留问题
       if (item.action === v.key) {
         if (v.parent) {
 
         }
         v.children = recursionRouter(item, v.children)
-
       } else {
 
       }

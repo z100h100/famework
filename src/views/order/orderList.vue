@@ -1,5 +1,27 @@
 <template>
   <div class="app-container">
+    <div>
+      <el-form :inline="true" :model="formInline" class="demo-form-inline">
+        <el-form-item label="运单号">
+          <el-input v-model="formInline.user" placeholder="运单号"></el-input>
+        </el-form-item>
+        <el-form-item label="开单日期">
+          <el-date-picker
+            v-model="formInline.openingDate"
+            type="datetime"
+            placeholder="选择日期时间"
+            align="right"
+            :picker-options="pickerOptions">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item label="经办人">
+          <el-input v-model="formInline.personInCharge" placeholder="经办人"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="onSubmit">查询</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
     <el-table :data="list" v-loading.body="listLoading" element-loading-text="Loading" border fit highlight-current-row>
       <el-table-column align="center" label='ID' width="95">
         <template slot-scope="scope">
@@ -41,8 +63,36 @@
 export default {
   data () {
     return {
+      pickerOptions: {
+        shortcuts: [{
+          text: '今天',
+          onClick(picker) {
+            picker.$emit('pick', new Date());
+          }
+        }, {
+          text: '昨天',
+          onClick(picker) {
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24);
+            picker.$emit('pick', date);
+          }
+        }, {
+          text: '一周前',
+          onClick(picker) {
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+            picker.$emit('pick', date);
+          }
+        }]
+      },
       list: null,
-      listLoading: true
+      listLoading: true,
+      formInline: {
+        personInCharge: '',
+        openingDate: '',
+        user: '',
+        region: ''
+      }
     }
   },
   filters: {
@@ -59,6 +109,9 @@ export default {
     this.fetchData()
   },
   methods: {
+    onSubmit() {
+      this.listLoading = false
+    },
     fetchData () {
       this.listLoading = true
       // getList(this.listQuery).then(response => {

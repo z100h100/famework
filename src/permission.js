@@ -20,9 +20,10 @@ router.beforeEach((to, from, next) => {
     }
   } else {
     if (!store.state.user.permissionList) {
-      store.dispatch('FETCH_PERMISSION').then(() => {
-        next({ path: to.path })
-      })
+      next()
+      // store.dispatch('FETCH_PERMISSION').then(() => {
+      //   next({ path: to.path })
+      // })
     } else {
       if (to.path !== '/login') {
         next()

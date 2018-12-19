@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="app-container">
     <el-tree
       ref="treeAuth"
       :data="data2"
@@ -9,6 +9,7 @@
       show-checkbox
       node-key="key">
     </el-tree>
+    <el-button type="primary" icon="el-icon-search" @click="onSubmit">保存</el-button>
   </div>
 </template>
 
@@ -35,7 +36,17 @@
         return aa
       }
     },
-    methods: {}
+    methods: {
+      onSubmit () {
+        this.setCheckedKeys()
+      },
+      getCheckedKeys () {
+        console.log(this.$refs.treeAuth.getCheckedKeys());
+      },
+      setCheckedKeys() {
+        this.$refs.treeAuth.setCheckedKeys(['Auths_justList']);
+      }
+    }
   }
 </script>
 
