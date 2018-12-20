@@ -1,15 +1,15 @@
 <template>
   <div class="app-container">
     <el-form :model="formInline" :rules="rules" ref="ruleForm" class="demo-form-inline">
-      <el-form-item label="用户名">
+      <el-form-item label="用户名" prop="username">
         <el-input class="formInlineClass" v-model="formInline.username" placeholder="用户名" disabled></el-input>
       </el-form-item>
-      <el-form-item label="电话号码">
+      <el-form-item label="电话号码" prop="phone">
         <el-input class="formInlineClass" v-model="formInline.phone" placeholder="电话号码"></el-input>
       </el-form-item>
-      <el-form-item label="角色">
+      <el-form-item label="角色" prop="roles">
         <el-checkbox-group v-model="formInline.roles" size="medium">
-          <el-checkbox v-for="role in justRolesList" :label="role" :key="role.id">{{role.name}}</el-checkbox>
+          <el-checkbox v-for="role in justRolesList" :label="role.id" :key="role.id">{{role.name}}</el-checkbox>
         </el-checkbox-group>
       </el-form-item>
     </el-form>
@@ -39,20 +39,31 @@
           ],
           phone: [
             { required: true, message: '请选择电话号码', trigger: 'blur' }
+          ],
+          roles: [
+            { required: true, message: '请选择角色', trigger: 'change' }
           ]
         }
       }
     },
     mounted() {
-      if (this.$route.query.id) {
-        let params = {
-          id: parseInt(this.$route.query.id)
+      // 修改加载数据回绑
+      this.getAllRole().then(res => {
+        this.justRolesList = res.data.data
+        if (this.$route.query.id) {
+          let params = {
+            id: parseInt(this.$route.query.id)
+          }
+          this.getJustAuthsList(params).then(resp => {
+            this.formInline.username = resp.data.data.username
+            this.formInline.phone = resp.data.data.phone
+            this.formInline.roles = resp.data.data.roles.map(item => {
+              return item.id
+            })
+            console.log(this.formInline)
+          })
         }
-        this.getJustAuthsList(params).then(res => {
-          this.formInline = res.data.data
-          this.justRolesList = res.data.data.roles
-        })
-      }
+      })
     },
     computed: {
       ...mapState({
@@ -61,6 +72,7 @@
     },
     methods: {
       ...mapActions([
+        'getAllRole',
         'getJustAuthsList',
         'getJustAuthsModify'
       ]),
@@ -68,6 +80,13 @@
         this.$refs['ruleForm'].validate((valid) => {
           if (valid) {
             let params = Object.assign({}, this.formInline)
+            params.roles = this.formInline.roles.map(item => {
+              return {
+                id: item
+              }
+            })
+            // 判断当前的id
+            params.id = this.$route.query.id
             this.getJustAuthsModify(params).then(res => {
               console.log(res)
             })

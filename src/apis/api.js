@@ -41,7 +41,7 @@ export default {
     return api.fetch('post', `${base}/me`, params)
   },
   GET_ROLELISTGET (params) {
-    return api.fetch('post', `${base}/role/get`, params)
+    return api.fetch('get', `${base}/role/get`, params)
   },
   GET_ROLELIST (params) {
     return api.fetch('post', `${base}/role/page`, params)
@@ -49,11 +49,17 @@ export default {
   GET_ROLELISTSAVE (params) {
     return api.fetch('post', `${base}/role/save`, params)
   },
+  GET_ALLROLE (params) {
+    return api.fetch('post', `${base}/role/all`, params)
+  },
   GET_JUSTLIST (params) {
     return api.fetch('post', `${base}/user/page`, params)
   },
   GET_JUSTAUTHSLIST (params) {
     return api.fetch('get', `${base}/user/get`, params)
+  },
+  GET_JUSTAUTHSADD (params) {
+    return api.fetch('post', `${base}/user/add`, params)
   },
   GET_JUSTAUTHSMODIFY (params) {
     return api.fetch('post', `${base}/user/update`, params)

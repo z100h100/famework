@@ -114,7 +114,7 @@ export const constantRouterMap = [
         path: 'justAdd',
         name: 'justAdd',
         label: '添加用户',
-        key: 'Auths_justModify',
+        key: 'Auths_justAdd',
         component: resolve => require(['@/views/jurisdiction/justAdd'], resolve),
         meta: { title: '添加用户', icon: 'location' }
       },

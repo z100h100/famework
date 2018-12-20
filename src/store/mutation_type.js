@@ -25,7 +25,7 @@ export const SETMENU = 'SETMENU'
 // just
 export const JUSTLIST = 'JUSTLIST'
 export const JUSTAUTHSLIST = 'JUSTAUTHSLIST'
-export const JUSTAUTHSMODIFY = 'JUSTAUTHSMODIFY'
 // role
 export const ROLELIST = 'ROLELIST'
 export const ROLEAUTHSLIST = 'ROLEAUTHSLIST'
+export const GETALLROLE = 'GETALLROLE'
