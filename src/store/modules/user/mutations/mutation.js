@@ -5,6 +5,7 @@ import * as types from '../../../mutation_type'
 export default {
   [types.SETCURRENTAUTHS] (state, res) {
     state.currentSign = res.actions
+    delete state.currentSign.loginTime
     state.UserToken = res
     // recursionRouter(res.actions, router)
   },

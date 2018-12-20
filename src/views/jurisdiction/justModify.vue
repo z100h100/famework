@@ -1,50 +1,81 @@
 <template>
   <div class="app-container">
-    <el-tree
-      ref="treeAuth"
-      :data="data2"
-      :props="defaultProps"
-      default-expand-all
-      highlight-current
-      show-checkbox
-      node-key="key">
-    </el-tree>
+    <el-form :model="formInline" :rules="rules" ref="ruleForm" class="demo-form-inline">
+      <el-form-item label="用户名">
+        <el-input class="formInlineClass" v-model="formInline.username" placeholder="用户名" disabled></el-input>
+      </el-form-item>
+      <el-form-item label="电话号码">
+        <el-input class="formInlineClass" v-model="formInline.phone" placeholder="电话号码"></el-input>
+      </el-form-item>
+      <el-form-item label="角色">
+        <el-checkbox-group v-model="formInline.roles" size="medium">
+          <el-checkbox v-for="role in justRolesList" :label="role" :key="role.id">{{role.name}}</el-checkbox>
+        </el-checkbox-group>
+      </el-form-item>
+    </el-form>
     <el-button type="primary" icon="el-icon-search" @click="onSubmit">保存</el-button>
   </div>
 </template>
 
 <script>
+  import { mapActions, mapState } from 'vuex'
+
   export default {
     data() {
       return {
+        justRolesList: [],
         defaultProps: {
           children: 'children',
-          label: 'label'
+          label: 'name'
+        },
+        formInline: {
+          username: '',
+          phone: '',
+          roles: []
+        },
+        rules: {
+          username: [
+            { required: true, message: '请选择用户名', trigger: 'blur' }
+          ],
+          phone: [
+            { required: true, message: '请选择电话号码', trigger: 'blur' }
+          ]
         }
       }
     },
     mounted() {
-    },
-    computed: {
-      data2() {
-        let aa = []
-        this.$router.options.routes.map(item => {
-          if (!item.hidden) {
-            aa.push(item)
-          }
+      if (this.$route.query.id) {
+        let params = {
+          id: parseInt(this.$route.query.id)
+        }
+        this.getJustAuthsList(params).then(res => {
+          this.formInline = res.data.data
+          this.justRolesList = res.data.data.roles
         })
-        return aa
       }
     },
+    computed: {
+      ...mapState({
+        justList: state => state.just.justModifyList.roles
+      })
+    },
     methods: {
+      ...mapActions([
+        'getJustAuthsList',
+        'getJustAuthsModify'
+      ]),
       onSubmit () {
-        this.setCheckedKeys()
-      },
-      getCheckedKeys () {
-        console.log(this.$refs.treeAuth.getCheckedKeys());
-      },
-      setCheckedKeys() {
-        this.$refs.treeAuth.setCheckedKeys(['Auths_justList']);
+        this.$refs['ruleForm'].validate((valid) => {
+          if (valid) {
+            let params = Object.assign({}, this.formInline)
+            this.getJustAuthsModify(params).then(res => {
+              console.log(res)
+            })
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
       }
     }
   }

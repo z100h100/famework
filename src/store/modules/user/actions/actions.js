@@ -13,10 +13,10 @@ export default {
       return response
     })
   },
-  async FETCH_PERMISSION ({ commit, state }) {
-    let permissionList = await state.currentSign
-
+  FETCH_PERMISSION ({ commit, state }) {
+    let permissionList = state.currentSign
     /*  根据权限筛选出我们设置好的路由并加入到path=''的children */
+    // console.log(constantRouterMap, 333)
     let routes = recursionRouter(permissionList, constantRouterMap)
     let MainContainer = constantRouterMapDefault.find(v => v.path === '')
     let children = MainContainer.children

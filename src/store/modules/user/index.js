@@ -8,6 +8,7 @@ const state = {
   UserToken: '',
   name: '',
   currentSign: [],
+  sidebarMenu: [],
   avatar: '',
   roles: []
 }

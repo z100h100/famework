@@ -23,7 +23,12 @@ export default {
     ...mapGetters([
       'sidebar'
     ]),
-    ...mapState(['sidebarMenu', 'currentMenu']),
+    ...mapState({
+      sidebarMenu: (state) => state.user.sidebarMenu,
+      currentMenu: (state) => {
+        console.log(state)
+      }
+    }),
     isCollapse () {
       return !this.sidebar.opened
     }

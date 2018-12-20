@@ -2,63 +2,52 @@
   <div class="app-container">
     <div>
       <el-form :inline="true" :model="formInline" class="demo-form-inline">
-        <el-form-item label="用户角色">
-          <el-input v-model="formInline.user" placeholder="用户角色"></el-input>
+        <el-form-item label="用户名">
+          <el-input v-model="formInline.user" placeholder="用户名"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" icon="el-icon-search" @click="onSubmit">查询</el-button>
-          <el-button type="primary" icon="el-icon-plus" @click="onRoleAdd">添加角色</el-button>
+          <el-button type="primary" icon="el-icon-search" @click="fetchData()">查询</el-button>
+          <el-button type="primary" icon="el-icon-plus" @click="onRoleAdd">添加用户</el-button>
         </el-form-item>
       </el-form>
     </div>
-    <el-table :data="list" v-loading.body="listLoading" element-loading-text="Loading" border highlight-current-row>
-      <el-table-column label="用户组">
+    <el-table :data="justList" v-loading.body="listLoading" element-loading-text="Loading" border highlight-current-row>
+      <el-table-column label="用户名">
         <template slot-scope="scope">
-          {{scope.row.title}}
+          {{scope.row.username}}
         </template>
       </el-table-column>
-      <el-table-column label="创建时间" width="110" align="center">
+      <el-table-column label="电话号码" width="110" align="center">
         <template slot-scope="scope">
-          <span>{{scope.row.author}}</span>
+          <span>{{scope.row.phone}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="创建者" width="110" align="center">
+      <el-table-column label="角色" width="210" align="center">
         <template slot-scope="scope">
-          {{scope.row.pageviews}}
-        </template>
-      </el-table-column>
-      <el-table-column label="修改者" width="110" align="center">
-        <template slot-scope="scope">
-          {{scope.row.pageviews}}
-        </template>
-      </el-table-column>
-      <el-table-column label="修改时间" width="110" align="center">
-        <template slot-scope="scope">
-          {{scope.row.pageviews}}
+          {{scope.row.roles | funFilterRoles}}
         </template>
       </el-table-column>
       <el-table-column label="操作" width="200" align="center">
         <template slot-scope="scope">
-          <i class="el-icon-time"></i>
-          <span>{{scope.row.display_time}}</span>
+          <el-button type="size" @click="justModifyClick(scope.row)">修改</el-button>
         </template>
       </el-table-column>
     </el-table>
     <el-pagination
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
+      @size-change="pageSizeChange"
+      @current-change="currentPageChange"
       :current-page="currentPage"
-      :page-sizes="[100, 200, 300, 400]"
-      :page-size="100"
+      :page-sizes="[10, 20, 40]"
+      :page-size="pageSize"
       layout="total, sizes, prev, pager, next, jumper"
       style="text-align: right;margin-top: 10px"
-      :total="400">
+      :total="total">
     </el-pagination>
   </div>
 </template>
 
 <script>
-
+  import {mapState, mapActions} from 'vuex'
   export default {
     data () {
       return {
@@ -69,32 +58,68 @@
           openingDate: '',
           user: '',
           region: ''
-        },
-        currentPage: 1
+        }
+      }
+    },
+    computed: {
+      ...mapState({
+        // 已关联列表
+        justList: state => state.just.justList.content,
+        total: state => state.just.justList.totalPages,
+        pageSize: state => state.just.justList.size,
+        currentPage: state => state.just.justList.number
+      })
+    },
+    filters: {
+      funFilterRoles (data) {
+        return data.map(item => {
+          return item.name
+        }).toString()
       }
     },
     created () {
       this.fetchData()
     },
     methods: {
+      ...mapActions([
+        'getJustList'
+      ]),
+      justModifyClick (row) {
+        this.$router.push({path: '/jurisdiction/justModify', query: {id: row.id}})
+      },
       onSubmit() {
         this.listLoading = false
       },
       onRoleAdd() {
-        this.$route.push('/jurisdiction/justModify')
+        this.$router.push('/jurisdiction/justModify')
       },
-      handleSizeChange(val) {
-        console.log(`每页 ${val} 条`);
+      /**
+       * @description 已关联案事件改变页码后请求接口数据
+       * @pageSize 每页显示数据记录数
+       */
+      pageSizeChange (pageSize) {
+        this.fetchData(pageSize)
       },
-      handleCurrentChange(val) {
-        console.log(`当前页: ${val}`);
+      /**
+       * @description 已关联案事件当前页码改变后处理数据
+       * @pageNo 当前页码
+       */
+      currentPageChange (pageNo) {
+        this.fetchData(this.pageSize, pageNo - 1)
       },
-      fetchData () {
-        this.listLoading = false
-        // getList(this.listQuery).then(response => {
-        //   this.list = response.data.items
-        //   this.listLoading = false
-        // })
+      fetchData (pageSize = 10, pageNo = 0) {
+        this.listLoading = true
+        let params = {
+          pageNo,
+          pageSize,
+          ...this.formInline
+        }
+        this.getJustList(params).then(res => {
+          this.listLoading = false
+          console.log(res)
+        }).catch(() => {
+          this.listLoading = false
+        })
       }
     }
   }

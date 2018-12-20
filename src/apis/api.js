@@ -39,5 +39,23 @@ export default {
   },
   GET_INFO (params) {
     return api.fetch('post', `${base}/me`, params)
+  },
+  GET_ROLELISTGET (params) {
+    return api.fetch('post', `${base}/role/get`, params)
+  },
+  GET_ROLELIST (params) {
+    return api.fetch('post', `${base}/role/page`, params)
+  },
+  GET_ROLELISTSAVE (params) {
+    return api.fetch('post', `${base}/role/save`, params)
+  },
+  GET_JUSTLIST (params) {
+    return api.fetch('post', `${base}/user/page`, params)
+  },
+  GET_JUSTAUTHSLIST (params) {
+    return api.fetch('get', `${base}/user/get`, params)
+  },
+  GET_JUSTAUTHSMODIFY (params) {
+    return api.fetch('post', `${base}/user/update`, params)
   }
 }

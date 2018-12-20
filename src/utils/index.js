@@ -6,20 +6,15 @@
  */
 
 export function recursionRouter (userRouter = [], allRouter = []) {
-  debugger
   var realRoutes = []
   allRouter.forEach((v, i) => {
     userRouter.forEach((item, index) => {
-      // 历史遗留问题
       if (item.action === v.key) {
-        if (v.parent) {
-
+        if (item.children && item.children.length > 0) {
+          v.children = recursionRouter(item.children, v.children)
         }
-        v.children = recursionRouter(item, v.children)
-      } else {
-
+        realRoutes.push(v)
       }
-      realRoutes.push(v)
     })
   })
   return realRoutes
