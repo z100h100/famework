@@ -17,10 +17,14 @@ export const SETAVATAR = 'SETAVATAR'
 export const SETROLES = 'SETROLES'
 // 设置当前权限路由
 export const SETCURRENTAUTHS = 'SETCURRENTAUTHS'
+// loginOut
+export const LOGINOUT = 'LOGINOUT'
 
 export const SET_PERMISSION = 'SET_PERMISSION'
-export const CLEAR_PERMISSION = 'CLEAR_PERMISSION'
+export const CLEARPERMISSION = 'CLEARPERMISSION'
+export const SETCURRENTMENU = 'SETCURRENTMENU'
 export const SETMENU = 'SETMENU'
+export const CLEARMENU = 'CLEARMENU'
 
 // just
 export const JUSTLIST = 'JUSTLIST'

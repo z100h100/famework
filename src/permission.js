@@ -34,6 +34,7 @@ router.beforeEach((to, from, next) => {
   }
 })
 
-router.afterEach(() => {
+router.afterEach((to, from, next) => {
+  store.commit('SETCURRENTMENU', to.name)
   NProgress.done() // 结束Progress
 })

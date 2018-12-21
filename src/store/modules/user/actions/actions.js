@@ -10,13 +10,21 @@ export default {
     return getDate.GET_LOGIN(userInfo).then(response => {
       const data = response.data.data
       commit(types.SETCURRENTAUTHS, data)
+      commit(types.SETTOKEN, data)
+      return response
+    })
+  },
+  LogOut ({ commit }, userInfo) {
+    return getDate.GET_LOGINOUT(userInfo).then(response => {
+      commit(types.LOGINOUT)
+      commit(types.CLEARPERMISSION)
+      commit(types.CLEARMENU)
       return response
     })
   },
   FETCH_PERMISSION ({ commit, state }) {
     let permissionList = state.currentSign
     /*  根据权限筛选出我们设置好的路由并加入到path=''的children */
-    // console.log(constantRouterMap, 333)
     let routes = recursionRouter(permissionList, constantRouterMap)
     let MainContainer = constantRouterMapDefault.find(v => v.path === '')
     let children = MainContainer.children
@@ -37,6 +45,7 @@ export default {
 
     /*  初始路由 */
     let initialRoutes = router.options.routes
+    console.log(initialRoutes)
 
     /*  动态添加路由 */
     router.addRoutes(constantRouterMapDefault)

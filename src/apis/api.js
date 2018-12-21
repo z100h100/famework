@@ -37,6 +37,9 @@ export default {
   GET_LOGIN (params) {
     return api.fetch('post', `${base}/login?username=${params.username}&password=${params.password}`, {})
   },
+  GET_LOGINOUT (params) {
+    return api.fetch('post', `${base}/loginOut`, {})
+  },
   GET_INFO (params) {
     return api.fetch('post', `${base}/me`, params)
   },
@@ -55,6 +58,9 @@ export default {
   GET_JUSTLIST (params) {
     return api.fetch('post', `${base}/user/page`, params)
   },
+  GET_USERALLUSER (params) {
+    return api.fetch('get', `${base}/user/all_user`, params)
+  },
   GET_JUSTAUTHSLIST (params) {
     return api.fetch('get', `${base}/user/get`, params)
   },
@@ -63,5 +69,14 @@ export default {
   },
   GET_JUSTAUTHSMODIFY (params) {
     return api.fetch('post', `${base}/user/update`, params)
+  },
+  GET_WAYBILLPAGE (params) {
+    return api.fetch('post', `${base}/waybill/page`, params)
+  },
+  GET_WAYBILLSAVE (params) {
+    return api.fetch('post', `${base}/waybill/save`, params)
+  },
+  GET_WAYBILLSAVESMS (params) {
+    return api.fetch('post', `${base}/waybill/saveSms`, params)
   }
 }

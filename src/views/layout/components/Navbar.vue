@@ -4,8 +4,8 @@
     <breadcrumb></breadcrumb>
     <el-dropdown class="avatar-container" trigger="click">
       <div class="avatar-wrapper">
-        <el-button type="primary" class="navbarButton" @click="pushToOrderAdd">创建运单</el-button>
-        <img class="user-avatar" :src="avatar?avatar:avatarDefault">
+        <el-button type="primary" class="navbarButton" @click.stop.prevent="pushToOrderAdd">创建运单</el-button>
+        <!--<img class="user-avatar" :src="avatar?avatar:avatarDefault">-->
         周文员
         <i class="el-icon-caret-bottom"></i>
       </div>
@@ -53,13 +53,13 @@ export default {
       this.ToggleSideBar()
     },
     pushToOrderAdd () {
-      this.$router.push('/order/orderAdd')
+      console.log(1)
+      // this.$router.push('/order/orderAdd')
     },
     logout () {
-      this.$router.push('/login')
-      // this.LogOut().then(() => {
-      //   location.reload() // 为了重新实例化vue-router对象
-      // })
+      this.LogOut().then(() => {
+        location.reload() // 为了重新实例化vue-router对象
+      })
     }
   }
 }
@@ -105,7 +105,7 @@ export default {
       .el-icon-caret-bottom {
         position: absolute;
         right: -20px;
-        top: 25px;
+        top: 20px;
         font-size: 12px;
       }
     }

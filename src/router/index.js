@@ -81,9 +81,9 @@ export const constantRouterMap = [
   // 表单
   {
     path: '/jurisdiction',
-    label: '权限控制',
+    label: '权限管理',
     key: 'Auths_Jurisdiction',
-    meta: { title: '权限控制', icon: 'location' },
+    meta: { title: '权限管理', icon: 'location' },
     component: resolve => require(['@/views/temp'], resolve),
     children: [
       {
@@ -97,10 +97,19 @@ export const constantRouterMap = [
       {
         path: 'roleModify',
         name: 'roleModify',
-        label: '角色权限修改',
+        label: '修改角色权限',
         key: 'Auths_roleModify',
         component: resolve => require(['@/views/jurisdiction/roleModify'], resolve),
-        meta: { title: '角色权限修改', icon: 'location' }
+        meta: { title: '修改角色权限', icon: 'location' },
+        hidden: true
+      },
+      {
+        path: 'roleAdd',
+        name: 'roleAdd',
+        label: '添加角色',
+        key: 'Auths_roleAdd',
+        component: resolve => require(['@/views/jurisdiction/roleAdd'], resolve),
+        meta: { title: '添加角色', icon: 'location' }
       },
       {
         path: 'justList',
@@ -124,7 +133,8 @@ export const constantRouterMap = [
         label: '用户权限修改',
         key: 'Auths_justModify',
         component: resolve => require(['@/views/jurisdiction/justModify'], resolve),
-        meta: { title: '用户权限修改', icon: 'location' }
+        meta: { title: '用户权限修改', icon: 'location' },
+        hidden: true
       }
     ]
   }

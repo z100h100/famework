@@ -4,16 +4,15 @@ import actions from './actions/actions'
 import mutations from './mutations/mutation'
 
 const state = {
-  permissionList: null,
-  UserToken: '',
-  user: {
-    id: ''
+  justList: {
+    content: [],
+    totalPages: 0,
+    size: 10,
+    number: 1
   },
-  currentSign: [],
-  sidebarMenu: [],
-  currentMenu: '',
-  avatar: '',
-  roles: []
+  justModifyList: {
+    roles: []
+  }
 }
 
 export default{
