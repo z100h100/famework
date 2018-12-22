@@ -33,22 +33,22 @@
     </div>
     <el-table :data="orderList" v-loading.body="listLoading" element-loading-text="Loading" border fit
               highlight-current-row>
-      <el-table-column label="运单号" width="110">
+      <el-table-column label="运单号" width="150">
         <template slot-scope="scope">
           {{scope.row.waybillNo}}
         </template>
       </el-table-column>
-      <el-table-column label="开单时间" width="110" align="center">
+      <el-table-column label="开单时间" min-width="150" align="center">
         <template slot-scope="scope">
           <span>{{scope.row.waybillDate}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="发货人" width="110" align="center">
+      <el-table-column label="发货人" width="150" align="center">
         <template slot-scope="scope">
           {{scope.row.deliveryPerson}}
         </template>
       </el-table-column>
-      <el-table-column label="收货人" width="110" align="center">
+      <el-table-column label="收货人" width="150" align="center">
         <template slot-scope="scope">
           {{scope.row.receivingPerson}}
         </template>
