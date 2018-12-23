@@ -29,7 +29,7 @@
       </el-table-column>
       <el-table-column label="操作" width="200" align="center">
         <template slot-scope="scope">
-          <el-button type="size" @click="justModifyClick(scope.row)">修改</el-button>
+          <el-button type="text" @click="justModifyClick(scope.row)">修改</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -106,10 +106,25 @@
       },
       fetchData (pageSize = 10, pageNo = 0) {
         this.listLoading = true
-        let params = {
-          pageNo,
-          pageSize,
-          ...this.formInline
+        let params
+        if (this.formInline.name) {
+          params = {
+            pageNo,
+            pageSize,
+            params: [
+              {
+                andOr: "and",
+                name: "username",
+                operation: "like",
+                value: this.formInline.username
+              }
+            ]
+          }
+        } else {
+          params = {
+            pageNo,
+            pageSize
+          }
         }
         this.getJustList(params).then(res => {
           this.listLoading = false
