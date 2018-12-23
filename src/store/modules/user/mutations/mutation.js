@@ -11,6 +11,7 @@ export default {
   },
   // 退出登录接口
   [types.LOGINOUT] (state, res) {
+    state.UserToken = ''
     sessionStorage.removeItem('auth')
   },
   [types.SETTOKEN] (state, res) {

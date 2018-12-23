@@ -1,8 +1,7 @@
 import api from './index'
 import axios from 'axios'
-// import store from '../store'
+import store from '../store'
 import { Message } from 'element-ui'
-import router from '@/router'
 /**
  *
  * @type {{}}
@@ -19,7 +18,8 @@ axios.interceptors.response.use(response => {
   if (response.data.status == 0) {
     if (response.data.code == '1001') {
       Message.error(response.data.message)
-      router.push('/')
+      store.dispatch('LogOut')
+      location.reload()
     } else {
       Message.error(response.data.message)
     }
@@ -30,7 +30,10 @@ axios.interceptors.response.use(response => {
   return Promise.reject(err)
 })
 
-let base = ''
+let base = '/api'
+if (process.env.NODE_ENV !== 'production') {
+  base = '/apis'
+}
 
 export default {
   GET_LOGIN (params) {
