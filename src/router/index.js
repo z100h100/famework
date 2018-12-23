@@ -59,22 +59,24 @@ export const constantRouterMap = [
         meta: { title: '运单列表', icon: 'share' }
       },
       {
-        path: 'orderDetail',
+        path: 'orderDetail/:id',
         name: 'orderDetail',
         label: '运单详情',
         parent: 'Order',
         key: 'Auths_OrderDetail',
         component: resolve => require(['@/views/order/orderDetail'], resolve),
-        meta: { title: '运单详情', icon: 'delete' }
+        meta: { title: '运单详情', icon: 'delete' },
+        hidden: true
       },
       {
-        path: 'orderTrack',
+        path: 'orderTrack/:id',
         name: 'orderTrack',
         label: '运单追踪',
         parent: 'Order',
         key: 'Auths_OrderTrack',
         component: resolve => require(['@/views/order/orderTrack'], resolve),
-        meta: { title: '运单追踪', icon: 'delete' }
+        meta: { title: '运单追踪', icon: 'delete' },
+        hidden: true
       }
     ]
   },
@@ -137,7 +139,9 @@ export const constantRouterMap = [
         hidden: true
       }
     ]
-  }
+  },
+
+  { path: '*', redirect: '/404', hidden: true }
 ]
 // 初始路由
 export default new Router({
@@ -147,6 +151,12 @@ export default new Router({
       path: '/login',
       label: 'login',
       component: resolve => require(['@/views/login/index'], resolve),
+      hidden: true
+    },
+    {
+      path: '/trackDetails',
+      label: 'trackDetails',
+      component: resolve => require(['@/views/trackDetails/index'], resolve),
       hidden: true
     }
   ]

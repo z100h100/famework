@@ -9,6 +9,11 @@ const state = {
     totalPages: 0,
     size: 10,
     number: 1
+  },
+  orderTrackList: {
+    operator: {
+      username: ''
+    }
   }
 }
 

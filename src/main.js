@@ -3,7 +3,7 @@ import App from './App'
 import router from './router'
 import store from './store'
 import axios from 'axios'
-
+import moment from 'moment'
 import 'normalize.css/normalize.css'// A modern alternative to CSS resets
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
@@ -14,6 +14,8 @@ import './icons' // icon
 import './permission' // permission control
 
 Vue.use(ElementUI)
+
+Object.defineProperty(Vue.prototype, '$moment', { value: moment })
 
 axios.setConfig = function (config) {
   axios.defaults.timeout = config.AJAX_TIMEOUT

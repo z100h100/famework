@@ -6,13 +6,29 @@ export default {
   getWaybillPage ({ commit }, userInfo) {
     return getDate.GET_WAYBILLPAGE(userInfo).then(response => {
       const data = response.data.data
-      commit(types.JUSTLIST, data)
+      commit(types.GETWAYBILLPAGE, data)
       return response
     })
   },
   // 添加运单
   getWaybillSave ({ commit }, userInfo) {
     return getDate.GET_WAYBILLSAVE(userInfo).then(response => {
+      return response
+    })
+  },
+  // 查看运单
+  getWaybillGet ({ commit }, userInfo) {
+    return getDate.GET_WAYBILLGET(userInfo).then(response => {
+      const data = response.data.data
+      commit(types.GETWAYBILLGET, data)
+      return response
+    })
+  },
+  // 添加运单
+  getWaybillSaveTracking ({ commit }, userInfo) {
+    return getDate.GET_WAYBILLSAVETRACKING(userInfo).then(response => {
+      const data = response.data.data
+      commit(types.GETWAYBILLSAVETRACKING, data)
       return response
     })
   },

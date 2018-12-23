@@ -33,14 +33,14 @@
     </div>
     <el-table :data="orderList" v-loading.body="listLoading" element-loading-text="Loading" border fit
               highlight-current-row>
-      <el-table-column label="运单号" width="150">
+      <el-table-column label="运单号" width="200" align="center">
         <template slot-scope="scope">
-          {{scope.row.waybillNo}}
+          <div class="waybillNoClass" @click="waybillNoClick(scope.row)">{{scope.row.waybillNo}}</div>
         </template>
       </el-table-column>
       <el-table-column label="开单时间" min-width="150" align="center">
         <template slot-scope="scope">
-          <span>{{scope.row.waybillDate}}</span>
+          {{scope.row.waybillDate ? $moment(scope.row.waybillDate).format('YYYY-MM-DD hh:mm:ss') : ''}}
         </template>
       </el-table-column>
       <el-table-column label="发货人" width="150" align="center">
@@ -55,7 +55,7 @@
       </el-table-column>
       <el-table-column label="运单状态" width="110" align="center">
         <template slot-scope="scope">
-          {{scope.row.status}}
+          {{scope.row.status | filterStatus(statusList)}}
         </template>
       </el-table-column>
       <el-table-column label="发站" width="110" align="center">
@@ -70,7 +70,12 @@
       </el-table-column>
       <el-table-column label="送货方式" width="110" align="center">
         <template slot-scope="scope">
-          {{scope.row.DeliveryMode}}
+          {{scope.row.DeliveryMode | filterMode(deliveryMode)}}
+        </template>
+      </el-table-column>
+      <el-table-column label="操作" width="110" align="center">
+        <template slot-scope="scope">
+          <el-button type="text" @click="showDetail(scope.row.id)">查看详情</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -89,7 +94,6 @@
 
 <script>
   import { mapState, mapActions } from 'vuex'
-  import {formatDate} from '@/utils/index'
   export default {
     data () {
       return {
@@ -127,17 +131,170 @@
           waybillDate: this.getSeventDays(),
           waybillNo: '',
           operator: ''
-        }
+        },
+        statusList: [
+          {
+            name: '已入库',
+            code: '0'
+          },
+          {
+            name: '短驳中',
+            code: '1'
+          },
+          {
+            name: '已装车',
+            code: '2'
+          },
+          {
+            name: '已发车',
+            code: '3'
+          },
+          {
+            name: '已到达',
+            code: '4'
+          },
+          {
+            name: '已卸车',
+            code: '5'
+          },
+          {
+            name: '中转中',
+            code: '6'
+          },
+          {
+            name: '已接收',
+            code: '7'
+          },
+          {
+            name: '送货中',
+            code: '8'
+          },
+          {
+            name: '已送货',
+            code: '9'
+          },
+          {
+            name: '已签收',
+            code: '10'
+          },
+          {
+            name: '待补录',
+            code: '11'
+          },
+          {
+            name: '提货中',
+            code: '12'
+          },
+          {
+            name: '已提货',
+            code: '13'
+          },
+          {
+            name: '网点中转中',
+            code: '14'
+          },
+          {
+            name: '网点中转已接收',
+            code: '15'
+          },
+          {
+            name: '预装车',
+            code: '16'
+          },
+          {
+            name: '部分短驳中',
+            code: '17'
+          },
+          {
+            name: '部分短驳完成',
+            code: '18'
+          },
+          {
+            name: '部分装车',
+            code: '19'
+          },
+          {
+            name: '部分发车',
+            code: '20'
+          },
+          {
+            name: '部分到达',
+            code: '21'
+          },
+          {
+            name: '部分送货中',
+            code: '22'
+          },
+          {
+            name: '部分送货完成',
+            code: '23'
+          },
+          {
+            name: '部分签收',
+            code: '24'
+          },
+          {
+            name: '部分入库',
+            code: '25'
+          }
+        ],
+        deliveryMode: [
+          {
+            name: '自提',
+            code: '0'
+          },
+          {
+            name: '送货',
+            code: '1'
+          },
+          {
+            name: '送货上门',
+            code: '2'
+          },
+          {
+            name: '送货上楼(有电梯)',
+            code: '3'
+          },
+          {
+            name: '送货上楼(无电梯)',
+            code: '4'
+          },
+          {
+            name: '送货卸货',
+            code: '5'
+          },
+          {
+            name: '送货安装',
+            code: '6'
+          },
+          {
+            name: '整车直送',
+            code: '7'
+          },
+          {
+            name: '大车直送',
+            code: '8'
+          }
+        ]
       }
     },
     filters: {
-      statusFilter (status) {
-        const statusMap = {
-          published: 'success',
-          draft: 'gray',
-          deleted: 'danger'
+      filterStatus (value, list) {
+        if (value == '99') {
+          return '创建订单'
         }
-        return statusMap[status]
+        let valueName = ''
+        list.map(item => {
+          if (item.code == value) valueName = item.name
+        })
+        return valueName
+      },
+      filterMode (value, list) {
+        let valueName = ''
+        list.map(item => {
+          if (item.code == value) valueName = item.name
+        })
+        return valueName
       }
     },
     computed: {
@@ -150,7 +307,7 @@
         user: state => state.user.user
       })
     },
-    created () {
+    mounted () {
       this.getAllUser()
       this.fetchData()
     },
@@ -159,6 +316,12 @@
         'getWaybillPage',
         'getUserAllUser'
       ]),
+      showDetail (id) {
+        this.$router.push({name: 'orderDetail', params: {id: id}})
+      },
+      waybillNoClick (row) {
+        this.$router.push({name: 'orderTrack', params: {id: row.id}})
+      },
       getSeventDays () {
         const end = new Date()
         const start = new Date()
@@ -187,29 +350,51 @@
       },
       fetchData (pageSize = 10, pageNo = 0) {
         this.listLoading = true
-        let params = {
-          pageNo,
-          pageSize,
-          params: [
-            {
-              andOr: "and",
-              name: "waybillNo",
-              operation: "like",
-              value: this.formInline.waybillNo
-            },
-            {
-              andOr: "and",
-              name: "waybillDate",
-              operation: "between",
-              value: [formatDate(this.formInline.waybillDate[0], 'yyyy-MM-dd hh:mm:ss'), formatDate(this.formInline.waybillDate[1], 'yyyy-MM-dd hh:mm:ss')]
-            },
-            {
-              andOr: "and",
-              name: "operator",
-              operation: "like",
-              value: this.formInline.operator
-            }
-          ]
+        let params
+        if (this.formInline.waybillDate && this.formInline.waybillDate.length) {
+          params = {
+            pageNo,
+            pageSize,
+            params: [
+              {
+                andOr: "and",
+                name: "waybillNo",
+                operation: "like",
+                value: this.formInline.waybillNo
+              },
+              {
+                andOr: "and",
+                name: "waybillDate",
+                operation: "between",
+                value: ['#toDate' + new Date(this.formInline.waybillDate[0]).getTime(), '#toDate' + new Date(this.formInline.waybillDate[1]).getTime()]
+              },
+              {
+                andOr: "and",
+                name: "operator.id",
+                operation: "eq",
+                value: this.formInline.operator
+              }
+            ]
+          }
+        } else {
+          params = {
+            pageNo,
+            pageSize,
+            params: [
+              {
+                andOr: "and",
+                name: "waybillNo",
+                operation: "like",
+                value: this.formInline.waybillNo
+              },
+              {
+                andOr: "and",
+                name: "operator.id",
+                operation: "eq",
+                value: this.formInline.operator
+              }
+            ]
+          }
         }
         this.getWaybillPage(params).then(res => {
           this.listLoading = false
@@ -223,3 +408,9 @@
     }
   }
 </script>
+<style lang="scss" scoped>
+  .waybillNoClass {
+    color: #409EFF;
+    cursor: pointer;
+  }
+</style>

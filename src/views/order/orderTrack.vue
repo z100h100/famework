@@ -2,14 +2,14 @@
   <div class="app-container">
     <div style="height: 100%;position: relative;">
       <div class="consignment">
-        <div class="consignmentOpen">运单号：WSCDNB81251093L <span>已入库 【邦达通】</span></div>
+        <div class="consignmentOpen">运单号：{{orderTrackList.waybillNo}}<span>已入库 【邦达通】</span></div>
         <div class="consignmentTitle">货物托运单</div>
-        <div class="consignmentInfo"><span>汪元周</span><span>2018-12-19 16:48:45</span></div>
+        <div class="consignmentInfo"><span>{{orderTrackList.operator.username}}</span><span>{{dateFormater(orderTrackList.waybillDate, 'YYYY-MM-DD hh:mm:ss')}}</span></div>
       </div>
-      <el-table :data="list" v-loading.body="listLoading" element-loading-text="Loading" noborder fit highlight-current-row>
+      <el-table :data="orderTrackList.trackings" v-loading.body="listLoading" element-loading-text="Loading" noborder fit highlight-current-row>
         <el-table-column label="操作类型" width="200">
           <template slot-scope="scope">
-            <div class="createWaybill">创建运单</div>
+            <div class="createWaybill">{{scope.row.status | filterStatus(statusList)}}</div>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="150" align="center">
@@ -19,29 +19,31 @@
         </el-table-column>
         <el-table-column label="操作时间" width="150" align="center">
           <template slot-scope="scope">
-            {{scope.row.pageviews}}
+            {{scope.row.operationTime ? $moment(scope.row.operationTime).format('YYYY-MM-DD hh:mm:ss') : ''}}
           </template>
         </el-table-column>
         <el-table-column label="操作人" width="110" align="center">
           <template slot-scope="scope">
-            {{scope.row.pageviews}}
+            {{scope.row.operator.username}}
           </template>
         </el-table-column>
         <el-table-column label="操作描述" align="center">
           <template slot-scope="scope">
-            {{scope.row.pageviews}}
+            {{scope.row.describe}}
           </template>
         </el-table-column>
         <el-table-column label="上传图片" align="center">
           <template slot-scope="scope">
-            {{scope.row.pageviews}}
+            <span class="blueColor" v-for="(item, index) in [scope.row.pictures]" @click="showPic(item)">
+              [{{index}}]
+            </span>
           </template>
         </el-table-column>
       </el-table>
       <div class="btn-list fixed-buttom">
         <el-form :inline="true" :model="formInline" ref="ruleForm" class="demo-form-inline">
           <el-form-item label="状态类型" prop="status">
-            <el-select v-model="formInline.status" style="width:290px" placeholder="请选择">
+            <el-select v-model="formInline.status" style="width:150px" placeholder="请选择状态类型">
               <el-option
                 v-for="item in statusList"
                 :key="item.code"
@@ -52,35 +54,75 @@
           </el-form-item>
           <el-form-item label="时间">
             <el-date-picker
-              v-model="formInline.waybillDate"
-              type="daterangetime"
+              v-model="formInline.operationTime"
+              type="datetime"
               placeholder="选择日期时间"
               align="right"
               :picker-options="pickerOptions1"
-              style="width:150px">
+              style="width:200px">
             </el-date-picker>
           </el-form-item>
           <el-form-item label="操作描述">
-            <el-input v-model="formInline.status" placeholder="不超过100个字!" style="width: 200px" maxlength="100"></el-input>
+            <el-input v-model="formInline.described" placeholder="不超过100个字!" style="width: 200px" maxlength="100"></el-input>
           </el-form-item>
           <el-form-item label="用户可见">
-            <el-checkbox v-model="formInline.status"></el-checkbox>
+            <el-checkbox v-model="formInline.userSee"></el-checkbox>
           </el-form-item>
         </el-form>
         <div style="margin: 0 auto;text-align: center">
-          <el-button type="primary" @click="fetchData()">保存跟踪</el-button>
+          <el-button type="primary" @click="saveTracking()">保存跟踪</el-button>
           <el-button type="primary" @click="upload()">上传图片</el-button>
         </div>
       </div>
     </div>
+    <!--上传图片-->
+    <el-dialog
+      title="上传图片"
+      :visible.sync="dialogVisible"
+      width="300px"
+      :before-close="handleClose">
+      <template>
+        <el-upload
+          ref="upload"
+          class="avatar-uploader"
+          list-type="picture-card"
+          action="apis/upload"
+          :show-file-list="false"
+          :on-success="handleAvatarSuccess"
+          :before-upload="beforeAvatarUpload">
+          <img v-if="imageUrl" :src="imageUrl" class="avatar">
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        </el-upload>
+
+      </template>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="onUploadClick">确 定</el-button>
+      </span>
+    </el-dialog>
+    <!--图片展示-->
+    <el-dialog
+      title="图片展示"
+      :visible.sync="dialogPicVisible"
+      width="600px"
+      :before-close="handlePicClose">
+      <template>
+        <img :src="pictureUrl" width="100%">
+      </template>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="onPicClick">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-
+  import {mapState, mapActions} from 'vuex'
+  import {formatDate} from '@/utils/index'
   export default {
     data () {
       return {
+        dialogVisible: false,
+        imageUrl: '',
         pickerOptions1: {
           shortcuts: [{
             text: '今天',
@@ -103,7 +145,11 @@
             }
           }]
         },
-        formInline: {},
+        formInline: {
+          status: '1',
+          operationTime: new Date(),
+          userSee: true
+        },
         statusList: [
           {
             name: '已入库',
@@ -210,30 +256,138 @@
             code: '25'
           }
         ],
-        list: [
-          {
-            pageviews: 1
-          }
-        ],
-        listLoading: true
+        listLoading: true,
+        pictureList: '',
+        dialogPicVisible: false,
+        pictureUrl: '',
       }
     },
-    created () {
+    mounted () {
       this.fetchData()
     },
+    filters: {
+      filterStatus (value, list) {
+        if (value == '99') {
+          return '创建订单'
+        }
+        let valueName = ''
+        list.map(item => {
+          if (item.code == value) valueName = item.name
+        })
+        return valueName
+      }
+    },
+    computed: {
+      ...mapState({
+        orderTrackList: state=> state.order.orderTrackList
+      })
+    },
     methods: {
+      ...mapActions([
+        'getWaybillGet',
+        'getWaybillSaveTracking'
+      ]),
+      // 展示图片
+      showPic (item) {
+        console.log(this.g_Config.IMG_URL)
+        this.dialogPicVisible = true
+        this.pictureUrl = this.g_Config.IMG_URL + item
+      },
+      onPicClick () {
+        this.handlePicClose()
+      },
+      handlePicClose () {
+        this.pictureUrl = ''
+        this.dialogPicVisible = false
+      },
+      upload () {
+        this.dialogVisible = true
+      },
+      dateFormater (time, fm) {
+        return this.$moment(time).format(fm)
+      },
+      // 确定上传
+      onUploadClick () {
+        this.handleClose()
+      },
+      handleClose () {
+        this.dialogVisible = false
+      },
+      handleAvatarSuccess(res, file) {
+        this.imageUrl = URL.createObjectURL(file.raw)
+        this.pictureList = res.data
+      },
+      beforeAvatarUpload(file) {
+        const isJPG = file.type === 'image/jpeg'
+        const isLt2M = file.size / 1024 / 1024 < 2
+
+        if (!isJPG) {
+          this.$message.error('上传头像图片只能是 JPG 格式!')
+        }
+        if (!isLt2M) {
+          this.$message.error('上传头像图片大小不能超过 2MB!')
+        }
+        return isJPG && isLt2M
+      },
+      saveTracking () {
+        this.listLoading = false
+        let params = {
+          ...this.formInline,
+          waybill:{
+            id: this.$route.params.id
+          }
+        }
+        params.pictures = this.pictureList
+        if (params.userSee) {
+          params.userSee = 1
+        } else {
+          params.userSee = 0
+        }
+        this.getWaybillSaveTracking(params).then(response => {
+          this.pictureList = ''
+          this.listLoading = false
+          this.fetchData()
+        }).catch(() => {
+          this.listLoading = false
+        })
+      },
       fetchData () {
         this.listLoading = false
-        // getList(this.listQuery).then(response => {
-        //   this.list = response.data.items
-        //   this.listLoading = false
-        // })
+        let params = {
+          id: this.$route.params.id
+        }
+        this.getWaybillGet(params).then(response => {
+          this.listLoading = false
+        })
       }
     }
   }
 </script>
 
 <style lang="scss" scoped>
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 260px;
+    height: 260px;
+    line-height: 260px;
+    text-align: center;
+  }
+  .avatar {
+    width: 260px;
+    height: 260px;
+    display: block;
+  }
   .btn-list {
     margin-left: 15px;
     background-color: #FFFFFF;
@@ -258,6 +412,7 @@
         color: red;
         font-weight: bold;
         font-size: 12px;
+        margin-left: 5px;
       }
     }
     .consignmentTitle {
@@ -287,5 +442,9 @@
   }
   .createWaybill {
     color: red;
+  }
+  .blueColor {
+    color: #4979ff;
+    cursor: pointer;
   }
 </style>

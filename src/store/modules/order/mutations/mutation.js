@@ -3,7 +3,10 @@ import * as types from '../../../mutation_type'
 // import { recursionRouter } from '@/utils/index'
 
 export default {
-  [types.JUSTLIST] (state, res) {
-    state.justList = res
+  [types.GETWAYBILLGET] (state, res) {
+    state.orderTrackList = res
+  },
+  [types.GETWAYBILLPAGE] (state, res) {
+    state.orderList = res
   }
 }

@@ -1,5 +1,6 @@
 {
   "status": "200",
   "BASE_URL": "http://122.112.211.21:8080/",
+  "IMG_URL": "http://122.112.211.21/static/upload/",
   "AJAX_TIMEOUT": "2000"
 }

@@ -213,6 +213,7 @@
         listLoading: true,
         btnSaveLoading: false,
         ruleForm: {
+          waybillDate: new Date(),
           deliverySms: 1,
           receiveSms: 1
         },
@@ -231,6 +232,9 @@
           ],
           deliveryMode: [
             {required: true, message: '请选择送货方式', trigger: 'change'}
+          ],
+          waybillDate: [
+            {required: true, message: '请选择日期', trigger: 'change'}
           ],
           payment: [
             {required: true, message: '请选择付款方式', trigger: 'change'}

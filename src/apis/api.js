@@ -73,10 +73,16 @@ export default {
   GET_WAYBILLPAGE (params) {
     return api.fetch('post', `${base}/waybill/page`, params)
   },
+  GET_WAYBILLGET (params) {
+    return api.fetch('get', `${base}/waybill/get`, params)
+  },
   GET_WAYBILLSAVE (params) {
     return api.fetch('post', `${base}/waybill/save`, params)
   },
   GET_WAYBILLSAVESMS (params) {
     return api.fetch('post', `${base}/waybill/saveSms`, params)
+  },
+  GET_WAYBILLSAVETRACKING (params) {
+    return api.fetch('post', `${base}/waybill/saveTracking`, params)
   }
 }

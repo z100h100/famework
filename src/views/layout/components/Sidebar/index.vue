@@ -25,9 +25,7 @@ export default {
     ]),
     ...mapState({
       sidebarMenu: (state) => state.user.sidebarMenu,
-      currentMenu: (state) => {
-        console.log(state)
-      }
+      currentMenu: (state) => state.user.currentMenu
     }),
     isCollapse () {
       return !this.sidebar.opened

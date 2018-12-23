@@ -5,8 +5,7 @@
     <el-dropdown class="avatar-container" trigger="click">
       <div class="avatar-wrapper">
         <el-button type="primary" class="navbarButton" @click.stop.prevent="pushToOrderAdd">创建运单</el-button>
-        <!--<img class="user-avatar" :src="avatar?avatar:avatarDefault">-->
-        周文员
+        {{UserToken.username}}
         <i class="el-icon-caret-bottom"></i>
       </div>
       <el-dropdown-menu class="user-dropdown" slot="dropdown">
@@ -24,7 +23,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapState, mapActions } from 'vuex'
 import avatarDefault from '@/assets/images/avtor.png'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
@@ -40,6 +39,9 @@ export default {
     Hamburger
   },
   computed: {
+    ...mapState({
+      UserToken: state => state.user.UserToken
+    }),
     ...mapGetters([
       'sidebar',
       'avatar'
@@ -53,8 +55,8 @@ export default {
       this.ToggleSideBar()
     },
     pushToOrderAdd () {
-      console.log(1)
-      // this.$router.push('/order/orderAdd')
+      // console.log(1)
+      this.$router.push('/order/orderAdd')
     },
     logout () {
       this.LogOut().then(() => {
