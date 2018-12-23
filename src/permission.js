@@ -5,7 +5,8 @@ import 'nprogress/nprogress.css'// Progress 进度条样式
 
 router.beforeEach((to, from, next) => {
   NProgress.start()
-  if (!store.state.user.UserToken) {
+  // if (!store.state.user.UserToken) {
+  if (!sessionStorage.getItem('UserToken')) {
     if (
       to.matched.length > 0 &&
       !to.matched.some(record => record.meta.requiresAuth)
@@ -23,7 +24,10 @@ router.beforeEach((to, from, next) => {
       if (to.path !== '/login') {
         next()
       } else {
-        next(from.fullPath)
+        store.dispatch('LogOut').then(() => {
+          location.reload()
+          // next(from.fullPath)
+        })
       }
     }
   }

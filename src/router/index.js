@@ -15,6 +15,7 @@ export const constantRouterMapDefault = [
     children: [{
       path: 'dashboard',
       name: '首页',
+      meta: { title: '首页', icon: 'share', requiresAuth: true },
       component: resolve => require(['@/views/dashboard/index'], resolve)
     }]
   },

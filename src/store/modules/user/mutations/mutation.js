@@ -5,10 +5,12 @@ export default {
   [types.SETCURRENTAUTHS] (state, res) {
     state.currentSign = res.actions
     state.UserToken = res
+    sessionStorage.setItem('UserToken', res)
   },
   // 退出登录接口
   [types.LOGINOUT] (state, res) {
     state.UserToken = ''
+    sessionStorage.removeItem('UserToken')
   },
   [types.SETTOKEN] (state, res) {
     state.user = res.user

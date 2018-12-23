@@ -21,8 +21,16 @@ export default {
       return response
     })
   },
-  async FETCH_PERMISSION ({ commit, state }) {
-    let permissionListCurrent = await getDate.GET_INFO()
+  logMe ({ commit }) {
+    return getDate.GET_INFO().then(response => {
+      const data = response.data.data
+      commit(types.SETCURRENTAUTHS, data)
+      commit(types.SETTOKEN, data)
+      return response
+    })
+  },
+  async FETCH_PERMISSION ({ commit, dispatch, state }) {
+    let permissionListCurrent = await dispatch('logMe')
     let permissionList = permissionListCurrent.data.data.actions
     /*  根据权限筛选出我们设置好的路由并加入到path=''的children */
     let routes = recursionRouter(permissionList, constantRouterMap)
