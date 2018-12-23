@@ -147,6 +147,7 @@ export default new Router({
   routes: [
     {
       path: '/login',
+      name: 'login',
       label: 'login',
       component: resolve => require(['@/views/login/index'], resolve),
       hidden: true

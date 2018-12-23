@@ -1,18 +1,18 @@
 import * as types from '../../../mutation_type'
-// import router from '@/router/index'
-// import { recursionRouter } from '@/utils/index'
+import { setToken, removeToken } from '@/utils/auth'
 
 export default {
   [types.SETCURRENTAUTHS] (state, res) {
     state.currentSign = res.actions
-    delete state.currentSign.loginTime
-    sessionStorage.setItem('auths', res)
     state.UserToken = res
+    delete state.currentSign.loginTime
+    setToken('auths', res)
+    setToken('currentSign', state.currentSign)
   },
   // 退出登录接口
   [types.LOGINOUT] (state, res) {
     state.UserToken = ''
-    sessionStorage.removeItem('auth')
+    removeToken('auth')
   },
   [types.SETTOKEN] (state, res) {
     state.user = res.user

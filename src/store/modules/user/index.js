@@ -1,15 +1,14 @@
-// import { login, logout, getInfo } from '@/api/login'
-// import { getToken, setToken, removeToken } from '@/utils/auth'
+import { getToken } from '@/utils/auth'
 import actions from './actions/actions'
 import mutations from './mutations/mutation'
 
 const state = {
   permissionList: null,
-  UserToken: sessionStorage.getItem('auths'),
+  UserToken: getToken('auths'),
   user: {
     id: ''
   },
-  currentSign: [],
+  currentSign: getToken('currentSign'),
   sidebarMenu: [],
   currentMenu: '',
   avatar: '',

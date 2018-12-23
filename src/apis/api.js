@@ -43,7 +43,7 @@ export default {
     return api.fetch('get', `${base}/logout`, {})
   },
   GET_INFO (params) {
-    return api.fetch('post', `${base}/me`, params)
+    return api.fetch('get', `${base}/me`, params)
   },
   GET_ROLELISTGET (params) {
     return api.fetch('get', `${base}/role/get`, params)

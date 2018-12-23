@@ -1,6 +1,5 @@
 import * as types from '../../../mutation_type'
 import getDate from '../../../../apis/api' // 接口
-// import { setToken, removeToken } from '@/utils/auth'
 import { recursionRouter, setDefaultRoute } from '@/utils/index'
 import router, { constantRouterMapDefault, constantRouterMap } from '@/router/index'
 
@@ -22,8 +21,9 @@ export default {
       return response
     })
   },
-  FETCH_PERMISSION ({ commit, state }) {
-    let permissionList = state.currentSign
+  async FETCH_PERMISSION ({ commit, state }) {
+    let permissionListCurrent = await getDate.GET_INFO()
+    let permissionList = permissionListCurrent.data.data.actions
     /*  根据权限筛选出我们设置好的路由并加入到path=''的children */
     let routes = recursionRouter(permissionList, constantRouterMap)
     let MainContainer = constantRouterMapDefault.find(v => v.path === '')
@@ -48,9 +48,8 @@ export default {
 
     /*  动态添加路由 */
     router.addRoutes(constantRouterMapDefault)
-    console.log(router)
     /* 完整的路由表 */
-    commit('SET_PERMISSION', [...initialRoutes, ...constantRouterMapDefault])
+    commit('SET_PERMISSION', [initialRoutes, constantRouterMapDefault])
   }
   // 登出
   // LogOut ({ commit, state }) {

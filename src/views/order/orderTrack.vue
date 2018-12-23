@@ -34,7 +34,7 @@
         </el-table-column>
         <el-table-column label="上传图片" align="center">
           <template slot-scope="scope">
-            <span class="blueColor" v-for="(item, index) in [scope.row.pictures]" @click="showPic(item)" v-if="scope.row.pictures">
+            <span class="blueColor" v-for="(item, index) in scope.row.picture" @click="showPic(item)" v-if="scope.row.picture">
               [{{index}}]
             </span>
           </template>
@@ -79,7 +79,8 @@
     <el-dialog
       title="上传图片"
       :visible.sync="dialogVisible"
-      width="600px"
+      width="700px"
+      class="uploadAvatar"
       :before-close="handleClose">
       <template>
         <el-upload
@@ -93,11 +94,11 @@
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload">
-          <div>
-            <img v-if="imageUrl" v-for="item in imageUrl" :src="item" class="avatar">
-            <i v-else-if="imageUrl.length < 6" class="el-icon-plus"></i>
-          </div>
+          <i v-if="imageUrl.length > 5" class="el-icon-plus"></i>
         </el-upload>
+        <div>
+          <img v-for="item in imageUrl" :src="item" class="avatar">
+        </div>
       </template>
       <span slot="footer" class="dialog-footer">
         <el-button type="primary" @click="onUploadClick">确 定</el-button>
@@ -462,4 +463,13 @@
   }
 </style>
 <style>
+  .avatar-uploader {
+    width: 148px;
+    height: 148px;
+    padding: 5px;
+  }
+  .uploadAvatar.el-dialog__wrapper .el-dialog .el-dialog__body {
+    display: inline-flex;
+    flex-wrap: wrap;
+  }
 </style>
