@@ -1,14 +1,13 @@
-import { getToken } from '@/utils/auth'
 import actions from './actions/actions'
 import mutations from './mutations/mutation'
 
 const state = {
   permissionList: null,
-  UserToken: getToken('auths'),
+  UserToken: '',
   user: {
     id: ''
   },
-  currentSign: getToken('currentSign'),
+  currentSign: '',
   sidebarMenu: [],
   currentMenu: '',
   avatar: '',

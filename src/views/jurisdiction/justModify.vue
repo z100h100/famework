@@ -60,7 +60,6 @@
             this.formInline.roles = resp.data.data.roles.map(item => {
               return item.id
             })
-            console.log(this.formInline)
           })
         }
       })
@@ -88,7 +87,6 @@
             // 判断当前的id
             params.id = this.$route.query.id
             this.getJustAuthsModify(params).then(res => {
-              console.log(res)
               this.$message({
                 type: 'success',
                 message: '保存成功'
@@ -96,7 +94,6 @@
               this.$router.push({name: 'justList'})
             })
           } else {
-            console.log('error submit!!');
             return false;
           }
         });

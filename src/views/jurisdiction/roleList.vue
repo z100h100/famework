@@ -121,7 +121,6 @@
         }
         this.getRoleList(params).then(res => {
           this.listLoading = false
-          console.log(res)
         }).catch(() => {
           this.listLoading = false
         })

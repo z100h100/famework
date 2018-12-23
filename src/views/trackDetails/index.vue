@@ -163,13 +163,11 @@
       })
     },
     mounted () {
-      console.log(Base64.decode('YmR0MTAwMGJkdA==').slice(3, -3))
-      console.log(this.$route.query.id)
       let params = {
-        id: 9
+        id: Base64.decode(this.$route.query.id).slice(3, -3)
       }
       this.getWaybillGet(params).then(res => {
-        console.log(res)
+        // console.log(res)
       })
     },
     filters: {

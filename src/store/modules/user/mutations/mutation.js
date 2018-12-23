@@ -1,13 +1,10 @@
 import * as types from '../../../mutation_type'
-import { setToken, removeToken } from '@/utils/auth'
+// import { setToken, removeToken } from '@/utils/auth'
 
 export default {
   [types.SETCURRENTAUTHS] (state, res) {
     state.currentSign = res.actions
     state.UserToken = res
-    delete state.currentSign.loginTime
-    setToken('auths', res)
-    setToken('currentSign', state.currentSign)
   },
   // 退出登录接口
   [types.LOGINOUT] (state, res) {

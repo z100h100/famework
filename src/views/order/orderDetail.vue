@@ -377,9 +377,6 @@
       handleClose () {
         this.multipleSelection = [this.tableData[0], this.tableData[1]]
       },
-      toggle (row, selected) {
-        console.log(row, selected)
-      },
       // 短信方确认
       onsmsClick () {
         this.smsList.map(item => {
@@ -429,7 +426,6 @@
               id: params.operator
             }
             this.getWaybillSave(params).then(res => {
-              console.log(res)
               let _params = {
                 deliverySms: params.deliverySms,
                 receiveSms: params.deliverySms,
@@ -443,7 +439,6 @@
               })
             })
           } else {
-            console.log('error submit!!')
             return false
           }
           this.btnSaveLoading = false

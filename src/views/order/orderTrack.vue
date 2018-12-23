@@ -323,7 +323,6 @@
       },
       handleAvatarSuccess(res, file) {
         this.imageUrl.push(URL.createObjectURL(file.raw))
-        console.log(res)
         this.pictureList.push(res.data)
       },
       handleAvatarExceed (files, fileList) {
@@ -413,7 +412,7 @@
       bottom: 0;
       right: 15px;
       left: 0;
-      padding: 10px 0 10px 300px;
+      padding: 10px 0 10px 250px;
       border-top: 1px solid #edeff4;
     }
   }

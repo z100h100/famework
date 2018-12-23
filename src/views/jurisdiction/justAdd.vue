@@ -72,10 +72,10 @@
           if (valid) {
             let params = Object.assign({}, this.formInline)
             this.getJustAuthsAdd(params).then(res => {
-              console.log(res)
+              // console.log(res)
             })
           } else {
-            console.log('error submit!!');
+            // console.log('error submit!!');
             return false;
           }
         });

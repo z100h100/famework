@@ -290,7 +290,6 @@
         return valueName
       },
       filterMode (value, list) {
-        console.log(value, list)
         let valueName = ''
         list.map(item => {
           if (item.code == value) valueName = item.name
@@ -402,9 +401,6 @@
         }).catch(() => {
           this.listLoading = false
         })
-      },
-      roleShowClick (row) {
-        console.log(row)
       }
     }
   }

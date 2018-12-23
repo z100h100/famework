@@ -54,7 +54,6 @@
               return item.id
             }
           })
-          console.log(actionList)
           this.$refs.treeAuth.setCheckedKeys(actionList)
         })
       }

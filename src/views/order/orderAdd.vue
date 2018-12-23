@@ -381,9 +381,6 @@
       handleClose () {
         this.multipleSelection = [this.tableData[0], this.tableData[1]]
       },
-      toggle (row, selected) {
-        console.log(row, selected)
-      },
       // 短信方确认
       onsmsClick () {
         this.smsList.map(item => {
@@ -447,7 +444,6 @@
               })
             })
           } else {
-            console.log('error submit!!')
             return false
           }
           this.btnSaveLoading = false
