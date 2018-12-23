@@ -89,6 +89,11 @@
             params.id = this.$route.query.id
             this.getJustAuthsModify(params).then(res => {
               console.log(res)
+              this.$message({
+                type: 'success',
+                message: '保存成功'
+              })
+              this.$router.push({name: 'justList'})
             })
           } else {
             console.log('error submit!!');

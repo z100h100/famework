@@ -148,7 +148,7 @@
       </div>
       <div class="btn-list fixed-buttom">
         <!--<el-button type="primary" @click="submitForm" :loading="btnSaveLoading">保存</el-button>-->
-        <el-button @click="handleShowByCancel">返回</el-button>
+        <el-button @click="handleShowByCancel">确 定</el-button>
       </div>
     </div>
     <!--短信通知-->
@@ -450,7 +450,7 @@
         })
       },
       handleShowByCancel () {
-        this.$router.go(-1)
+        this.$router.push({name: 'orderList'})
       }
     }
   }

@@ -4,7 +4,7 @@ export default {
   fetch (method, url, data) {
     return new Promise(function (resolve, reject) {
       if (method === 'get') {
-        let params = {params: data}
+        let params = { params: data }
         resolve(axios.get(url, params))
       } else if (method === 'post') {
         resolve(axios.post(url, data))

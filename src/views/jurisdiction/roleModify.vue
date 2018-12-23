@@ -81,7 +81,11 @@
           }
         })
         this.getRoleAuthsSave(params).then(res => {
-          console.log(res)
+          this.$message({
+            type: 'success',
+            message: '保存成功'
+          })
+          this.$router.push({name: 'roleList'})
         })
       },
       setCheckedKeys() {

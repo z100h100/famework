@@ -433,7 +433,6 @@
               id: params.operator
             }
             this.getWaybillSave(params).then(res => {
-              console.log(res)
               let _params = {
                 deliverySms: params.deliverySms,
                 receiveSms: params.deliverySms,
@@ -444,6 +443,7 @@
                   type: 'success',
                   message: '保存成功'
                 })
+                this.$router.push({name: 'orderList'})
               })
             })
           } else {
@@ -454,7 +454,7 @@
         })
       },
       handleShowByCancel () {
-        console.log(1)
+        this.$router.push({name: 'orderList'})
       }
     }
   }
