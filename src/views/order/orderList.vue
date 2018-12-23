@@ -70,7 +70,7 @@
       </el-table-column>
       <el-table-column label="送货方式" width="110" align="center">
         <template slot-scope="scope">
-          {{scope.row.DeliveryMode | filterMode(deliveryMode)}}
+          {{scope.row.deliveryMode | filterMode(deliveryMode)}}
         </template>
       </el-table-column>
       <el-table-column label="操作" width="110" align="center">
@@ -290,6 +290,7 @@
         return valueName
       },
       filterMode (value, list) {
+        console.log(value, list)
         let valueName = ''
         list.map(item => {
           if (item.code == value) valueName = item.name

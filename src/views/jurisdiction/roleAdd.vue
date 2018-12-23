@@ -37,7 +37,14 @@
           children: 'children',
           label: 'name'
         },
-        rules: {}
+        rules: {
+          name: [
+            { required: true, message: '请输入用户名', trigger: 'blur' }
+          ],
+          password: [
+            { required: true, message: '请输入电话号码', trigger: 'blur' }
+          ]
+        }
       }
     },
     mounted() {},
@@ -55,23 +62,27 @@
         this.getCheckedKeys()
       },
       getCheckedKeys () {
-        let params = {
-          id: parseInt(this.$route.query.id),
-          ...this.formInline,
-          actions: []
-        }
-        let authsActions = this.$refs.treeAuth.getCheckedKeys().concat(this.$refs.treeAuth.getHalfCheckedKeys())
-        params.actions = authsActions.map(item => {
-          return {
-            id: item
+        this.$refs['ruleForm'].validate((valid) => {
+          if (valid) {
+            let params = {
+              id: parseInt(this.$route.query.id),
+              ...this.formInline,
+              actions: []
+            }
+            let authsActions = this.$refs.treeAuth.getCheckedKeys().concat(this.$refs.treeAuth.getHalfCheckedKeys())
+            params.actions = authsActions.map(item => {
+              return {
+                id: item
+              }
+            })
+            this.getRoleAuthsSave(params).then(res => {
+              this.$message({
+                type: 'success',
+                message: '保存成功'
+              })
+              this.$router.push({name: 'roleList'})
+            })
           }
-        })
-        this.getRoleAuthsSave(params).then(res => {
-          this.$message({
-            type: 'success',
-            message: '保存成功'
-          })
-          this.$router.push({name: 'roleList'})
         })
       },
       setCheckedKeys() {

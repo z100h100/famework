@@ -35,10 +35,10 @@
         },
         rules: {
           username: [
-            { required: true, message: '请选择用户名', trigger: 'blur' }
+            { required: true, message: '请输入用户名', trigger: 'blur' }
           ],
           phone: [
-            { required: true, message: '请选择电话号码', trigger: 'blur' }
+            { required: true, message: '请输入电话号码', trigger: 'blur' }
           ],
           roles: [
             { required: true, message: '请选择角色', trigger: 'change' }
