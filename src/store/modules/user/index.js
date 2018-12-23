@@ -5,7 +5,7 @@ import mutations from './mutations/mutation'
 
 const state = {
   permissionList: null,
-  UserToken: sessionStorage.getItem('auths'),
+  UserToken: '',
   user: {
     id: ''
   },

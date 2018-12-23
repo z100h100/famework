@@ -27,8 +27,8 @@ export default {
   // 添加运单
   getWaybillSaveTracking ({ commit }, userInfo) {
     return getDate.GET_WAYBILLSAVETRACKING(userInfo).then(response => {
-      const data = response.data.data
-      commit(types.GETWAYBILLSAVETRACKING, data)
+      // const data = response.data.data
+      // commit(types.GETWAYBILLSAVETRACKING, data)
       return response
     })
   },

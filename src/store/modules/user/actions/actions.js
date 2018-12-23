@@ -45,11 +45,10 @@ export default {
 
     /*  初始路由 */
     let initialRoutes = router.options.routes
-    console.log(initialRoutes)
 
     /*  动态添加路由 */
     router.addRoutes(constantRouterMapDefault)
-
+    console.log(router)
     /* 完整的路由表 */
     commit('SET_PERMISSION', [...initialRoutes, ...constantRouterMapDefault])
   }

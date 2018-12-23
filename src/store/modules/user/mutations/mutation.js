@@ -6,9 +6,8 @@ export default {
   [types.SETCURRENTAUTHS] (state, res) {
     state.currentSign = res.actions
     delete state.currentSign.loginTime
-    sessionStorage.setItem('auth', res)
+    sessionStorage.setItem('auths', res)
     state.UserToken = res
-    // recursionRouter(res.actions, router)
   },
   // 退出登录接口
   [types.LOGINOUT] (state, res) {

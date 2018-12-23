@@ -2,12 +2,12 @@
   <div class="app-container">
     <div style="height: 100%;position: relative;">
       <div class="consignment">
-        <div class="consignmentOpen">运单号：{{orderTrackList.waybillNo}}<span>已入库 【邦达通】</span></div>
+        <div class="consignmentOpen">运单号：{{orderTrackList.waybillNo}}<span>{{orderTrackList.status | filterStatus(statusList)}} 【邦达通】</span></div>
         <div class="consignmentTitle">货物托运单</div>
-        <div class="consignmentInfo"><span>{{orderTrackList.operator.username}}</span><span>{{dateFormater(orderTrackList.waybillDate, 'YYYY-MM-DD hh:mm:ss')}}</span></div>
+        <div class="consignmentInfo"><span>操作人：{{orderTrackList.operator.username}}</span><span>开单时间：{{dateFormater(orderTrackList.waybillDate, 'YYYY-MM-DD hh:mm:ss')}}</span></div>
       </div>
-      <el-table :data="orderTrackList.trackings" v-loading.body="listLoading" element-loading-text="Loading" noborder fit highlight-current-row>
-        <el-table-column label="操作类型" width="200">
+      <el-table :data="orderTrackList.trackings" v-loading.body="listLoading" element-loading-text="Loading" noborder fit highlight-current-row :height="650">
+        <el-table-column label="操作类型" width="200" align="center">
           <template slot-scope="scope">
             <div class="createWaybill">{{scope.row.status | filterStatus(statusList)}}</div>
           </template>
@@ -29,12 +29,12 @@
         </el-table-column>
         <el-table-column label="操作描述" align="center">
           <template slot-scope="scope">
-            {{scope.row.describe}}
+            {{scope.row.described}}
           </template>
         </el-table-column>
         <el-table-column label="上传图片" align="center">
           <template slot-scope="scope">
-            <span class="blueColor" v-for="(item, index) in [scope.row.pictures]" @click="showPic(item)">
+            <span class="blueColor" v-for="(item, index) in [scope.row.pictures]" @click="showPic(item)" v-if="scope.row.pictures">
               [{{index}}]
             </span>
           </template>
@@ -79,21 +79,25 @@
     <el-dialog
       title="上传图片"
       :visible.sync="dialogVisible"
-      width="300px"
+      width="600px"
       :before-close="handleClose">
       <template>
         <el-upload
           ref="upload"
           class="avatar-uploader"
+          multiple
+          with-credentials
+          :on-exceed="handleAvatarExceed"
           list-type="picture-card"
-          action="apis/upload"
+          :action="g_Config.UPLOADURL"
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload">
-          <img v-if="imageUrl" :src="imageUrl" class="avatar">
-          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          <div>
+            <img v-if="imageUrl" v-for="item in imageUrl" :src="item" class="avatar">
+            <i v-else-if="imageUrl.length < 6" class="el-icon-plus"></i>
+          </div>
         </el-upload>
-
       </template>
       <span slot="footer" class="dialog-footer">
         <el-button type="primary" @click="onUploadClick">确 定</el-button>
@@ -122,7 +126,7 @@
     data () {
       return {
         dialogVisible: false,
-        imageUrl: '',
+        imageUrl: [],
         pickerOptions1: {
           shortcuts: [{
             text: '今天',
@@ -257,7 +261,7 @@
           }
         ],
         listLoading: true,
-        pictureList: '',
+        pictureList: [],
         dialogPicVisible: false,
         pictureUrl: '',
       }
@@ -287,9 +291,12 @@
         'getWaybillGet',
         'getWaybillSaveTracking'
       ]),
+      dataTrans (data) {
+        return data
+      },
       // 展示图片
       showPic (item) {
-        console.log(this.g_Config.IMG_URL)
+        // console.log(this.g_Config.IMG_URL)
         this.dialogPicVisible = true
         this.pictureUrl = this.g_Config.IMG_URL + item
       },
@@ -314,8 +321,12 @@
         this.dialogVisible = false
       },
       handleAvatarSuccess(res, file) {
-        this.imageUrl = URL.createObjectURL(file.raw)
-        this.pictureList = res.data
+        this.imageUrl.push(URL.createObjectURL(file.raw))
+        console.log(res)
+        this.pictureList.push(res.data)
+      },
+      handleAvatarExceed (files, fileList) {
+        this.$message.error('最多一次只能上传5张图片')
       },
       beforeAvatarUpload(file) {
         const isJPG = file.type === 'image/jpeg'
@@ -337,14 +348,16 @@
             id: this.$route.params.id
           }
         }
-        params.pictures = this.pictureList
+        if (this.pictureList.length) {
+          params.pictures = this.pictureList.toString()
+        }
         if (params.userSee) {
           params.userSee = 1
         } else {
           params.userSee = 0
         }
         this.getWaybillSaveTracking(params).then(response => {
-          this.pictureList = ''
+          this.pictureList = []
           this.listLoading = false
           this.fetchData()
         }).catch(() => {
@@ -378,15 +391,15 @@
   .avatar-uploader-icon {
     font-size: 28px;
     color: #8c939d;
-    width: 260px;
-    height: 260px;
-    line-height: 260px;
+    /*width: 148px;*/
+    height: 148px;
+    line-height: 148px;
     text-align: center;
   }
   .avatar {
-    width: 260px;
-    height: 260px;
-    display: block;
+    width: 148px;
+    height: 148px;
+    padding: 5px;
   }
   .btn-list {
     margin-left: 15px;
@@ -447,4 +460,6 @@
     color: #4979ff;
     cursor: pointer;
   }
+</style>
+<style>
 </style>

@@ -2,6 +2,7 @@ import api from './index'
 import axios from 'axios'
 // import store from '../store'
 import { Message } from 'element-ui'
+import router from '@/router'
 /**
  *
  * @type {{}}
@@ -16,7 +17,12 @@ axios.interceptors.request.use(config => {
 })
 axios.interceptors.response.use(response => {
   if (response.data.status == 0) {
-    Message.error(response.data.message)
+    if (response.data.code == '1001') {
+      Message.error(response.data.message)
+      router.push('/')
+    } else {
+      Message.error(response.data.message)
+    }
   }
   return response
 }, err => {
@@ -24,14 +30,14 @@ axios.interceptors.response.use(response => {
   return Promise.reject(err)
 })
 
-let base = '/apis'
+let base = ''
 
 export default {
   GET_LOGIN (params) {
     return api.fetch('post', `${base}/login?username=${params.username}&password=${params.password}`, {})
   },
   GET_LOGINOUT (params) {
-    return api.fetch('post', `${base}/loginOut`, {})
+    return api.fetch('get', `${base}/logout`, {})
   },
   GET_INFO (params) {
     return api.fetch('post', `${base}/me`, params)

@@ -24,9 +24,7 @@ export const constantRouterMapDefault = [
     label: 'trackDetails',
     component: resolve => require(['@/views/trackDetails/index'], resolve),
     hidden: true
-  },
-
-  { path: '*', redirect: '/404', hidden: true }
+  }
 ]
 
 export const constantRouterMap = [
