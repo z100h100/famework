@@ -17,7 +17,7 @@
           </el-date-picker>
         </el-form-item>
         <el-form-item label="经办人">
-          <el-select v-model="formInline.operator" style="width:290px" placeholder="请选择">
+          <el-select v-model="formInline.operator" style="width:180px" placeholder="请选择">
             <el-option
               v-for="item in allUserList"
               :key="item.id"
@@ -301,9 +301,9 @@
       ...mapState({
         // 已关联列表
         orderList: state => state.order.orderList.content,
-        total: state => state.order.orderList.totalPages,
+        total: state => state.order.orderList.totalElements,
         pageSize: state => state.order.orderList.size,
-        currentPage: state => state.order.orderList.number,
+        currentPage: state => state.order.orderList.number + 1,
         user: state => state.user.user
       })
     },

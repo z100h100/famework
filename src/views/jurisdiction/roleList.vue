@@ -55,9 +55,9 @@
       ...mapState({
         // 已关联列表
         roleList: state => state.role.roleList.content,
-        total: state => state.role.roleList.totalPages,
+        total: state => state.role.roleList.totalElements,
         pageSize: state => state.role.roleList.size,
-        currentPage: state => state.role.roleList.number
+        currentPage: state => state.role.roleList.number + 1
       })
     },
     filters: {

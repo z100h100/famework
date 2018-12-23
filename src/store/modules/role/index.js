@@ -6,7 +6,7 @@ import mutations from './mutations/mutation'
 const state = {
   roleList: {
     content: [],
-    totalPages: 0,
+    totalElements: 0,
     size: 10,
     number: 1
   },

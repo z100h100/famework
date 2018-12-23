@@ -65,9 +65,9 @@
       ...mapState({
         // 已关联列表
         justList: state => state.just.justList.content,
-        total: state => state.just.justList.totalPages,
+        total: state => state.just.justList.totalElements,
         pageSize: state => state.just.justList.size,
-        currentPage: state => state.just.justList.number
+        currentPage: state => state.just.justList.number + 1
       })
     },
     filters: {
