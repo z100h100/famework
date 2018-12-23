@@ -9,7 +9,6 @@ export default {
   // 退出登录接口
   [types.LOGINOUT] (state, res) {
     state.UserToken = ''
-    removeToken('auth')
   },
   [types.SETTOKEN] (state, res) {
     state.user = res.user

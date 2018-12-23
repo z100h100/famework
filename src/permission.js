@@ -16,7 +16,6 @@ router.beforeEach((to, from, next) => {
     }
   } else {
     if (!store.state.user.permissionList) {
-      // next()
       store.dispatch('FETCH_PERMISSION').then(() => {
         next({ path: to.path })
       })
