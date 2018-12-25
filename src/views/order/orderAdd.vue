@@ -1,157 +1,108 @@
 <template>
   <div class="app-container">
-    <div class="crumbs" style="height: 100%;background: #FFFFFF">
-      <div style="overflow: auto;padding-bottom: 20px;">
-        <el-form ref="ruleForm" :model="ruleForm" :rules="rules_system" label-width="200px" class="demo-ruleForm"
-                 size="small">
-          <div class="all-things">
-            <div class="all-things-top">
-              <div class="all-things-top-title">
-                <h1>
-                  运单基础信息
-                </h1>
-              </div>
-            </div>
-            <el-form-item label="运单号" prop="waybillNo">
-              <el-input v-model="ruleForm.waybillNo" style="width:290px" maxlength='25'></el-input>
-            </el-form-item>
-            <el-form-item label="发站" prop="departureStation">
-              <el-input v-model="ruleForm.departureStation" style="width:290px" maxlength='25'></el-input>
-            </el-form-item>
-            <el-form-item label="到站" prop="arriveStation">
-              <el-input v-model="ruleForm.arriveStation" style="width:290px" maxlength='25'></el-input>
-            </el-form-item>
-            <el-form-item label="送货方式" prop="deliveryMode">
-              <el-select v-model="ruleForm.deliveryMode" style="width:290px" placeholder="请选择">
-                <el-option
-                  v-for="item in deliveryMode"
-                  :key="item.code"
-                  :label="item.name"
-                  :value="item.code">
-                </el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="日期" prop="waybillDate">
-              <el-date-picker
-                v-model="ruleForm.waybillDate"
-                type="datetime"
-                placeholder="选择日期时间"
-                align="right"
-                :picker-options="pickerOptions1"
-                style="width:290px">
-              </el-date-picker>
-            </el-form-item>
-            <el-form-item label="付款方式" prop="payment">
-              <el-select v-model="ruleForm.payment" style="width:290px" placeholder="请选择">
-                <el-option
-                  v-for="item in payMode"
-                  :key="item.code"
-                  :label="item.name"
-                  :value="item.code">
-                </el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="经办人" prop="operator">
-              <el-select v-model="ruleForm.operator" style="width:290px" placeholder="请选择">
-                <el-option
-                  v-for="item in allUserList"
-                  :key="item.id"
-                  :label="item.username"
-                  :value="item.id">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </div>
-          <div class="all-things">
-            <div class="all-things-top">
-              <div class="all-things-top-title">
-                <h1>
-                  发货方基本信息
-                </h1>
-              </div>
-            </div>
-            <el-form-item label="发货单位" prop="deliveryCompany">
-              <el-input v-model="ruleForm.deliveryCompany" style="width:290px" maxlength='25'></el-input>
-            </el-form-item>
-            <el-form-item label="发货人" prop="deliveryPerson">
-              <el-input v-model="ruleForm.deliveryPerson" style="width:290px" maxlength='25'></el-input>
-            </el-form-item>
-            <el-form-item label="手机号码" prop="deliveryPhone">
-              <el-input v-model="ruleForm.deliveryPhone" style="width:290px" maxlength='25'></el-input>
-            </el-form-item>
-            <el-form-item label="电话号码" prop="deliveryTel">
-              <el-input v-model="ruleForm.deliveryTel" style="width:290px" maxlength='25'></el-input>
-            </el-form-item>
-            <el-form-item label="发货地址" prop="shippingAddress">
-              <el-input v-model="ruleForm.shippingAddress" style="width:290px" maxlength='25'></el-input>
-            </el-form-item>
-            <el-form-item label="地址备注" prop="shippingAddressRemark">
-              <el-input v-model="ruleForm.shippingAddressRemark" style="width:290px" maxlength='25'></el-input>
-            </el-form-item>
-          </div>
-          <div class="all-things">
-            <div class="all-things-top">
-              <div class="all-things-top-title">
-                <h1>
-                  收货方基本信息
-                </h1>
-              </div>
-            </div>
-            <el-form-item label="收货单位" prop="endDept">
-              <el-input v-model="ruleForm.receivingCompany" style="width:290px" maxlength='25'></el-input>
-            </el-form-item>
-            <el-form-item label="收货人" prop="receivingPerson">
-              <el-input v-model="ruleForm.receivingPerson" style="width:290px" maxlength='25'></el-input>
-            </el-form-item>
-            <el-form-item label="手机号码" prop="receivingPhone">
-              <el-input v-model="ruleForm.receivingPhone" style="width:290px" maxlength='25'></el-input>
-            </el-form-item>
-            <el-form-item label="电话号码" prop="receivingTel">
-              <el-input v-model="ruleForm.receivingTel" style="width:290px" maxlength='25'></el-input>
-            </el-form-item>
-            <el-form-item label="发货地址" prop="receivingAddress">
-              <el-input v-model="ruleForm.receivingAddress" style="width:290px" maxlength='25'></el-input>
-            </el-form-item>
-            <el-form-item label="地址备注" prop="receivingAddressRemark">
-              <el-input v-model="ruleForm.receivingAddressRemark" style="width:290px" maxlength='25'></el-input>
-            </el-form-item>
-          </div>
-          <div class="all-things">
-            <div class="all-things-top">
-              <div class="all-things-top-title">
-                <h1>
-                  货物规格价格基本信息
-                </h1>
-              </div>
-            </div>
-            <el-form-item label="货物名称" prop="goodsName">
-              <el-input v-model="ruleForm.goodsName" style="width:290px" maxlength='25'></el-input>
-            </el-form-item>
-            <el-form-item label="包装" prop="packing">
-              <el-input v-model="ruleForm.packing" style="width:290px" maxlength='25'></el-input>
-            </el-form-item>
-            <el-form-item label="件数" prop="quantity">
-              <el-input v-model="ruleForm.quantity" style="width:290px" maxlength='25'></el-input>
-            </el-form-item>
-            <el-form-item label="重量" prop="weight">
-              <el-input v-model="ruleForm.weight" style="width:290px" maxlength='25'></el-input>
-            </el-form-item>
-            <el-form-item label="体积" prop="volume">
-              <el-input v-model="ruleForm.volume" style="width:290px" maxlength='25'></el-input>
-            </el-form-item>
-            <el-form-item label="单价/件" prop="unitPrice">
-              <el-input v-model="ruleForm.unitPrice" style="width:290px" maxlength='25'></el-input>
-            </el-form-item>
-          </div>
-        </el-form>
-      </div>
-      <div class="btn-list fixed-buttom">
-        <el-button type="primary" @click="MSMNotic()">短信通知</el-button>
-        <el-button type="primary" @click="submitForm" :loading="btnSaveLoading">保存</el-button>
-        <el-button @click="handleShowByCancel">返回</el-button>
+    <!--<el-form ref="ruleForm" :model="ruleForm" :rules="rules_system">-->
+      <!--<div class="consignment">-->
+        <!--<div class="consignmentOpen">-->
+          <!--<div class="layui-form-item">-->
+            <!--<label class="layui-form-label">账户</label>-->
+            <!--<div class="layui-block">-->
+              <!--<input v-model="name" v-validate="'required|min:3'"-->
+                     <!--:class="{'input': true, 'is-danger': errors.has('name')}" type="text" name="name"-->
+                     <!--class="layui-input" placeholder="账户">-->
+              <!--<el-tooltip class="item" effect="pink" :content="errors.first('name')" placement="top">-->
+                <!--<i v-show="errors.has('name')" class="el-icon-warning errClass" v-cloak></i>-->
+              <!--</el-tooltip>-->
+            <!--</div>-->
+          <!--</div>-->
+          <!--<span>{{orderTrackList.status | filterStatus(statusList)}}</span></div>-->
+        <!--<div class="consignmentTitle">货物托运单</div>-->
+        <!--<div class="consignmentInfo">-->
+          <!--<el-form-item label="开单时间" prop="waybillDate" class="orderContentRight">-->
+            <!--<el-date-picker-->
+              <!--v-model="ruleForm.waybillDate"-->
+              <!--type="datetime"-->
+              <!--placeholder="选择日期时间"-->
+              <!--align="right"-->
+              <!--class="orderInput"-->
+              <!--:picker-options="pickerOptions1"-->
+              <!--size="mini"-->
+              <!--style="width:200px">-->
+            <!--</el-date-picker>-->
+          <!--</el-form-item>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--&lt;!&ndash;表单内容&ndash;&gt;-->
+      <!--<div class="order-content skin-border">-->
+        <!--<div class="order-editor-traffic">-->
+          <!--<div>-->
+            <!--<div class="layui-form-item">-->
+              <!--<label class="layui-form-label">发站：</label>-->
+              <!--<div class="layui-block">-->
+                <!--<input v-model="name" v-validate="'required|min:3'" :class="{'input': true, 'is-danger': errors.has('name')}" type="text" name="name"-->
+                       <!--class="layui-input" placeholder="账户">-->
+                <!--<el-tooltip class="item" effect="pink" :content="errors.first('name')" placement="top">-->
+                  <!--<i v-show="errors.has('name')" class="el-icon-warning errClass" v-cloak></i>-->
+                <!--</el-tooltip>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+          <!--<div>-->
+            <!--<div class="layui-form-item">-->
+              <!--<label class="layui-form-label">到站：</label>-->
+              <!--<div class="layui-block">-->
+                <!--<input v-model="name" v-validate="'required|min:3'" :class="{'input': true, 'is-danger': errors.has('name')}" type="text" name="name"-->
+                       <!--class="layui-input" placeholder="账户">-->
+                <!--<el-tooltip class="item" effect="pink" :content="errors.first('name')" placement="top">-->
+                  <!--<i v-show="errors.has('name')" class="el-icon-warning errClass" v-cloak></i>-->
+                <!--</el-tooltip>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+          <!--<div>-->
+            <!--<div class="layui-form-item">-->
+              <!--<label class="layui-form-label">送货方式：</label>-->
+              <!--<div class="layui-block">-->
+                <!--<select v-model="deliveryMode" v-validate="'required'" name="deliveryMode" class="layui-input" :class="{'input': true, 'is-danger': errors.has('deliveryMode')}">-->
+                  <!--<option-->
+                    <!--v-for="item in deliveryModeList"-->
+                    <!--:key="item.code"-->
+                    <!--:label="item.name"-->
+                    <!--:value="item.code">-->
+                  <!--</option>-->
+                <!--</select>-->
+                <!--<el-tooltip class="item" effect="pink" :content="errors.first('deliveryMode')" placement="top">-->
+                  <!--<i v-show="errors.has('deliveryMode')" class="el-icon-warning errClass" v-cloak></i>-->
+                <!--</el-tooltip>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+          <!--<div>-->
+            <!--<div class="layui-form-item">-->
+              <!--<label class="layui-form-label">账户</label>-->
+              <!--<div class="layui-block">-->
+                <!--<input v-model="name" v-validate="'required|min:3'" :class="{'input': true, 'is-danger': errors.has('name')}" type="text" name="name"-->
+                       <!--class="layui-input" placeholder="账户">-->
+                <!--<el-tooltip class="item" effect="pink" :content="errors.first('name')" placement="top">-->
+                  <!--<i v-show="errors.has('name')" class="el-icon-warning errClass" v-cloak></i>-->
+                <!--</el-tooltip>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</el-form>-->
+
+    <div class="layui-form-item">
+      <label class="layui-form-label">账户</label>
+      <div class="layui-block">
+        <input v-model="ruleForm.nameList" v-validate="'required|min:3'" :class="{'input': true, 'is-danger': errors.has('nameList')}"
+               type="text" name="nameList" class="layui-input" placeholder="账户">
+        <el-tooltip class="item" effect="pink" :content="errors.first('nameList')" placement="top">
+          <i v-show="errors.has('nameList')" class="el-icon-warning errClass" v-cloak></i>
+        </el-tooltip>
       </div>
     </div>
-    <!--短信通知-->
+
     <el-dialog
       title="提示"
       :visible.sync="dialogVisible"
@@ -173,19 +124,127 @@
 </template>
 
 <script>
-  import {mapState, mapActions} from 'vuex'
+  import { mapState, mapActions } from 'vuex'
+
   export default {
     data () {
       var checkPhone = (rule, value, callback) => {
         if (!value) {
           return callback(new Error('手机号不能为空'))
         }
-        if(!(/^1[34578]\d{9}$/.test(value))){
+        if (!(/^1[34578]\d{9}$/.test(value))) {
           return callback(new Error('请填写正确的手机号'))
         }
         callback()
       }
       return {
+        name: '',
+        statusList: [
+          {
+            name: '已入库',
+            code: '0'
+          },
+          {
+            name: '短驳中',
+            code: '1'
+          },
+          {
+            name: '已装车',
+            code: '2'
+          },
+          {
+            name: '已发车',
+            code: '3'
+          },
+          {
+            name: '已到达',
+            code: '4'
+          },
+          {
+            name: '已卸车',
+            code: '5'
+          },
+          {
+            name: '中转中',
+            code: '6'
+          },
+          {
+            name: '已接收',
+            code: '7'
+          },
+          {
+            name: '送货中',
+            code: '8'
+          },
+          {
+            name: '已送货',
+            code: '9'
+          },
+          {
+            name: '已签收',
+            code: '10'
+          },
+          {
+            name: '待补录',
+            code: '11'
+          },
+          {
+            name: '提货中',
+            code: '12'
+          },
+          {
+            name: '已提货',
+            code: '13'
+          },
+          {
+            name: '网点中转中',
+            code: '14'
+          },
+          {
+            name: '网点中转已接收',
+            code: '15'
+          },
+          {
+            name: '预装车',
+            code: '16'
+          },
+          {
+            name: '部分短驳中',
+            code: '17'
+          },
+          {
+            name: '部分短驳完成',
+            code: '18'
+          },
+          {
+            name: '部分装车',
+            code: '19'
+          },
+          {
+            name: '部分发车',
+            code: '20'
+          },
+          {
+            name: '部分到达',
+            code: '21'
+          },
+          {
+            name: '部分送货中',
+            code: '22'
+          },
+          {
+            name: '部分送货完成',
+            code: '23'
+          },
+          {
+            name: '部分签收',
+            code: '24'
+          },
+          {
+            name: '部分入库',
+            code: '25'
+          }
+        ],
         dialogVisible: false,
         pickerOptions1: {
           shortcuts: [{
@@ -287,7 +346,8 @@
             code: '8'
           }
         ],
-        deliveryMode: [
+        deliveryMode: '',
+        deliveryModeList: [
           {
             name: '自提',
             code: '0'
@@ -346,24 +406,27 @@
         allUserList: []
       }
     },
-    filters: {
-      statusFilter (status) {
-        const statusMap = {
-          published: 'success',
-          draft: 'gray',
-          deleted: 'danger'
-        }
-        return statusMap[status]
-      }
-    },
     mounted () {
       this.multipleSelection = [this.tableData[0], this.tableData[1]]
       this.getAllUser()
     },
     computed: {
       ...mapState({
-        user: state => state.user.user
+        user: state => state.user.user,
+        orderTrackList: state => state.order.orderTrackList
       })
+    },
+    filters: {
+      filterStatus (value, list) {
+        if (value == '99') {
+          return '创建订单'
+        }
+        let valueName = ''
+        list.map(item => {
+          if (item.code == value) valueName = item.name
+        })
+        return valueName
+      }
     },
     methods: {
       ...mapActions([
@@ -457,6 +520,120 @@
 </script>
 
 <style lang="scss" scoped>
+  .layui-input {
+    outline: none;
+    height: 28px;
+    padding-right: 15px;
+    box-shadow: inset 0 -2px 0 0 #e5e5e5;
+    border: none;
+    &:focus {
+      box-shadow: inset 0 -2px 0 0 #ff4040;
+    }
+  }
+
+  .is-danger {
+    box-shadow: inset 0 -2px 0 0 #ff4040;
+    background: #fff5f5;
+  }
+  .errClass {
+    color: red;
+    position: absolute;
+    right: 5px;
+    top: 8px;
+  }
+
+  .layui-form-item {
+    display: flex;
+  }
+
+  .layui-form-label {
+    height: 28px;
+    line-height: 28px;
+    margin-right: 5px;
+  }
+
+  .layui-block {
+    position: relative;
+    height: 28px;
+    line-height: 28px;
+  }
+
+  .app-container {
+    font-size: 12px;
+  }
+
+  .orderContentClass {
+    margin-bottom: 10px;
+    display: inline-flex;
+  }
+
+  .order-editor-traffic {
+    display: flex;
+    flex-wrap: wrap;
+    background-image: linear-gradient(270deg, #78aadd 1px, transparent 0), linear-gradient(0deg, #78aadd 1px, transparent 0);
+    background-size: 100% 35px;
+  }
+
+  .order-editor-traffic > div, .order-editor-traffic > div.combine > div {
+    flex: 1 0 188px;
+    display: flex;
+    align-items: center;
+    height: 35px;
+    padding: 0 6px;
+    border-right: 1px solid #78aadd;
+  }
+
+  .order-content.skin-border {
+    border: 1px solid #78aadd;
+    border-right: 0;
+    background: linear-gradient(270deg, #78aadd 1px, #fff 0);
+  }
+
+  .consignment {
+    display: flex;
+
+    .consignmentOpen {
+      flex: 1;
+      text-align: left;
+
+      > span {
+        color: red;
+        font-weight: bold;
+        font-size: 12px;
+        margin-left: 5px;
+      }
+    }
+
+    .consignmentTitle {
+      flex: 1;
+      text-align: center;
+      font-size: 24px;
+      color: #333;
+      line-height: 30px;
+      letter-spacing: 16px;
+      padding: 0 20px;
+
+      &:after {
+        content: "";
+        display: block;
+        height: 4px;
+        margin-top: 6px;
+        border-top: 1px solid #333;
+        border-bottom: 1px solid #333;
+      }
+    }
+
+    .consignmentInfo {
+      flex: 1;
+      text-align: right;
+
+      span {
+        font-size: 16px;
+        margin-right: 10px;
+      }
+    }
+  }
+
   .text-red {
     color: red;
   }
@@ -600,10 +777,5 @@
     height: 319px;
     background-color: white;
     width: 224px;
-  }
-</style>
-<style>
-  .el-menu-item：hover {
-    background-color: #0062AD
   }
 </style>

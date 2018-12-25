@@ -12,8 +12,19 @@ import '@/styles/index.scss' // global css
 
 import './icons' // icon
 import './permission' // permission control
-
+import VeeValidate, {Validator} from 'vee-validate'
 Vue.use(ElementUI)
+const config = {
+  errorBagName: 'errors',
+  fieldsBagName: 'fieldBags',
+  delay: 100,
+  locale: 'zh_CN',
+  strict: true,
+  enableAutoClasses: true,
+  events: 'blur',
+  inject: true
+}
+Vue.use(VeeValidate,config)
 
 Object.defineProperty(Vue.prototype, '$moment', { value: moment })
 

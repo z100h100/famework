@@ -468,3 +468,28 @@ span {
 .formInlineClass {
   width: 290px;
 }
+
+.orderInput .el-input__inner{
+  border: none;
+  border-radius: 0;
+  box-shadow: inset 0 -1px 0 0 #e5e5e5;
+  &:focus {
+    box-shadow: inset 0 -2px 0 0 #ff4040;
+    background: #fff5f5;
+  }
+}
+.orderContentRight {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.is-pink {
+  background: #f12222;
+  color: #333333;
+  .popper__arrow {
+    border-top-color: #f12222 !important;
+    &:after {
+      border-top-color: #f12222 !important;
+    }
+  }
+}
