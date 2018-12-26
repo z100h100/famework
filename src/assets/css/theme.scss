@@ -472,17 +472,23 @@ span {
 .orderInput .el-input__inner{
   border: none;
   border-radius: 0;
-  box-shadow: inset 0 -1px 0 0 #e5e5e5;
+  box-shadow: inset 0 -2px 0 0 #e5e5e5;
   &:focus {
     box-shadow: inset 0 -2px 0 0 #ff4040;
     background: #fff5f5;
   }
 }
 .orderContentRight {
+  margin-bottom: 0;
   display: flex;
   justify-content: flex-end;
 }
-
+.fr {
+  margin-top: 5px;
+  &.waybillNoClass {
+    margin-top: 15px;
+  }
+}
 .is-pink {
   background: #f12222;
   color: #333333;
