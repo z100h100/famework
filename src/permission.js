@@ -25,7 +25,7 @@ router.beforeEach((to, from, next) => {
         next()
       } else {
         store.dispatch('LogOut').then(() => {
-          location.reload()
+          // location.reload()
           // next(from.fullPath)
         })
       }

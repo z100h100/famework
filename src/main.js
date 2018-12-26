@@ -13,6 +13,9 @@ import '@/styles/index.scss' // global css
 import './icons' // icon
 import './permission' // permission control
 import VeeValidate, {Validator} from 'vee-validate'
+import zh from 'vee-validate/dist/locale/zh_CN'
+Validator.localize(zh)
+
 Vue.use(ElementUI)
 const config = {
   errorBagName: 'errors',

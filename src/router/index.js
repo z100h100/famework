@@ -158,6 +158,12 @@ export default new Router({
       label: 'trackDetails',
       component: resolve => require(['@/views/trackDetails/index'], resolve),
       hidden: true
+    },
+    {
+      path: '/oddorderAdd',
+      label: 'oddorderAdd',
+      component: resolve => require(['@/views/trackDetails/oldorderAdd'], resolve),
+      hidden: true
     }
   ]
 })
