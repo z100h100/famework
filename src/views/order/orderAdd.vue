@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container" style="min-width: 1216px;">
+  <div class="app-container" style="min-width: 1024px;">
     <el-form ref="ruleForm" :model="ruleForm" :rules="rules_system">
       <div class="consignment">
         <div class="consignmentOpen">
@@ -212,7 +212,7 @@
                 <i class="el-icon-minus" v-else @click="delGoodsList(scope.$index)"></i>
               </template>
             </el-table-column>
-            <el-table-column v-for="item in goodsTableHead" :label="item.label" :property="item.property" min-width="200">
+            <el-table-column v-for="item in goodsTableHead" :label="item.label" :property="item.property" min-width="150">
               <template slot-scope="scope">
                 <div class="layui-form-item" v-if="item.label === '件数'">
                   <label class="layui-form-label">{{item.label}}</label>
