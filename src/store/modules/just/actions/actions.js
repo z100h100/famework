@@ -10,6 +10,12 @@ export default {
       return response
     })
   },
+  getDelJust ({ commit }, userInfo) {
+    return getDate.GET_DELJUST(userInfo).then(response => {
+      const data = response.data.data
+      return response
+    })
+  },
   getJustAuthsList ({ commit }, userInfo) {
     return getDate.GET_JUSTAUTHSLIST(userInfo).then(response => {
       const data = response.data.data

@@ -1,8 +1,11 @@
 <template>
   <div class="app-container">
-    <el-form :model="formInline" :rules="rules" ref="ruleForm" class="demo-form-inline">
+    <el-form :model="formInline" :rules="rules" ref="ruleForm" class="demo-form-inline" label-width="100px">
       <el-form-item label="用户名" prop="username">
         <el-input class="formInlineClass" v-model="formInline.username" placeholder="用户名" disabled></el-input>
+      </el-form-item>
+      <el-form-item label="密码" prop="phone">
+        <el-input class="formInlineClass" v-model="formInline.password" placeholder="密码"></el-input>
       </el-form-item>
       <el-form-item label="电话号码" prop="phone">
         <el-input class="formInlineClass" v-model="formInline.phone" placeholder="电话号码"></el-input>
@@ -31,11 +34,15 @@
         formInline: {
           username: '',
           phone: '',
+          password: '',
           roles: []
         },
         rules: {
           username: [
             { required: true, message: '请输入用户名', trigger: 'blur' }
+          ],
+          password: [
+            { required: true, message: '请输入密码', trigger: 'blur' }
           ],
           phone: [
             { required: true, message: '请输入电话号码', trigger: 'blur' }

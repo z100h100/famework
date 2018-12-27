@@ -10,6 +10,12 @@ export default {
       return response
     })
   },
+  getDelRole ({ commit }, userInfo) {
+    return getDate.GET_DELROLE(userInfo).then(response => {
+      const data = response.data.data
+      return response
+    })
+  },
   getRoleAuthsList ({ commit }, userInfo) {
     return getDate.GET_ROLELISTGET(userInfo).then(response => {
       return response

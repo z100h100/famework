@@ -53,6 +53,9 @@ export default {
   GET_ROLELIST (params) {
     return api.fetch('post', `${base}/role/page`, params)
   },
+  GET_DELROLE (params) {
+    return api.fetch('post', `${base}/role/delete`, params)
+  },
   GET_ROLELISTSAVE (params) {
     return api.fetch('post', `${base}/role/save`, params)
   },
@@ -61,6 +64,9 @@ export default {
   },
   GET_JUSTLIST (params) {
     return api.fetch('post', `${base}/user/page`, params)
+  },
+  GET_DELJUST (params) {
+    return api.fetch('post', `${base}/user/me/update`, params)
   },
   GET_USERALLUSER (params) {
     return api.fetch('get', `${base}/user/all_user`, params)

@@ -4,13 +4,13 @@
       <div class="consignment">
         <div class="consignmentOpen">
           <div class="layui-form-item fr waybillNoClass">
-            <label class="layui-form-label requireClass">运单号：</label>
+            <label class="layui-form-label requireClass">运单号</label>
             <div class="layui-block" style="width: 160px">
-              <input v-model="ruleForm.waybillNo" v-validate="'required|min:3'"
-                     :class="{'input': true, 'is-danger': errors.has('name')}" type="text" name="name"
+              <input v-model="ruleForm.waybillNo" v-validate="'required'"
+                     :class="{'input': true, 'is-danger': errors.has('waybillNo')}" type="text" name="waybillNo"
                      class="layui-input" placeholder="运单号">
-              <el-tooltip class="item" effect="pink" :content="errors.first('name')" placement="top">
-                <i v-show="errors.has('name')" class="el-icon-warning errClass" v-cloak></i>
+              <el-tooltip class="item" effect="pink" :content="errors.first('waybillNo')" placement="top">
+                <i v-show="errors.has('waybillNo')" class="el-icon-warning errClass" v-cloak></i>
               </el-tooltip>
             </div>
           </div>
@@ -21,6 +21,8 @@
             <el-date-picker
               v-model="ruleForm.waybillDate"
               type="datetime"
+              :clearable="false"
+              :editable="false"
               placeholder="选择日期时间"
               align="right"
               class="orderInput"
@@ -36,35 +38,25 @@
         <div class="order-editor-traffic">
           <div>
             <div class="layui-form-item">
-              <label class="layui-form-label">发站：</label>
+              <label class="layui-form-label">发站</label>
               <div class="layui-block">
-                <input v-model="ruleForm.waybillNo" v-validate="'required|min:3'"
-                       :class="{'input': true, 'is-danger': errors.has('name')}" type="text" name="name"
-                       class="layui-input" placeholder="请输入发站">
-                <el-tooltip class="item" effect="pink" :content="errors.first('name')" placement="top">
-                  <i v-show="errors.has('name')" class="el-icon-warning errClass" v-cloak></i>
-                </el-tooltip>
+                <input v-model="ruleForm.departureStation" class="layui-input" placeholder="发站">
               </div>
             </div>
           </div>
           <div>
             <div class="layui-form-item">
-              <label class="layui-form-label">到站：</label>
+              <label class="layui-form-label">到站</label>
               <div class="layui-block">
-                <input v-model="ruleForm.waybillNo" v-validate="'required|min:3'"
-                       :class="{'input': true, 'is-danger': errors.has('name')}" type="text" name="name"
-                       class="layui-input" placeholder="请输入账户">
-                <el-tooltip class="item" effect="pink" :content="errors.first('name')" placement="top">
-                  <i v-show="errors.has('name')" class="el-icon-warning errClass" v-cloak></i>
-                </el-tooltip>
+                <input v-model="ruleForm.arriveStation" class="layui-input" placeholder="到站">
               </div>
             </div>
           </div>
           <div>
             <div class="layui-form-item">
-              <label class="layui-form-label">送货方式：</label>
+              <label class="layui-form-label requireClass">送货方式</label>
               <div class="layui-block">
-                <select v-model="ruleForm.waybillNo" v-validate="'required'" name="deliveryMode" class="layui-input"
+                <select v-model="ruleForm.deliveryMode" v-validate="'required'" name="deliveryMode" class="layui-input"
                         :class="{'input': true, 'is-danger': errors.has('deliveryMode')}">
                   <option
                     v-for="item in deliveryModeList"
@@ -74,398 +66,356 @@
                   </option>
                 </select>
                 <el-tooltip class="item" effect="pink" :content="errors.first('deliveryMode')" placement="top">
-                  <i v-show="errors.has('deliveryMode')" class="el-icon-warning errClass" v-cloak></i>
+                  <i v-show="errors.has('deliveryMode')" class="el-icon-warning errClassSelect" v-cloak></i>
                 </el-tooltip>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="order-editor-person">
+        <div class="order-editor-consignor">
+          <div>
+            <div>
+              <i class="fn-icon fn-icon-avtor"></i>
+              <p>发货方</p>
+            </div>
+          </div>
+          <div>
+            <div class="cor-company">
+              <div class="layui-form-item cor-company">
+                <label class="layui-form-label">发货单位</label>
+                <div class="layui-block">
+                  <input v-model="ruleForm.deliveryCompany" class="layui-input" placeholder="请输入发货单位">
+                </div>
+              </div>
+              <div class="layui-form-item cor-company">
+                <label class="layui-form-label requireClass">发货人</label>
+                <div class="layui-block">
+                  <input v-model="ruleForm.deliveryPerson" v-validate="'required'"
+                         :class="{'input': true, 'is-danger': errors.has('deliveryPerson')}"
+                         type="text" name="deliveryPerson" class="layui-input" placeholder="请输入发货人">
+                  <el-tooltip class="item" effect="pink" :content="errors.first('deliveryPerson')" placement="top">
+                    <i v-show="errors.has('deliveryPerson')" class="el-icon-warning errClass" v-cloak></i>
+                  </el-tooltip>
+                </div>
+              </div>
+            </div>
+            <div class="cor-company">
+              <div class="layui-form-item cor-company">
+                <label class="layui-form-label requireClass">手机号码</label>
+                <div class="layui-block">
+                  <input v-model="ruleForm.deliveryPhone" v-validate="'required|phone'"
+                         :class="{'input': true, 'is-danger': errors.has('deliveryPhone')}"
+                         type="text" name="deliveryPhone" class="layui-input" placeholder="手机号码">
+                  <el-tooltip class="item" effect="pink" :content="errors.first('deliveryPhone')" placement="top">
+                    <i v-show="errors.has('deliveryPhone')" class="el-icon-warning errClass" v-cloak></i>
+                  </el-tooltip>
+                </div>
+              </div>
+              <div class="layui-form-item cor-company">
+                <label class="layui-form-label">电话号码</label>
+                <div class="layui-block">
+                  <input v-model="ruleForm.deliveryTel" type="text" class="layui-input" placeholder="电话号码">
+                </div>
+              </div>
+            </div>
+            <div class="cor-company">
+              <div class="layui-form-item cor-company">
+                <label class="layui-form-label">发货地址</label>
+                <div class="layui-block">
+                  <input v-model="ruleForm.shippingAddress" type="text" class="layui-input" placeholder="发货地址">
+                </div>
+              </div>
+              <div class="layui-form-item cor-company">
+                <div class="layui-block">
+                  <input v-model="ruleForm.shippingAddressRemark" type="text" class="layui-input" placeholder="地址备注">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="order-editor-consignee">
+          <div>
+            <div>
+              <i class="fn-icon fn-icon-avtor"></i>
+              <p>发货方</p>
+            </div>
+          </div>
+          <div>
+            <div class="cor-company">
+              <div class="layui-form-item cor-company">
+                <label class="layui-form-label">收货单位</label>
+                <div class="layui-block">
+                  <input v-model="ruleForm.endDept" type="text" class="layui-input" placeholder="收货单位">
+                </div>
+              </div>
+              <div class="layui-form-item cor-company">
+                <label class="layui-form-label requireClass">收货人</label>
+                <div class="layui-block">
+                  <input v-model="ruleForm.receivingPerson" v-validate="'required'"
+                         :class="{'input': true, 'is-danger': errors.has('receivingPerson')}"
+                         type="text" name="receivingPerson" class="layui-input" placeholder="收货人">
+                  <el-tooltip class="item" effect="pink" :content="errors.first('receivingPerson')" placement="top">
+                    <i v-show="errors.has('receivingPerson')" class="el-icon-warning errClass" v-cloak></i>
+                  </el-tooltip>
+                </div>
+              </div>
+            </div>
+            <div class="cor-company">
+              <div class="layui-form-item cor-company">
+                <label class="layui-form-label requireClass">手机号码</label>
+                <div class="layui-block">
+                  <input v-model="ruleForm.receivingPhone" v-validate="'required|phone'"
+                         :class="{'input': true, 'is-danger': errors.has('receivingPhone')}"
+                         type="text" name="receivingPhone" class="layui-input" placeholder="手机号码">
+                  <el-tooltip class="item" effect="pink" :content="errors.first('receivingPhone')" placement="top">
+                    <i v-show="errors.has('receivingPhone')" class="el-icon-warning errClass" v-cloak></i>
+                  </el-tooltip>
+                </div>
+              </div>
+              <div class="layui-form-item cor-company">
+                <label class="layui-form-label">电话号码</label>
+                <div class="layui-block">
+                  <input v-model="ruleForm.receivingTel" type="text" class="layui-input" placeholder="电话号码">
+                </div>
+              </div>
+            </div>
+            <div class="cor-company">
+              <div class="layui-form-item cor-company">
+                <label class="layui-form-label">收货地址</label>
+                <div class="layui-block">
+                  <input v-model="ruleForm.receivingAddress" type="text" class="layui-input" placeholder="收货地址">
+                </div>
+              </div>
+              <div class="layui-form-item cor-company">
+                <div class="layui-block">
+                  <input v-model="ruleForm.receivingAddressRemark" type="text" class="layui-input" placeholder="地址备注">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="order-editor-goods">
+        <div class="goods-list">
+          <el-table
+            :data="goodsTableData"
+            class="tb-edit"
+            :show-header="false"
+            border
+            width="100%">
+            <el-table-column width="35" type="index">
+              <template slot-scope="scope">
+                <i class="el-icon-plus" v-if="scope.$index== 0" @click="addGoodsList"></i>
+                <i class="el-icon-minus" v-else @click="delGoodsList(scope.$index)"></i>
+              </template>
+            </el-table-column>
+            <el-table-column v-for="item in goodsTableHead" :label="item.label" :property="item.property" min-width="200">
+              <template slot-scope="scope">
+                <div class="layui-form-item" v-if="item.label === '件数'">
+                  <label class="layui-form-label">{{item.label}}</label>
+                  <div class="layui-block">
+                    <input v-model="scope.row[scope.column.property]" v-validate="'quantity'" :class="{'input': true, 'is-danger': errors.has('name')}"
+                           type="text" :name="scope.column.property + scope.$index" class="layui-input" :placeholder="item.placeholder"/>
+                    <el-tooltip class="item" effect="pink" :content="errors.first(scope.column.property + scope.$index)" placement="top">
+                      <i v-show="errors.has(scope.column.property + scope.$index)" class="el-icon-warning errClass" v-cloak></i>
+                    </el-tooltip>
+                  </div>
+                </div>
+                <div class="layui-form-item"  v-else>
+                  <label class="layui-form-label">{{item.label}}</label>
+                  <input v-model="scope.row[scope.column.property]" type="text" class="layui-input" :placeholder="item.placeholder"/>
+                </div>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+      </div>
+
+      <div class="order-editor-fee">
+        <div class="order-editor-freight">
+          <h3><label class="fn-label">合计运费</label></h3>
+          <div>
+            <label class="layui-form-label freight">运费</label>
+            <div class="layui-block">
+              <input v-model="ruleFormWhite.freight" type="text" class="layui-input"/>
+            </div>
+          </div>
+          <div>
+            <label class="layui-form-label freight">现返</label>
+            <div class="layui-block">
+              <input v-model="ruleFormWhite.moneyReturn" type="text" class="layui-input"/>
+            </div>
+          </div>
+          <div>
+            <label class="layui-form-label freight">欠返</label>
+            <div class="layui-block">
+              <input v-model="ruleFormWhite.oweReturn" type="text" class="layui-input"/>
+            </div>
+          </div>
+          <div>
+            <label class="layui-form-label freight">送货费</label>
+            <div class="layui-block">
+              <input v-model="ruleFormWhite.DeliveryPay" type="text" class="layui-input"/>
+            </div>
+          </div>
+          <div>
+            <label class="layui-form-label freight">提货费</label>
+            <div class="layui-block">
+              <input v-model="ruleFormWhite.takeDeliveryPay" type="text" class="layui-input"/>
+            </div>
+          </div>
+          <div>
+            <label class="layui-form-label freight">装卸费</label>
+            <div class="layui-block">
+              <input v-model="ruleFormWhite.HandlingPay" type="text" class="layui-input"/>
+            </div>
+          </div>
+          <div>
+            <label class="layui-form-label freight">声明价值</label>
+            <div class="layui-block">
+              <input v-model="ruleFormWhite.declaredValue" type="text" class="layui-input"/>
+            </div>
+          </div>
+          <div>
+            <label class="layui-form-label freight">保价费</label>
+            <div class="layui-block">
+              <input v-model="ruleFormWhite.insuredPrice" type="text" class="layui-input"/>
+            </div>
+          </div>
+          <div>
+            <label class="layui-form-label freight">包装费</label>
+            <div class="layui-block">
+              <input v-model="ruleFormWhite.packagePay" type="text" class="layui-input"/>
+            </div>
+          </div>
+          <div>
+            <label class="layui-form-label freight">其它费</label>
+            <div class="layui-block">
+              <input v-model="ruleFormWhite.otherPay" type="text" class="layui-input"/>
+            </div>
+          </div>
+
+        </div>
+        <div class="order-editor-pay">
+          <h3><label class="fn-label">付款方式</label></h3>
+          <div>
+            <label class="layui-form-label freight requireClass">付款方式</label>
+            <div class="layui-block">
+              <select v-model="ruleForm.payment" v-validate="'required'" name="payment" class="layui-input"
+                      :class="{'input': true, 'is-danger': errors.has('payment')}">
+                <option
+                  v-for="item in payMode"
+                  :key="item.code"
+                  :label="item.name"
+                  :value="item.code">
+                </option>
+              </select>
+              <el-tooltip class="item" effect="pink" :content="errors.first('payment')" placement="top">
+                <i v-show="errors.has('payment')" class="el-icon-warning errClassSelect" v-cloak></i>
+              </el-tooltip>
+            </div>
+          </div>
+          <div>
+            <label class="layui-form-label freight">现付</label>
+            <div class="layui-block">
+              <input v-model="ruleFormWhite.cashOnHand" type="text" class="layui-input"/>
+            </div>
+          </div>
+          <div>
+            <label class="layui-form-label freight">到付</label>
+            <div class="layui-block">
+              <input v-model="ruleFormWhite.toPay" type="text" class="layui-input"/>
+            </div>
+          </div>
+          <div>
+            <label class="layui-form-label freight">货到打卡</label>
+            <div class="layui-block">
+              <input v-model="ruleFormWhite.cashOnArrivalCard" type="text" class="layui-input"/>
+            </div>
+          </div>
+          <div>
+            <label class="layui-form-label freight">月结</label>
+            <div class="layui-block">
+              <input v-model="ruleFormWhite.monthlyKnots" type="text" class="layui-input"/>
+            </div>
+          </div>
+          <div>
+            <label class="layui-form-label freight">回付</label>
+            <div class="layui-block">
+              <input v-model="ruleFormWhite.payBack" type="text" class="layui-input"/>
+            </div>
+          </div>
+          <div>
+            <label class="layui-form-label freight">货款扣</label>
+            <div class="layui-block">
+              <input v-model="ruleFormWhite.freight" type="text" class="layui-input"/>
+            </div>
+          </div>
+          <div>
+            <label class="layui-form-label freight">欠付</label>
+            <div class="layui-block">
+              <input v-model="ruleFormWhite.paymentDeduction" type="text" class="layui-input"/>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="order-editor-extra">
+        <div>
+          <div class="layui-form-item">
+            <label class="layui-form-label requireClass">经办人</label>
+            <div class="layui-block">
+              <select v-model="ruleForm.operator" v-validate="'required'" name="operator" class="layui-input"
+                      :class="{'input': true, 'is-danger': errors.has('operator')}">
+                <option
+                  v-for="item in allUserList"
+                  :key="item.id"
+                  :label="item.username"
+                  :value="item.id">
+                </option>
+              </select>
+              <el-tooltip class="item" effect="pink" :content="errors.first('operator')" placement="top">
+                <i v-show="errors.has('operator')" class="el-icon-warning errClassSelect" v-cloak></i>
+              </el-tooltip>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="layui-form-item">
+            <el-checkbox v-model="ruleFormWhite.konghuo">控货</el-checkbox>
+            <el-checkbox v-model="ruleFormWhite.tihuo">提货</el-checkbox>
+          </div>
+        </div>
+        <div>
+          <div class="layui-form-item">
+            <select v-model="ruleFormWhite.huidan" class="layui-input">
+              <option
+                v-for="item in huidanList"
+                :key="item.code"
+                :label="item.name"
+                :value="item.code">
+              </option>
+            </select>
+            <input v-model="ruleFormWhite.fenshu" type="text" class="layui-input textCenter">
+            <div>份</div>
+          </div>
+        </div>
+        <div class="order-remark">
+          <div class="layui-form-item">
+            <label class="layui-form-label">备注</label>
+            <div class="layui-block">
+              <input v-model="ruleFormWhite.remark" type="text" class="layui-input">
             </div>
           </div>
         </div>
       </div>
     </el-form>
 
-    <div class="order-editor-person">
-      <div class="order-editor-consignor">
-        <div>
-          <div>
-            <i class="fn-icon fn-icon-avtor"></i>
-            <p>发货方</p>
-          </div>
-        </div>
-        <div>
-          <div class="cor-company">
-            <div class="layui-form-item cor-company">
-              <label class="layui-form-label">发货单位:</label>
-              <div class="layui-block">
-                <input v-model="ruleForm.nameList" v-validate="'required'"
-                       :class="{'input': true, 'is-danger': errors.has('nameList')}"
-                       type="text" name="nameList" class="layui-input" placeholder="请输入发货单位">
-                <el-tooltip class="item" effect="pink" :content="errors.first('nameList')" placement="top">
-                  <i v-show="errors.has('nameList')" class="el-icon-warning errClass" v-cloak></i>
-                </el-tooltip>
-              </div>
-            </div>
-            <div class="layui-form-item cor-company">
-              <label class="layui-form-label">发货人:</label>
-              <div class="layui-block">
-                <input v-model="ruleForm.nameList" v-validate="'required'"
-                       :class="{'input': true, 'is-danger': errors.has('nameList')}"
-                       type="text" name="nameList" class="layui-input" placeholder="请输入发货人">
-                <el-tooltip class="item" effect="pink" :content="errors.first('nameList')" placement="top">
-                  <i v-show="errors.has('nameList')" class="el-icon-warning errClass" v-cloak></i>
-                </el-tooltip>
-              </div>
-            </div>
-          </div>
-          <div class="cor-company">
-            <div class="layui-form-item cor-company">
-              <label class="layui-form-label">手机号码:</label>
-              <div class="layui-block">
-                <input v-model="ruleForm.nameList" v-validate="'required'"
-                       :class="{'input': true, 'is-danger': errors.has('nameList')}"
-                       type="text" name="nameList" class="layui-input" placeholder="账户">
-                <el-tooltip class="item" effect="pink" :content="errors.first('nameList')" placement="top">
-                  <i v-show="errors.has('nameList')" class="el-icon-warning errClass" v-cloak></i>
-                </el-tooltip>
-              </div>
-            </div>
-            <div class="layui-form-item cor-company">
-              <label class="layui-form-label">电话号码:</label>
-              <div class="layui-block">
-                <input v-model="ruleForm.nameList" v-validate="'required'"
-                       :class="{'input': true, 'is-danger': errors.has('nameList')}"
-                       type="text" name="nameList" class="layui-input" placeholder="账户">
-                <el-tooltip class="item" effect="pink" :content="errors.first('nameList')" placement="top">
-                  <i v-show="errors.has('nameList')" class="el-icon-warning errClass" v-cloak></i>
-                </el-tooltip>
-              </div>
-            </div>
-          </div>
-          <div class="cor-company">
-            <div class="layui-form-item cor-company">
-              <label class="layui-form-label">发货地址:</label>
-              <div class="layui-block">
-                <input v-model="ruleForm.nameList" v-validate="'required'"
-                       :class="{'input': true, 'is-danger': errors.has('nameList')}"
-                       type="text" name="nameList" class="layui-input" placeholder="发货地址">
-                <el-tooltip class="item" effect="pink" :content="errors.first('nameList')" placement="top">
-                  <i v-show="errors.has('nameList')" class="el-icon-warning errClass" v-cloak></i>
-                </el-tooltip>
-              </div>
-            </div>
-            <div class="layui-form-item cor-company">
-              <div class="layui-block">
-                <input v-model="ruleForm.nameList" v-validate="'required'"
-                       :class="{'input': true, 'is-danger': errors.has('nameList')}"
-                       type="text" name="nameList" class="layui-input" placeholder="地址备注">
-                <el-tooltip class="item" effect="pink" :content="errors.first('nameList')" placement="top">
-                  <i v-show="errors.has('nameList')" class="el-icon-warning errClass" v-cloak></i>
-                </el-tooltip>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="order-editor-consignee">
-        <div>
-          <div>
-            <i class="fn-icon fn-icon-avtor"></i>
-            <p>发货方</p>
-          </div>
-        </div>
-        <div>
-          <div class="cor-company">
-            <div class="layui-form-item cor-company">
-              <label class="layui-form-label">账户</label>
-              <div class="layui-block">
-                <input v-model="ruleForm.nameList" v-validate="'required'"
-                       :class="{'input': true, 'is-danger': errors.has('nameList')}"
-                       type="text" name="nameList" class="layui-input" placeholder="账户">
-                <el-tooltip class="item" effect="pink" :content="errors.first('nameList')" placement="top">
-                  <i v-show="errors.has('nameList')" class="el-icon-warning errClass" v-cloak></i>
-                </el-tooltip>
-              </div>
-            </div>
-            <div class="layui-form-item cor-company">
-              <label class="layui-form-label">账户</label>
-              <div class="layui-block">
-                <input v-model="ruleForm.nameList" v-validate="'required'"
-                       :class="{'input': true, 'is-danger': errors.has('nameList')}"
-                       type="text" name="nameList" class="layui-input" placeholder="账户">
-                <el-tooltip class="item" effect="pink" :content="errors.first('nameList')" placement="top">
-                  <i v-show="errors.has('nameList')" class="el-icon-warning errClass" v-cloak></i>
-                </el-tooltip>
-              </div>
-            </div>
-          </div>
-          <div class="cor-company">
-            <div class="layui-form-item cor-company">
-              <label class="layui-form-label">账户</label>
-              <div class="layui-block">
-                <input v-model="ruleForm.nameList" v-validate="'required'"
-                       :class="{'input': true, 'is-danger': errors.has('nameList')}"
-                       type="text" name="nameList" class="layui-input" placeholder="账户">
-                <el-tooltip class="item" effect="pink" :content="errors.first('nameList')" placement="top">
-                  <i v-show="errors.has('nameList')" class="el-icon-warning errClass" v-cloak></i>
-                </el-tooltip>
-              </div>
-            </div>
-            <div class="layui-form-item cor-company">
-              <label class="layui-form-label">账户</label>
-              <div class="layui-block">
-                <input v-model="ruleForm.nameList" v-validate="'required'"
-                       :class="{'input': true, 'is-danger': errors.has('nameList')}"
-                       type="text" name="nameList" class="layui-input" placeholder="账户">
-                <el-tooltip class="item" effect="pink" :content="errors.first('nameList')" placement="top">
-                  <i v-show="errors.has('nameList')" class="el-icon-warning errClass" v-cloak></i>
-                </el-tooltip>
-              </div>
-            </div>
-          </div>
-          <div class="cor-company">
-            <div class="layui-form-item cor-company">
-              <label class="layui-form-label">账户</label>
-              <div class="layui-block">
-                <input v-model="ruleForm.nameList" v-validate="'required'"
-                       :class="{'input': true, 'is-danger': errors.has('nameList')}"
-                       type="text" name="nameList" class="layui-input" placeholder="账户">
-                <el-tooltip class="item" effect="pink" :content="errors.first('nameList')" placement="top">
-                  <i v-show="errors.has('nameList')" class="el-icon-warning errClass" v-cloak></i>
-                </el-tooltip>
-              </div>
-            </div>
-            <div class="layui-form-item cor-company">
-              <label class="layui-form-label">账户</label>
-              <div class="layui-block">
-                <input v-model="ruleForm.nameList" v-validate="'required'"
-                       :class="{'input': true, 'is-danger': errors.has('nameList')}"
-                       type="text" name="nameList" class="layui-input" placeholder="账户">
-                <el-tooltip class="item" effect="pink" :content="errors.first('nameList')" placement="top">
-                  <i v-show="errors.has('nameList')" class="el-icon-warning errClass" v-cloak></i>
-                </el-tooltip>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="order-editor-goods">
-      <div class="goods-list">
-        <el-table
-          :data="tableData"
-          class="tb-edit"
-          :show-header="false"
-          border
-          width="100%">
-          <el-table-column width="35" type="index">
-            <template slot-scope="scope">
-              <i class="el-icon-plus"></i>
-            </template>
-          </el-table-column>
-          <el-table-column v-for="item in tableHead" :label="item.label" :property="item.property" min-width="200">
-            <template slot-scope="scope">
-              <div class="layui-form-item">
-                <label class="layui-form-label">账户</label>
-                <div class="layui-block">
-                  <input v-model="scope.row[scope.column.property]" v-validate="'required|min:3'" :class="{'input': true, 'is-danger': errors.has('name')}" type="text" name="name" class="layui-input" placeholder="账户">
-                  <el-tooltip class="item" effect="pink" :content="errors.first('name')" placement="top">
-                    <i v-show="errors.has('name')" class="el-icon-warning errClass" v-cloak></i>
-                  </el-tooltip>
-                </div>
-              </div>
-            </template>
-          </el-table-column>
-        </el-table>
-      </div>
-    </div>
-
-    <div class="order-editor-fee">
-      <div class="order-editor-freight">
-        <h3><label class="fn-label">合计运费</label></h3>
-        <div>
-          <label class="layui-form-label">账户</label>
-          <div class="layui-block">
-            <input v-model="ruleForm.waybillNo" v-validate="'required|min:3'" :class="{'input': true, 'is-danger': errors.has('name')}" type="text" name="name" class="layui-input" placeholder="账户">
-            <el-tooltip class="item" effect="pink" :content="errors.first('name')" placement="top">
-              <i v-show="errors.has('name')" class="el-icon-warning errClass" v-cloak></i>
-            </el-tooltip>
-          </div>
-        </div>
-        <div>
-          <label class="layui-form-label">账户</label>
-          <div class="layui-block">
-            <input v-model="name" v-validate="'required|min:3'" :class="{'input': true, 'is-danger': errors.has('name')}" type="text" name="name" class="layui-input" placeholder="账户">
-            <el-tooltip class="item" effect="pink" :content="errors.first('name')" placement="top">
-              <i v-show="errors.has('name')" class="el-icon-warning errClass" v-cloak></i>
-            </el-tooltip>
-          </div>
-        </div>
-        <div>
-          <label class="layui-form-label">账户</label>
-          <div class="layui-block">
-            <input v-model="name" v-validate="'required|min:3'" :class="{'input': true, 'is-danger': errors.has('name')}" type="text" name="name" class="layui-input" placeholder="账户">
-            <el-tooltip class="item" effect="pink" :content="errors.first('name')" placement="top">
-              <i v-show="errors.has('name')" class="el-icon-warning errClass" v-cloak></i>
-            </el-tooltip>
-          </div>
-        </div>
-        <div>
-          <label class="layui-form-label">账户</label>
-          <div class="layui-block">
-            <input v-model="name" v-validate="'required|min:3'" :class="{'input': true, 'is-danger': errors.has('name')}" type="text" name="name" class="layui-input" placeholder="账户">
-            <el-tooltip class="item" effect="pink" :content="errors.first('name')" placement="top">
-              <i v-show="errors.has('name')" class="el-icon-warning errClass" v-cloak></i>
-            </el-tooltip>
-          </div>
-        </div>
-        <div>
-          <label class="layui-form-label">账户</label>
-          <div class="layui-block">
-            <input v-model="name" v-validate="'required|min:3'" :class="{'input': true, 'is-danger': errors.has('name')}" type="text" name="name" class="layui-input" placeholder="账户">
-            <el-tooltip class="item" effect="pink" :content="errors.first('name')" placement="top">
-              <i v-show="errors.has('name')" class="el-icon-warning errClass" v-cloak></i>
-            </el-tooltip>
-          </div>
-        </div>
-        <div>
-          <label class="layui-form-label">账户</label>
-          <div class="layui-block">
-            <input v-model="name" v-validate="'required|min:3'" :class="{'input': true, 'is-danger': errors.has('name')}" type="text" name="name" class="layui-input" placeholder="账户">
-            <el-tooltip class="item" effect="pink" :content="errors.first('name')" placement="top">
-              <i v-show="errors.has('name')" class="el-icon-warning errClass" v-cloak></i>
-            </el-tooltip>
-          </div>
-        </div>
-        <div>
-          <label class="layui-form-label">账户</label>
-          <div class="layui-block">
-            <input v-model="name" v-validate="'required|min:3'" :class="{'input': true, 'is-danger': errors.has('name')}" type="text" name="name" class="layui-input" placeholder="账户">
-            <el-tooltip class="item" effect="pink" :content="errors.first('name')" placement="top">
-              <i v-show="errors.has('name')" class="el-icon-warning errClass" v-cloak></i>
-            </el-tooltip>
-          </div>
-        </div>
-      </div>
-      <div class="order-editor-freight">
-        <h3><label class="fn-label">合计运费</label></h3>
-        <div>
-          <label class="layui-form-label">账户</label>
-          <div class="layui-block">
-            <input v-model="name" v-validate="'required|min:3'" :class="{'input': true, 'is-danger': errors.has('name')}" type="text" name="name" class="layui-input" placeholder="账户">
-            <el-tooltip class="item" effect="pink" :content="errors.first('name')" placement="top">
-              <i v-show="errors.has('name')" class="el-icon-warning errClass" v-cloak></i>
-            </el-tooltip>
-          </div>
-        </div>
-        <div>
-          <label class="layui-form-label">账户</label>
-          <div class="layui-block">
-            <input v-model="name" v-validate="'required|min:3'" :class="{'input': true, 'is-danger': errors.has('name')}" type="text" name="name" class="layui-input" placeholder="账户">
-            <el-tooltip class="item" effect="pink" :content="errors.first('name')" placement="top">
-              <i v-show="errors.has('name')" class="el-icon-warning errClass" v-cloak></i>
-            </el-tooltip>
-          </div>
-        </div>
-        <div>
-          <label class="layui-form-label">账户</label>
-          <div class="layui-block">
-            <input v-model="name" v-validate="'required|min:3'" :class="{'input': true, 'is-danger': errors.has('name')}" type="text" name="name" class="layui-input" placeholder="账户">
-            <el-tooltip class="item" effect="pink" :content="errors.first('name')" placement="top">
-              <i v-show="errors.has('name')" class="el-icon-warning errClass" v-cloak></i>
-            </el-tooltip>
-          </div>
-        </div>
-        <div>
-          <label class="layui-form-label">账户</label>
-          <div class="layui-block">
-            <input v-model="name" v-validate="'required|min:3'" :class="{'input': true, 'is-danger': errors.has('name')}" type="text" name="name" class="layui-input" placeholder="账户">
-            <el-tooltip class="item" effect="pink" :content="errors.first('name')" placement="top">
-              <i v-show="errors.has('name')" class="el-icon-warning errClass" v-cloak></i>
-            </el-tooltip>
-          </div>
-        </div>
-        <div>
-          <label class="layui-form-label">账户</label>
-          <div class="layui-block">
-            <input v-model="name" v-validate="'required|min:3'" :class="{'input': true, 'is-danger': errors.has('name')}" type="text" name="name" class="layui-input" placeholder="账户">
-            <el-tooltip class="item" effect="pink" :content="errors.first('name')" placement="top">
-              <i v-show="errors.has('name')" class="el-icon-warning errClass" v-cloak></i>
-            </el-tooltip>
-          </div>
-        </div>
-        <div>
-          <label class="layui-form-label">账户</label>
-          <div class="layui-block">
-            <input v-model="name" v-validate="'required|min:3'" :class="{'input': true, 'is-danger': errors.has('name')}" type="text" name="name" class="layui-input" placeholder="账户">
-            <el-tooltip class="item" effect="pink" :content="errors.first('name')" placement="top">
-              <i v-show="errors.has('name')" class="el-icon-warning errClass" v-cloak></i>
-            </el-tooltip>
-          </div>
-        </div>
-        <div>
-          <label class="layui-form-label">账户</label>
-          <div class="layui-block">
-            <input v-model="name" v-validate="'required|min:3'" :class="{'input': true, 'is-danger': errors.has('name')}" type="text" name="name" class="layui-input" placeholder="账户">
-            <el-tooltip class="item" effect="pink" :content="errors.first('name')" placement="top">
-              <i v-show="errors.has('name')" class="el-icon-warning errClass" v-cloak></i>
-            </el-tooltip>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="order-editor-extra">
-      <div>
-        <div class="layui-form-item">
-          <label class="layui-form-label">账户</label>
-          <div class="layui-block">
-            <input v-model="name" v-validate="'required|min:3'" :class="{'input': true, 'is-danger': errors.has('name')}" type="text" name="name"
-                   class="layui-input" placeholder="账户">
-            <el-tooltip class="item" effect="pink" :content="errors.first('name')" placement="top">
-              <i v-show="errors.has('name')" class="el-icon-warning errClass" v-cloak></i>
-            </el-tooltip>
-          </div>
-        </div>
-      </div>
-      <div>
-        <div class="layui-form-item">
-          <label class="layui-form-label">账户</label>
-          <div class="layui-block">
-            <input v-model="name" v-validate="'required|min:3'" :class="{'input': true, 'is-danger': errors.has('name')}" type="text" name="name"
-                   class="layui-input" placeholder="账户">
-            <el-tooltip class="item" effect="pink" :content="errors.first('name')" placement="top">
-              <i v-show="errors.has('name')" class="el-icon-warning errClass" v-cloak></i>
-            </el-tooltip>
-          </div>
-        </div>
-      </div>
-      <div>
-        <div class="layui-form-item">
-          <label class="layui-form-label">账户</label>
-          <div class="layui-block">
-            <input v-model="name" v-validate="'required|min:3'" :class="{'input': true, 'is-danger': errors.has('name')}" type="text" name="name"
-                   class="layui-input" placeholder="账户">
-            <el-tooltip class="item" effect="pink" :content="errors.first('name')" placement="top">
-              <i v-show="errors.has('name')" class="el-icon-warning errClass" v-cloak></i>
-            </el-tooltip>
-          </div>
-        </div>
-      </div>
-      <div>
-        <div class="layui-form-item">
-          <label class="layui-form-label">账户</label>
-          <div class="layui-block">
-            <input v-model="name" v-validate="'required|min:3'" :class="{'input': true, 'is-danger': errors.has('name')}" type="text" name="name"
-                   class="layui-input" placeholder="账户">
-            <el-tooltip class="item" effect="pink" :content="errors.first('name')" placement="top">
-              <i v-show="errors.has('name')" class="el-icon-warning errClass" v-cloak></i>
-            </el-tooltip>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div>
+    <div class="footer-Button">
       <el-button size="mini" @click="MSMNotic">短信通知</el-button>
-      <el-button type="primary" size="mini" @click="submitForm">保存</el-button>
+      <el-button type="primary" size="mini" @click="submitForm" :loading="btnSaveLoading">保存</el-button>
     </div>
     <el-dialog
       title="提示"
@@ -503,53 +453,77 @@
         callback()
       }
       return {
-        tableHead: [
+        huidanList: [
           {
-            label: "姓名",
+            name: '回单',
+            code: '0'
+          },
+          {
+            name: '电子回单',
+            code: '1'
+          },
+          {
+            name: '回执',
+            code: '2'
+          },
+          {
+            name: '原单',
+            code: '3'
+          },
+          {
+            name: '收条',
+            code: '4'
+          },
+          {
+            name: '信封',
+            code: '5'
+          }
+        ],
+        ruleFormWhite: {
+          huidan: '0',
+          fenshu: 0
+        },
+        goodsTableHead: [
+          {
+            label: "货物名称",
+            placeholder: '',
             property: "name"
           },
           {
-            label: "地址",
-            property: "address"
+            label: "包装",
+            placeholder: '',
+            property: "packing"
           },
           {
-            label: "地址",
-            property: "address"
+            label: "件数",
+            placeholder: '',
+            property: "quantity"
           },
           {
-            label: "地址",
-            property: "address"
+            label: "重量(kg)",
+            placeholder: '',
+            property: "weight"
           },
           {
-            label: "地址",
-            property: "address"
+            label: "体积(方)",
+            placeholder: '长*宽*高*件数(米)',
+            property: "volume"
           },
           {
-            label: "地址",
-            property: "address"
+            label: "单价",
+            placeholder: '',
+            property: "unitPrice"
           }
         ],
         // 数据值
-        tableData: [
+        goodsTableData: [
           {
-            date: "2016-05-02",
-            name: "王小虎6666",
-            address: "上海市普陀区金沙江路 1518 弄"
-          },
-          {
-            date: "2016-05-04",
-            name: "王小虎45",
-            address: "上海市普陀区金沙江路 1517 弄"
-          },
-          {
-            date: "2016-05-01",
-            name: "王小虎333",
-            address: "上海市普陀区金沙江路 1519 弄"
-          },
-          {
-            date: "2016-05-03",
-            name: "王小虎222",
-            address: "上海市普陀区金沙江路 1516 弄"
+            name: "",
+            packing: "",
+            quantity: "",
+            weight: "",
+            volume: "",
+            unitPrice: ""
           }
         ],
         name: '',
@@ -819,7 +793,7 @@
     },
     mounted () {
       this.multipleSelection = [this.tableData[0], this.tableData[1]]
-      // this.getAllUser()
+      this.getAllUser()
     },
     computed: {
       ...mapState({
@@ -845,6 +819,19 @@
         'getWaybillSaveSMS',
         'getUserAllUser'
       ]),
+      addGoodsList () {
+        this.goodsTableData.push({
+          name: "",
+          packing: "",
+          quantity: "",
+          weight: "",
+          volume: "",
+          unitPrice: ""
+        })
+      },
+      delGoodsList (index) {
+        this.goodsTableData.splice(index, 1)
+      },
       // 获取全部user
       getAllUser () {
         this.getUserAllUser().then(res => {
@@ -897,13 +884,14 @@
       },
       // 提交
       submitForm () {
-        this.btnSaveLoading = false
-        this.$refs['ruleForm'].validate((valid) => {
-          if (valid) {
+        this.btnSaveLoading = true
+        this.$validator.validateAll().then((result) => {
+          if (result) {
             let params = Object.assign({}, this.ruleForm)
             params.operator = {
               id: params.operator
             }
+            params.goods = this.goodsTableData
             this.getWaybillSave(params).then(res => {
               let _params = {
                 deliverySms: params.deliverySms,
@@ -919,10 +907,35 @@
               })
             })
           } else {
+            this.btnSaveLoading = false
             return false
           }
-          this.btnSaveLoading = false
         })
+        // this.$refs['ruleForm'].validate((valid) => {
+        //     if (valid) {
+        //     let params = Object.assign({}, this.ruleForm)
+        //     params.operator = {
+        //       id: params.operator
+        //     }
+        //     this.getWaybillSave(params).then(res => {
+        //       let _params = {
+        //         deliverySms: params.deliverySms,
+        //         receiveSms: params.deliverySms,
+        //         id: res.data.data
+        //       }
+        //       this.getWaybillSaveSMS(_params).then(() => {
+        //         this.message({
+        //           type: 'success',
+        //           message: '保存成功'
+        //         })
+        //         this.$router.push({name: 'orderList'})
+        //       })
+        //     })
+        //   } else {
+        //     return false
+        //   }
+        //   this.btnSaveLoading = false
+        // })
       },
       handleShowByCancel () {
         this.$router.push({name: 'orderList'})
@@ -935,6 +948,18 @@
   /deep/.el-table--enable-row-hover .el-table__body tr:hover>td {
     background: none !important;
   }
+  .textCenter {
+    text-align: center;
+  }
+  .footer-Button {
+    margin-top: 20px;
+    text-align: center;
+  }
+  .freight {
+    flex: 0 0 72px;
+    text-align: justify;
+    text-align-last: justify;
+  }
   .order-editor-extra {
     display: flex;
     flex-wrap: wrap;
@@ -942,7 +967,7 @@
     background-image: linear-gradient(270deg,#78aadd 1px,transparent 0),linear-gradient(0deg,#78aadd 1px,transparent 0);
     background-size: 100% 35px;
     >div {
-      flex: 1 0 188px;
+      flex: 1 0 82px;
       display: flex;
       align-items: center;
       height: 35px;
@@ -950,6 +975,13 @@
       border-right: 1px solid #78aadd;
       font-size: 14px;
       position: relative;
+      line-height: 28px;
+      &.order-remark {
+        flex: 2 0 376px;
+      }
+      >div {
+        width: 100%;
+      }
     }
   }
   .order-editor-fee {
@@ -986,6 +1018,17 @@
   }
   .order-editor-freight {
     flex: 1 50%;
+    >div {
+      width: 25%;
+      float: left;
+    }
+  }
+  .order-editor-pay {
+    flex: 1 50%;
+    >div {
+      width: 33%;
+      float: left;
+    }
   }
   /deep/.tb-edit {
     .el-table__body {
@@ -1087,6 +1130,12 @@
     color: red;
     position: absolute;
     right: 5px;
+    top: 8px;
+  }
+  .errClassSelect {
+    color: red;
+    position: absolute;
+    right: 20px;
     top: 8px;
   }
 
@@ -1196,146 +1245,6 @@
     color: red;
   }
 
-  .crumbs {
-    .crumbs_header {
-      height: 50px;
-      box-sizing: border-box;
-      background: #fff;
-      border-bottom: 1px solid #edeff4;
-      align-items: center;
-      justify-content: flex-start;
-      display: flex;
-      font-weight: bold;
-
-      i {
-        cursor: pointer;
-        color: #acaeb0;
-        margin: 0 12px 0 22px;
-      }
-
-      .crumbs_title {
-        padding-left: 8px;
-        color: #555;
-        font-size: 14px;
-        border-left: 1px solid #eeeff3;
-        font-weight: bold;
-      }
-    }
-  }
-
-  .el-breadcrumb__inner {
-    font-size: 16px !important;
-  }
-
-  .top-things {
-    position: relative;
-    height: 48px;
-    background-color: #FFFFFF;
-    margin-top: 20px;
-  }
-
-  .top-things-left {
-    float: left;
-    margin: 0 auto;
-    padding-left: 25px;
-    padding-top: 13.5px;
-  }
-
-  .top-things-right {
-    float: right;
-    margin: 0 auto;
-    padding-right: 25px;
-    padding-top: 13.5px;
-    color: #999999
-  }
-
-  .all-things {
-    background-color: #FFFFFF;
-    position: relative;
-    padding-bottom: 10px;
-  }
-
-  .all-things-top {
-    background: #f9f9fb;
-    height: 49px;
-    border-bottom: 1px solid #E9EAED;
-    margin: 0 auto;
-    margin-bottom: 30px;
-  }
-
-  .btn-list {
-    margin-left: 15px;
-    background-color: #FFFFFF;
-    position: relative;
-    padding: 0 0 20px 200px;
-
-    &.fixed-buttom {
-      position: fixed;
-      bottom: 0;
-      right: 15px;
-      left: 225px;
-      padding: 10px 0 10px 200px;
-      border-top: 1px solid #edeff4;
-    }
-  }
-
-  .btn-save {
-    width: 160px;
-    height: 40px;
-  }
-
-  .submit {
-    width: 90px !important;
-    height: 32px;
-  }
-
-  .btn-cancel {
-    width: 160px;
-    height: 40px;
-  }
-
-  .cancel {
-    width: 60px;
-    height: 32px;
-  }
-
-  .el-input__inner {
-    width: 290px !important;
-  }
-
-  .el-button--primary {
-    /*width: 160px;*/
-  }
-
-  .left-things {
-    width: 224px;
-    border-right: 1px solid #edeff4;
-    min-height: calc(100vh - 110px - 20px);
-  }
-
-  .el-menu-vertical-demo li {
-    border: 0;
-    border-bottom: 1px solid #edeff4;
-    color: #666;
-  }
-
-  .el-menu-vertical-demo li i {
-    display: inline-block;
-    width: 16px;
-    font-size: 12px;
-    text-align: center;
-    margin-right: 5px;
-  }
-
-  .el-menu-vertical-demo li span {
-    font-size: 14px !important;
-  }
-
-  .no-things {
-    height: 319px;
-    background-color: white;
-    width: 224px;
-  }
   .requireClass {
     color: red;
   }

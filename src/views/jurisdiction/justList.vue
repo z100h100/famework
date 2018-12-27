@@ -30,6 +30,8 @@
       <el-table-column label="操作" width="200" align="center">
         <template slot-scope="scope">
           <el-button type="text" @click="justModifyClick(scope.row)">修改</el-button>
+          <el-button type="text" @click="justDelClick(scope.row)" v-if="scope.row.status">禁用</el-button>
+          <el-button type="text" @click="justDelClick(scope.row)" v-else>启用</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -82,10 +84,19 @@
     },
     methods: {
       ...mapActions([
-        'getJustList'
+        'getJustList',
+        'getDelJust'
       ]),
       justModifyClick (row) {
         this.$router.push({path: '/jurisdiction/justModify', query: {id: row.id}})
+      },
+      justDelClick (row) {
+        let params = {
+          status: row.status ? 0 : 1
+        }
+        this.getDelJust(params).then(res => {
+          this.fetchData()
+        })
       },
       onJustAdd() {
         this.$router.push('/jurisdiction/justAdd')

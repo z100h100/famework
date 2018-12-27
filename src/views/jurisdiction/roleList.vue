@@ -20,6 +20,7 @@
       <el-table-column label="操作" width="200" align="center">
         <template slot-scope="scope">
           <el-button type="text" @click="roleModifyClick(scope.row)">修改</el-button>
+          <el-button type="text" @click="roleDelClick(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -72,10 +73,20 @@
     },
     methods: {
       ...mapActions([
-        'getRoleList'
+        'getRoleList',
+        'getDelRole'
       ]),
       roleModifyClick (row) {
         this.$router.push({path: '/jurisdiction/roleModify', query: {id: row.id}})
+      },
+      roleDelClick (row) {
+        let params = {
+          id: row.id
+        }
+        this.getDelRole(params).then(res => {
+          console.log(res)
+          this.fetchData()
+        })
       },
       onSubmit() {
         this.listLoading = false
