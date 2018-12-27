@@ -17,7 +17,7 @@ Validator.extend('quantity', {
   },
   validate: value => {
     // 获取输入的value
-    return /^1[34578]\d{9}$/.test(value)
+    return /^[0-9]*$/.test(value)
   }
 })
 

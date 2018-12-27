@@ -140,7 +140,7 @@
           <div>
             <div>
               <i class="fn-icon fn-icon-avtor"></i>
-              <p>发货方</p>
+              <p>收货方</p>
             </div>
           </div>
           <div>
@@ -148,7 +148,7 @@
               <div class="layui-form-item cor-company">
                 <label class="layui-form-label">收货单位</label>
                 <div class="layui-block">
-                  <input v-model="ruleForm.endDept" type="text" class="layui-input" placeholder="收货单位">
+                  <input v-model="ruleForm.receivingCompany" type="text" class="layui-input" placeholder="收货单位">
                 </div>
               </div>
               <div class="layui-form-item cor-company">
@@ -899,7 +899,7 @@
                 id: res.data.data
               }
               this.getWaybillSaveSMS(_params).then(() => {
-                this.message({
+                this.$message({
                   type: 'success',
                   message: '保存成功'
                 })

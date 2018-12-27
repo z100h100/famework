@@ -54,7 +54,7 @@ export default {
     return api.fetch('post', `${base}/role/page`, params)
   },
   GET_DELROLE (params) {
-    return api.fetch('post', `${base}/role/delete`, params)
+    return api.fetch('post', `${base}/role/delete?id=${params.id}`)
   },
   GET_ROLELISTSAVE (params) {
     return api.fetch('post', `${base}/role/save`, params)

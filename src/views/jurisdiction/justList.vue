@@ -85,16 +85,17 @@
     methods: {
       ...mapActions([
         'getJustList',
-        'getDelJust'
+        'getJustAuthsModify'
       ]),
       justModifyClick (row) {
         this.$router.push({path: '/jurisdiction/justModify', query: {id: row.id}})
       },
       justDelClick (row) {
         let params = {
+          ...row,
           status: row.status ? 0 : 1
         }
-        this.getDelJust(params).then(res => {
+        this.getJustAuthsModify(params).then(res => {
           this.fetchData()
         })
       },

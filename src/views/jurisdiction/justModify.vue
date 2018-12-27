@@ -4,7 +4,7 @@
       <el-form-item label="用户名" prop="username">
         <el-input class="formInlineClass" v-model="formInline.username" placeholder="用户名" disabled></el-input>
       </el-form-item>
-      <el-form-item label="密码" prop="phone">
+      <el-form-item label="密码" v-if="UserToken.user.id == 1">
         <el-input class="formInlineClass" v-model="formInline.password" placeholder="密码"></el-input>
       </el-form-item>
       <el-form-item label="电话号码" prop="phone">
@@ -73,6 +73,7 @@
     },
     computed: {
       ...mapState({
+        UserToken: state => state.user.UserToken,
         justList: state => state.just.justModifyList.roles
       })
     },

@@ -151,7 +151,7 @@
                   <div class="layui-form-item cor-company">
                     <label class="layui-form-label">收货单位</label>
                     <div class="layui-block">
-                      <input v-model="ruleForm.endDept" type="text" class="layui-input" placeholder="收货单位" disabled>
+                      <input v-model="ruleForm.receivingCompany" type="text" class="layui-input" placeholder="收货单位" disabled>
                     </div>
                   </div>
                   <div class="layui-form-item cor-company">
@@ -489,7 +489,7 @@
           {
             label: "货物名称",
             placeholder: '',
-            property: "goodsName"
+            property: "name"
           },
           {
             label: "包装",
@@ -520,7 +520,7 @@
         // 数据值
         goodsTableData: [
           {
-            goodsName: "",
+            name: "",
             packing: "",
             quantity: "",
             weight: "",
@@ -708,7 +708,11 @@
           let params = {
             id: this.$route.params.id
           }
-          this.getWaybillGet(params)
+          this.getWaybillGet(params).then(res => {
+            if (res.data.data.goods.length) {
+              this.goodsTableData = res.data.data.goods
+            }
+          })
         })
       },
       handleClose () {
