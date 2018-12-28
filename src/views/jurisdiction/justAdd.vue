@@ -16,6 +16,12 @@
           <el-checkbox v-for="role in justRolesList" :label="role" :key="role.id" v-if="role.id != 1">{{role.name}}</el-checkbox>
         </el-checkbox-group>
       </el-form-item>
+      <el-form-item label="状态" prop="status">
+        <el-radio-group v-model="formInline.status">
+          <el-radio :label="1">启用</el-radio>
+          <el-radio :label="0">禁用</el-radio>
+        </el-radio-group>
+      </el-form-item>
     </el-form>
     <el-button type="primary" icon="el-icon-search" @click="onSubmit">保存</el-button>
   </div>
@@ -35,6 +41,7 @@
         formInline: {
           username: '',
           phone: '',
+          status: 1,
           roles: []
         },
         rules: {
@@ -49,6 +56,9 @@
           ],
           roles: [
             { required: true, message: '请选择角色', trigger: 'change' }
+          ],
+          status: [
+            { required: true, message: '请选择状态', trigger: 'change' }
           ]
         }
       }
@@ -73,14 +83,13 @@
           if (valid) {
             let params = Object.assign({}, this.formInline)
             this.getJustAuthsAdd(params).then(res => {
-              this.message({
+              this.$message({
                 type: 'success',
                 message: '保存成功'
               })
               this.$router.push({name: 'justList'})
             })
           } else {
-            // console.log('error submit!!');
             return false;
           }
         });

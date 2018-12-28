@@ -28,10 +28,19 @@
   import {mapState, mapActions} from 'vuex'
   export default {
     data() {
+      var validateTreeAuth = (rule, value, callback) => {
+        let aa = this.$refs.treeAuth.getCheckedKeys().concat(this.$refs.treeAuth.getHalfCheckedKeys())
+        if (aa.length == 0) {
+          callback(new Error('请选择权限'))
+        } else {
+          callback()
+        }
+      }
       return {
         actions: [],
         formInline: {
-          name: ''
+          name: '',
+          password: ''
         },
         defaultProps: {
           children: 'children',
@@ -43,6 +52,9 @@
           ],
           password: [
             { required: true, message: '请输入密码', trigger: 'blur' }
+          ],
+          username: [
+            { required: true, validator: validateTreeAuth, trigger: 'change' }
           ]
         }
       }
@@ -65,7 +77,7 @@
         this.$refs['ruleForm'].validate((valid) => {
           if (valid) {
             let params = {
-              id: parseInt(this.$route.query.id),
+              // id: parseInt(this.$route.query.id),
               ...this.formInline,
               actions: []
             }

@@ -84,7 +84,7 @@ export default {
         }
         callback()
       }
-    };
+    }
     var validatePass2 = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请再次输入密码'))
@@ -93,7 +93,7 @@ export default {
       } else {
         callback()
       }
-    };
+    }
     return {
       ruleForm2: {
         pass: '',
