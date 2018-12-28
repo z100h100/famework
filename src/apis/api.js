@@ -29,7 +29,9 @@ axios.interceptors.response.use(response => {
 }, err => {
   Message.error('服务器错误，请重试')
   // store.dispatch('LogOut')
-  location.reload()
+  setTimeout(() => {
+    location.reload()
+  }, 1000)
   return Promise.reject(err)
 })
 
