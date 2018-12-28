@@ -79,27 +79,22 @@
     <el-dialog
       title="上传图片"
       :visible.sync="dialogVisible"
-      width="700px"
+      width="900px"
       class="uploadAvatar"
       :before-close="handleClose">
-      <template>
         <el-upload
           ref="upload"
           class="avatar-uploader"
-          multiple
           with-credentials
           :on-exceed="handleAvatarExceed"
           list-type="picture-card"
+          :file-list="imageUrl"
           :action="g_Config.UPLOADURL"
-          :show-file-list="false"
           :on-success="handleAvatarSuccess"
-          :before-upload="beforeAvatarUpload">
-          <i v-if="imageUrl.length < 6" class="el-icon-plus"></i>
+          :before-upload="beforeAvatarUpload"
+          :on-remove="handleRemove">
+          <i class="el-icon-plus" v-if="imageUrl.length < 5"></i>
         </el-upload>
-        <div style="margin: 0 5px">
-          <img v-for="item in imageUrl" :src="item" class="avatar">
-        </div>
-      </template>
       <span slot="footer" class="dialog-footer">
         <el-button type="primary" @click="onUploadClick">确 定</el-button>
       </span>
@@ -127,6 +122,8 @@
     data () {
       return {
         dialogVisible: false,
+        dialogShowVisible: false,
+        dialogImageUrl: '',
         imageUrl: [],
         pickerOptions1: {
           shortcuts: [{
@@ -297,7 +294,6 @@
       },
       // 展示图片
       showPic (item) {
-        // console.log(this.g_Config.IMG_URL)
         this.dialogPicVisible = true
         this.pictureUrl = this.g_Config.IMG_URL + item
       },
@@ -322,11 +318,23 @@
         this.dialogVisible = false
       },
       handleAvatarSuccess(res, file) {
-        this.imageUrl.push(URL.createObjectURL(file.raw))
+        this.imageUrl.push({url: this.g_Config.IMG_URL + res.data})
         this.pictureList.push(res.data)
       },
       handleAvatarExceed (files, fileList) {
         this.$message.error('最多一次只能上传5张图片')
+      },
+      handleRemove(file, fileList) {
+        let params = 99
+        this.imageUrl.forEach((item, index) => {
+          if (file.uid === item.uid) {
+            params = index
+          }
+        })
+        if (params != 99) {
+          this.imageUrl.splice(params, 1)
+          this.pictureList.splice(params, 1)
+        }
       },
       beforeAvatarUpload(file) {
         const isJPG = file.type === 'image/jpeg'
@@ -358,6 +366,7 @@
         }
         this.getWaybillSaveTracking(params).then(response => {
           this.pictureList = []
+          this.imageUrl = []
           this.listLoading = false
           this.fetchData()
         }).catch(() => {
@@ -460,11 +469,18 @@
     cursor: pointer;
   }
 </style>
-<style>
+<style lang="scss">
   .avatar-uploader {
+    display: inline-flex;
     width: 148px;
     height: 148px;
     padding: 5px;
+    .el-upload-list--picture-card {
+      display: inline-flex;
+    }
+    .el-upload.el-upload--picture-card {
+      display: table;
+    }
   }
   .uploadAvatar.el-dialog__wrapper .el-dialog .el-dialog__body {
     display: inline-flex;
