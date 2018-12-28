@@ -11,8 +11,9 @@
         <el-input class="formInlineClass" v-model="formInline.phone" placeholder="电话号码"></el-input>
       </el-form-item>
       <el-form-item label="角色" prop="roles">
+        <!-- 管理员权限不给-->
         <el-checkbox-group v-model="formInline.roles" size="medium">
-          <el-checkbox v-for="role in justRolesList" :label="role" :key="role.id">{{role.name}}</el-checkbox>
+          <el-checkbox v-for="role in justRolesList" :label="role" :key="role.id" v-if="role.id != 1">{{role.name}}</el-checkbox>
         </el-checkbox-group>
       </el-form-item>
     </el-form>

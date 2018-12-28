@@ -94,9 +94,9 @@
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload">
-          <i v-if="imageUrl.length > 5" class="el-icon-plus"></i>
+          <i v-if="imageUrl.length < 6" class="el-icon-plus"></i>
         </el-upload>
-        <div>
+        <div style="margin: 0 5px">
           <img v-for="item in imageUrl" :src="item" class="avatar">
         </div>
       </template>
@@ -399,7 +399,6 @@
   .avatar {
     width: 148px;
     height: 148px;
-    padding: 5px;
   }
   .btn-list {
     margin-left: 15px;

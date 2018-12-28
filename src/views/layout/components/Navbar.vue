@@ -52,20 +52,17 @@
       <template>
         <el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
           <el-form-item label="密码" prop="pass">
-            <el-input type="password" v-model="ruleForm2.pass" autocomplete="off"></el-input>
+            <el-input type="password" v-model="ruleForm2.pass" autocomplete="off" style="width: 150px"></el-input>
           </el-form-item>
           <el-form-item label="确认密码" prop="checkPass">
-            <el-input type="password" v-model="ruleForm2.checkPass" autocomplete="off"></el-input>
+            <el-input type="password" v-model="ruleForm2.checkPass" autocomplete="off" style="width: 150px"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="submitForm('ruleForm2')">提交</el-button>
+            <el-button type="primary" @click="submitForm('ruleForm2')">保存</el-button>
             <el-button @click="resetForm('ruleForm2')">重置</el-button>
           </el-form-item>
         </el-form>
       </template>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="onsmsClick">确 定</el-button>
-      </span>
     </el-dialog>
   </el-menu>
 </template>
