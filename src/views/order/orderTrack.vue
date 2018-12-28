@@ -79,7 +79,7 @@
     <el-dialog
       title="上传图片"
       :visible.sync="dialogVisible"
-      width="900px"
+      width="980px"
       class="uploadAvatar"
       :before-close="handleClose">
         <el-upload
@@ -92,8 +92,9 @@
           :action="g_Config.UPLOADURL"
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload"
-          :on-remove="handleRemove">
-          <i class="el-icon-plus" v-if="imageUrl.length < 5"></i>
+          :on-remove="handleRemove"
+          :limit="5">
+          <i class="el-icon-plus"></i>
         </el-upload>
       <span slot="footer" class="dialog-footer">
         <el-button type="primary" @click="onUploadClick">确 定</el-button>

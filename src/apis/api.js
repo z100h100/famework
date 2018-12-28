@@ -22,12 +22,13 @@ axios.interceptors.response.use(response => {
       location.reload()
     } else {
       Message.error(response.data.message)
+      return false
     }
   }
   return response
 }, err => {
   Message.error('服务器错误，请重试')
-  store.dispatch('LogOut')
+  // store.dispatch('LogOut')
   location.reload()
   return Promise.reject(err)
 })
