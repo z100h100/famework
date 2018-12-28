@@ -1,12 +1,12 @@
 <template>
   <div class="app-container">
     <el-form :model="formInline" :rules="rules" ref="ruleForm" class="demo-form-inline" label-width="100px">
-      <el-form-item label="用户名" prop="name">
+      <el-form-item label="角色名" prop="name">
         <el-input class="formInlineClass" v-model="formInline.name" placeholder="用户名"></el-input>
       </el-form-item>
-      <el-form-item label="密码" prop="password">
-        <el-input class="formInlineClass" v-model="formInline.password" placeholder="密码"></el-input>
-      </el-form-item>
+      <!--<el-form-item label="密码" prop="password">-->
+        <!--<el-input class="formInlineClass" v-model="formInline.password" placeholder="密码"></el-input>-->
+      <!--</el-form-item>-->
       <el-form-item label="权限" prop="username">
         <el-tree
           ref="treeAuth"
@@ -39,8 +39,7 @@
       return {
         actions: [],
         formInline: {
-          name: '',
-          password: ''
+          name: ''
         },
         defaultProps: {
           children: 'children',
@@ -50,9 +49,9 @@
           name: [
             { required: true, message: '请输入用户名', trigger: 'blur' }
           ],
-          password: [
-            { required: true, message: '请输入密码', trigger: 'blur' }
-          ],
+          // password: [
+          //   { required: true, message: '请输入密码', trigger: 'blur' }
+          // ],
           username: [
             { required: true, validator: validateTreeAuth, trigger: 'change' }
           ]
