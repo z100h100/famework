@@ -12,7 +12,6 @@ export default {
   },
   getDelRole ({ commit }, userInfo) {
     return getDate.GET_DELROLE(userInfo).then(response => {
-      const data = response.data.data
       return response
     })
   },
