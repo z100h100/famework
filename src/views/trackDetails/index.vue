@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid">
+  <div>
     <div>
       <div class="header-title">
         邦达通物流管理系统
@@ -29,7 +29,9 @@
             <div class="detail-panel">
               <div>跟踪进度</div>
               <ul>
-                <li v-for="item in orderTrackList.trackings">【{{item.operationTime ? $moment(item.operationTime).format('YYYY-MM-DD hh:mm:ss') : ''}}】{{item.status | filterStatus(statusList)}}</li>
+                <li v-for="item in orderTrackList.trackings">【{{item.operationTime ? $moment(item.operationTime).format('YYYY-MM-DD hh:mm:ss') : ''}}】{{item.status | filterStatus(statusList)}}
+                  <p>操作描述：{{item.described ? item.described : '无'}}</p>
+                </li>
               </ul>
             </div>
           </div>

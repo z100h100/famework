@@ -51,6 +51,7 @@ p {
   top: 15px; }
 
 .detail-panel ul li p {
+  word-break: break-word;
   font-size: 12px; }
 
 .detail-panel .time {

@@ -15,6 +15,12 @@
           <el-checkbox v-for="role in justRolesList" :label="role.id" :key="role.id">{{role.name}}</el-checkbox>
         </el-checkbox-group>
       </el-form-item>
+      <el-form-item label="状态" prop="status">
+        <el-radio-group v-model="formInline.status">
+          <el-radio :label="1">启用</el-radio>
+          <el-radio :label="0">禁用</el-radio>
+        </el-radio-group>
+      </el-form-item>
     </el-form>
     <el-button type="primary" icon="el-icon-search" @click="onSubmit">保存</el-button>
   </div>
@@ -64,6 +70,7 @@
           this.getJustAuthsList(params).then(resp => {
             this.formInline.username = resp.data.data.username
             this.formInline.phone = resp.data.data.phone
+            this.formInline.status = resp.data.data.status
             this.formInline.roles = resp.data.data.roles.map(item => {
               return item.id
             })
