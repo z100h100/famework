@@ -18,6 +18,7 @@
         </el-form-item>
         <el-form-item label="经办人">
           <el-select v-model="formInline.operator" style="width:180px" placeholder="请选择">
+            <el-option label="全部" value=""></el-option>
             <el-option
               v-for="item in allUserList"
               :key="item.id"
