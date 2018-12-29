@@ -157,6 +157,16 @@
         ]
       }
     },
+    watch: {
+      '$route' () {
+        let params = {
+          id: Base64.decode(this.$route.query.id).slice(3, -3)
+        }
+        this.getWaybillGet(params).then(res => {
+          // console.log(res)
+        })
+      }
+    },
     computed: {
       ...mapState({
         orderTrackList: state=> state.order.orderTrackList

@@ -3,7 +3,7 @@
     <div>
       <el-form :inline="true" :model="formInline" class="demo-form-inline">
         <el-form-item label="用户名">
-          <el-input v-model="formInline.user" placeholder="用户名"></el-input>
+          <el-input v-model="formInline.username" placeholder="用户名"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" icon="el-icon-search" @click="fetchData()">查询</el-button>
@@ -119,7 +119,7 @@
       fetchData (pageSize = 10, pageNo = 0) {
         this.listLoading = true
         let params
-        if (this.formInline.name) {
+        if (this.formInline.username) {
           params = {
             pageNo,
             pageSize,

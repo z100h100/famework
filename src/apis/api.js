@@ -97,5 +97,8 @@ export default {
   },
   GET_WAYBILLSAVETRACKING (params) {
     return api.fetch('post', `${base}/waybill/saveTracking`, params)
+  },
+  GET_SMS (params) {
+    return api.fetch('get', `http://v.juhe.cn/sms/send`, params)
   }
 }

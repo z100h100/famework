@@ -43,5 +43,12 @@ export default {
     return getDate.GET_WAYBILLSAVESMS(userInfo).then(response => {
       return response
     })
+  },
+  getSMS ({ commit }, userInfo) {
+    // userInfo = encodeURI(userInfo)
+    console.log(userInfo)
+    return getDate.GET_SMS(userInfo).then(response => {
+      return response
+    })
   }
 }

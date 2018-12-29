@@ -438,6 +438,8 @@
 </template>
 
 <script>
+  import { Base64 } from 'js-base64'
+  import JSONP from 'node-jsonp'
   import { mapState, mapActions } from 'vuex'
   import '../trackDetails/vali'
 
@@ -817,6 +819,7 @@
       ...mapActions([
         'getWaybillSave',
         'getWaybillSaveSMS',
+        'getSMS',
         'getUserAllUser'
       ]),
       addGoodsList () {
@@ -903,39 +906,44 @@
                   type: 'success',
                   message: '保存成功'
                 })
-                this.$router.push({name: 'orderList'})
+                // 发送短信接口
+                let user = this.allUserList.filter(item => params.operator.id === item.id)[0]
+                if (params.deliverySms) {
+                  let url = `http://v.juhe.cn/sms/send?mobile=${this.ruleForm.deliveryPhone}&tpl_id=124130&dtype=&key=af4081f38599357f56c71d9aa3dc3c32&tpl_value=`
+                  let paramsUrl = `#发货人#=${this.ruleForm.deliveryPerson}&#运单号#=${this.ruleForm.waybillNo}&#短信跟踪链接#=${`http://122.112.211.21/#/trackDetails?id=` + Base64.encode(`btd${res.data.data}btd`)}&#当前组织联系电话#=${user.phone}`
+                  let trueUrl = url + encodeURIComponent(paramsUrl)
+                  JSONP(trueUrl, function (json) {
+                    console.log(json)
+                  })
+                }
+                if (params.receiveSms) {
+                  // let deliveryParams = {
+                  //   mobile: this.ruleForm.deliveryPhone,
+                  //   tpl_id: 124130,
+                  //   '#收货人#': this.ruleForm.receivingPerson,
+                  //   '#运单号#': this.ruleForm.waybillNo,
+                  //   '#短信跟踪链接#': `http://122.112.211.21/#/trackDetails?id=` + Base64.encode(`btd${res.data.data}btd`),
+                  //   '#当前组织联系电话#': user.phone,
+                  //   dtype: '',
+                  //   key: 'af4081f38599357f56c71d9aa3dc3c32'
+                  // }
+                  let url = `http://v.juhe.cn/sms/send?mobile=${this.ruleForm.receivingPhone}&tpl_id=124131&dtype=&key=af4081f38599357f56c71d9aa3dc3c32&tpl_value=`
+                  let paramsUrl = `#收货人#=${this.ruleForm.receivingPerson}&#运单号#=${this.ruleForm.waybillNo}&#短信跟踪链接#=${`http://122.112.211.21/#/trackDetails?id=` + Base64.encode(`btd${res.data.data}btd`)}&#当前组织联系电话#=${user.phone}`
+                  let trueUrl = url + encodeURIComponent(paramsUrl)
+                  JSONP(trueUrl, function (json) {
+                    console.log(json)
+                  })
+                }
+                // this.$router.push({name: 'orderList'})
               })
+            }).catch(() => {
+              this.btnSaveLoading = false
             })
           } else {
             this.btnSaveLoading = false
             return false
           }
         })
-        // this.$refs['ruleForm'].validate((valid) => {
-        //     if (valid) {
-        //     let params = Object.assign({}, this.ruleForm)
-        //     params.operator = {
-        //       id: params.operator
-        //     }
-        //     this.getWaybillSave(params).then(res => {
-        //       let _params = {
-        //         deliverySms: params.deliverySms,
-        //         receiveSms: params.deliverySms,
-        //         id: res.data.data
-        //       }
-        //       this.getWaybillSaveSMS(_params).then(() => {
-        //         this.message({
-        //           type: 'success',
-        //           message: '保存成功'
-        //         })
-        //         this.$router.push({name: 'orderList'})
-        //       })
-        //     })
-        //   } else {
-        //     return false
-        //   }
-        //   this.btnSaveLoading = false
-        // })
       },
       handleShowByCancel () {
         this.$router.push({name: 'orderList'})
