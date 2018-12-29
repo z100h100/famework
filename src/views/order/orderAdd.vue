@@ -908,12 +908,13 @@
                 })
                 // 发送短信接口
                 let user = this.allUserList.filter(item => params.operator.id === item.id)[0]
+                let that = this
                 if (params.deliverySms) {
                   let url = `http://v.juhe.cn/sms/send?mobile=${this.ruleForm.deliveryPhone}&tpl_id=124130&dtype=&key=af4081f38599357f56c71d9aa3dc3c32&tpl_value=`
                   let paramsUrl = `#发货人#=${this.ruleForm.deliveryPerson}&#运单号#=${this.ruleForm.waybillNo}&#短信跟踪链接#=${`http://122.112.211.21/#/trackDetails?id=` + Base64.encode(`btd${res.data.data}btd`)}&#当前组织联系电话#=${user.phone}`
                   let trueUrl = url + encodeURIComponent(paramsUrl)
                   JSONP(trueUrl, function (json) {
-                    console.log(json)
+                    that.btnSaveLoading = false
                   })
                 }
                 if (params.receiveSms) {
@@ -931,10 +932,10 @@
                   let paramsUrl = `#收货人#=${this.ruleForm.receivingPerson}&#运单号#=${this.ruleForm.waybillNo}&#短信跟踪链接#=${`http://122.112.211.21/#/trackDetails?id=` + Base64.encode(`btd${res.data.data}btd`)}&#当前组织联系电话#=${user.phone}`
                   let trueUrl = url + encodeURIComponent(paramsUrl)
                   JSONP(trueUrl, function (json) {
-                    console.log(json)
+                    that.btnSaveLoading = false
                   })
                 }
-                // this.$router.push({name: 'orderList'})
+                this.$router.push({name: 'orderList'})
               })
             }).catch(() => {
               this.btnSaveLoading = false
