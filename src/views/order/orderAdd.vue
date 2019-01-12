@@ -54,6 +54,14 @@
           </div>
           <div>
             <div class="layui-form-item">
+              <label class="layui-form-label">路由</label>
+              <div class="layui-block">
+                <input v-model="ruleForm.arriveStation" class="layui-input" placeholder="路由">
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="layui-form-item">
               <label class="layui-form-label requireClass">送货方式</label>
               <div class="layui-block">
                 <select v-model="ruleForm.deliveryMode" v-validate="'required'" name="deliveryMode" class="layui-input"
@@ -87,7 +95,7 @@
               <div class="layui-form-item cor-company">
                 <label class="layui-form-label">发货单位</label>
                 <div class="layui-block">
-                  <input v-model="ruleForm.deliveryCompany" class="layui-input" placeholder="请输入发货单位">
+                  <input v-model="ruleForm.deliveryCompany" class="layui-input" placeholder="发货单位">
                 </div>
               </div>
               <div class="layui-form-item cor-company">
@@ -95,7 +103,12 @@
                 <div class="layui-block">
                   <input v-model="ruleForm.deliveryPerson" v-validate="'required'"
                          :class="{'input': true, 'is-danger': errors.has('deliveryPerson')}"
-                         type="text" name="deliveryPerson" class="layui-input" placeholder="请输入发货人">
+                         type="text" name="deliveryPerson" class="layui-input" placeholder="发货人" @click="deliveryPerson=!deliveryPerson" @input="deliveryPersonChange">
+                  <selectList
+                    v-show="deliveryPerson"
+                    :list="deliveryPersonList"
+                    @value1="selectValueHandle"
+                  ></selectList>
                   <el-tooltip class="item" effect="pink" :content="errors.first('deliveryPerson')" placement="top">
                     <i v-show="errors.has('deliveryPerson')" class="el-icon-warning errClass" v-cloak></i>
                   </el-tooltip>
@@ -156,7 +169,12 @@
                 <div class="layui-block">
                   <input v-model="ruleForm.receivingPerson" v-validate="'required'"
                          :class="{'input': true, 'is-danger': errors.has('receivingPerson')}"
-                         type="text" name="receivingPerson" class="layui-input" placeholder="收货人">
+                         type="text" name="receivingPerson" class="layui-input" placeholder="收货人" @click="receivingPerson=!receivingPerson" @input="receivingPersonChange">
+                  <selectList
+                    v-show="receivingPerson"
+                    :list="receivingPersonList"
+                    @value1="selectReceivingValueHandle"
+                  ></selectList>
                   <el-tooltip class="item" effect="pink" :content="errors.first('receivingPerson')" placement="top">
                     <i v-show="errors.has('receivingPerson')" class="el-icon-warning errClass" v-cloak></i>
                   </el-tooltip>
@@ -442,6 +460,7 @@
   import JSONP from 'node-jsonp'
   import { mapState, mapActions } from 'vuex'
   import '../trackDetails/vali'
+  import selectList from '@/components/selectList'
 
   export default {
     data () {
@@ -455,6 +474,30 @@
         callback()
       }
       return {
+        // 发货人
+        deliveryPersonList: [
+          {
+            name: '11',
+            value: '22'
+          },
+          {
+            name: '113333',
+            value: '23'
+          }
+        ],
+        deliveryPerson: false,
+        // 收货人
+        receivingPersonList: [
+          {
+            name: '11',
+            value: '22'
+          },
+          {
+            name: '11',
+            value: '22'
+          }
+        ],
+        receivingPerson: false,
         huidanList: [
           {
             name: '回单',
@@ -663,6 +706,8 @@
         btnSaveLoading: false,
         ruleForm: {
           waybillDate: new Date(),
+          deliveryPerson: '',
+          receivingPerson: '',
           deliverySms: 1,
           receiveSms: 1
         },
@@ -803,6 +848,9 @@
         orderTrackList: state => state.order.orderTrackList
       })
     },
+    components: {
+      selectList: selectList
+    },
     filters: {
       filterStatus (value, list) {
         if (value == '99') {
@@ -822,6 +870,24 @@
         'getSMS',
         'getUserAllUser'
       ]),
+      // 发货人
+      selectValueHandle(value){
+        this.deliveryPerson = false
+        this.ruleForm.deliveryPerson = value.name
+      },
+      deliveryPersonChange () {
+        console.log(1111)
+        // this.deliveryPersonList = []
+      },
+      // 收货人
+      selectReceivingValueHandle(value){
+        this.receivingPerson = false
+        this.ruleForm.receivingPerson = value.name
+      },
+      receivingPersonChange () {
+        // this.receivingPersonList = []
+        console.log(1111)
+      },
       addGoodsList () {
         this.goodsTableData.push({
           name: "",
