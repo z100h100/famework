@@ -19,9 +19,10 @@
   .index_banner {
     width: 100%;
     height: 100%;
-    margin-top: 20px;
-    display: flex;
-    justify-content: flex-start;
+    margin-top: 30px;
+    text-align: center;
+    /*display: flex;*/
+    /*justify-content: flex-start;*/
 
     > img {
       min-width: 1225px;
