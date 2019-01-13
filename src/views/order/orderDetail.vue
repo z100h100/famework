@@ -395,8 +395,8 @@
             </div>
             <div>
               <div class="layui-form-item">
-                <el-checkbox :checked="ruleForm.konghuo ?checked : ''" disabled>控货</el-checkbox>
-                <el-checkbox :checked="ruleForm.tihuo ? checked : ''" disabled>提货</el-checkbox>
+                <el-checkbox :checked="ruleForm.konghuo ? 'checked' : ''" disabled>控货</el-checkbox>
+                <el-checkbox :checked="ruleForm.tihuo ? 'checked' : ''" disabled>提货</el-checkbox>
               </div>
             </div>
             <div>
