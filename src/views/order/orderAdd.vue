@@ -56,7 +56,7 @@
             <div class="layui-form-item">
               <label class="layui-form-label">路由</label>
               <div class="layui-block">
-                <input v-model="ruleForm.arriveStation" class="layui-input" placeholder="路由">
+                <input v-model="ruleForm.transferStation" class="layui-input" placeholder="路由">
               </div>
             </div>
           </div>
@@ -115,6 +115,9 @@
                 <label class="layui-form-label requireClass">手机号码</label>
                 <div class="layui-block">
                   <input v-model="ruleForm.deliveryPhone" v-validate="'required|phone'"
+                         autocomplete="off"
+                         detect-change="off"
+                         initial='off'
                          :class="{'input': true, 'is-danger': errors.has('deliveryPhone')}"
                          type="text" name="deliveryPhone" class="layui-input" placeholder="手机号码" @click="deliveryPerson=!deliveryPerson" @input="deliveryPersonChange">
                   <selectList
@@ -169,12 +172,7 @@
                 <div class="layui-block">
                   <input v-model="ruleForm.receivingPerson" v-validate="'required'"
                          :class="{'input': true, 'is-danger': errors.has('receivingPerson')}"
-                         type="text" name="receivingPerson" class="layui-input" placeholder="收货人" @click="receivingPerson=!receivingPerson" @input="receivingPersonChange">
-                  <selectList
-                    v-show="receivingPerson"
-                    :list="receivingPersonList"
-                    @value1="selectReceivingValueHandle"
-                  ></selectList>
+                         type="text" name="receivingPerson" class="layui-input" placeholder="收货人">
                   <el-tooltip class="item" effect="pink" :content="errors.first('receivingPerson')" placement="top">
                     <i v-show="errors.has('receivingPerson')" class="el-icon-warning errClass" v-cloak></i>
                   </el-tooltip>
@@ -186,8 +184,14 @@
                 <label class="layui-form-label requireClass">手机号码</label>
                 <div class="layui-block">
                   <input v-model="ruleForm.receivingPhone" v-validate="'required|phone'"
+                         autocomplete="off"
                          :class="{'input': true, 'is-danger': errors.has('receivingPhone')}"
-                         type="text" name="receivingPhone" class="layui-input" placeholder="手机号码">
+                         type="text" name="receivingPhone" class="layui-input" placeholder="手机号码" @click="receivingPerson=!receivingPerson" @input="receivingPersonChange">
+                  <selectList
+                    v-show="receivingPerson"
+                    :list="receivingPersonList"
+                    @value1="selectReceivingValueHandle"
+                  ></selectList>
                   <el-tooltip class="item" effect="pink" :content="errors.first('receivingPhone')" placement="top">
                     <i v-show="errors.has('receivingPhone')" class="el-icon-warning errClass" v-cloak></i>
                   </el-tooltip>
@@ -258,61 +262,61 @@
           <div>
             <label class="layui-form-label freight">运费</label>
             <div class="layui-block">
-              <input v-model="ruleFormWhite.freight" type="text" class="layui-input"/>
+              <input v-model="ruleForm.yunfei" type="text" class="layui-input"/>
             </div>
           </div>
           <div>
             <label class="layui-form-label freight">现返</label>
             <div class="layui-block">
-              <input v-model="ruleFormWhite.moneyReturn" type="text" class="layui-input"/>
+              <input v-model="ruleForm.xianfan" type="text" class="layui-input"/>
             </div>
           </div>
           <div>
             <label class="layui-form-label freight">欠返</label>
             <div class="layui-block">
-              <input v-model="ruleFormWhite.oweReturn" type="text" class="layui-input"/>
+              <input v-model="ruleForm.qianfan" type="text" class="layui-input"/>
             </div>
           </div>
           <div>
             <label class="layui-form-label freight">送货费</label>
             <div class="layui-block">
-              <input v-model="ruleFormWhite.DeliveryPay" type="text" class="layui-input"/>
+              <input v-model="ruleForm.songhuofei" type="text" class="layui-input"/>
             </div>
           </div>
           <div>
             <label class="layui-form-label freight">提货费</label>
             <div class="layui-block">
-              <input v-model="ruleFormWhite.takeDeliveryPay" type="text" class="layui-input"/>
+              <input v-model="ruleForm.tihuofei" type="text" class="layui-input"/>
             </div>
           </div>
           <div>
             <label class="layui-form-label freight">装卸费</label>
             <div class="layui-block">
-              <input v-model="ruleFormWhite.HandlingPay" type="text" class="layui-input"/>
+              <input v-model="ruleForm.zhangxiefei" type="text" class="layui-input"/>
             </div>
           </div>
           <div>
             <label class="layui-form-label freight">声明价值</label>
             <div class="layui-block">
-              <input v-model="ruleFormWhite.declaredValue" type="text" class="layui-input"/>
+              <input v-model="ruleForm.shenmingjiazhi" type="text" class="layui-input"/>
             </div>
           </div>
           <div>
             <label class="layui-form-label freight">保价费</label>
             <div class="layui-block">
-              <input v-model="ruleFormWhite.insuredPrice" type="text" class="layui-input"/>
+              <input v-model="ruleForm.baojiafei" type="text" class="layui-input"/>
             </div>
           </div>
           <div>
             <label class="layui-form-label freight">包装费</label>
             <div class="layui-block">
-              <input v-model="ruleFormWhite.packagePay" type="text" class="layui-input"/>
+              <input v-model="ruleForm.baozhuangfei" type="text" class="layui-input"/>
             </div>
           </div>
           <div>
             <label class="layui-form-label freight">其它费</label>
             <div class="layui-block">
-              <input v-model="ruleFormWhite.otherPay" type="text" class="layui-input"/>
+              <input v-model="ruleForm.qitafei" type="text" class="layui-input"/>
             </div>
           </div>
 
@@ -339,43 +343,43 @@
           <div>
             <label class="layui-form-label freight">现付</label>
             <div class="layui-block">
-              <input v-model="ruleFormWhite.cashOnHand" type="text" class="layui-input"/>
+              <input v-model="ruleForm.xianfu" type="text" class="layui-input"/>
             </div>
           </div>
           <div>
             <label class="layui-form-label freight">到付</label>
             <div class="layui-block">
-              <input v-model="ruleFormWhite.toPay" type="text" class="layui-input"/>
+              <input v-model="ruleForm.daofu" type="text" class="layui-input"/>
             </div>
           </div>
           <div>
             <label class="layui-form-label freight">货到打卡</label>
             <div class="layui-block">
-              <input v-model="ruleFormWhite.cashOnArrivalCard" type="text" class="layui-input"/>
+              <input v-model="ruleForm.huodaodaka" type="text" class="layui-input"/>
             </div>
           </div>
           <div>
             <label class="layui-form-label freight">月结</label>
             <div class="layui-block">
-              <input v-model="ruleFormWhite.monthlyKnots" type="text" class="layui-input"/>
+              <input v-model="ruleForm.yuejie" type="text" class="layui-input"/>
             </div>
           </div>
           <div>
             <label class="layui-form-label freight">回付</label>
             <div class="layui-block">
-              <input v-model="ruleFormWhite.payBack" type="text" class="layui-input"/>
+              <input v-model="ruleForm.huifu" type="text" class="layui-input"/>
             </div>
           </div>
           <div>
             <label class="layui-form-label freight">货款扣</label>
             <div class="layui-block">
-              <input v-model="ruleFormWhite.freight" type="text" class="layui-input"/>
+              <input v-model="ruleForm.huokuankou" type="text" class="layui-input"/>
             </div>
           </div>
           <div>
             <label class="layui-form-label freight">欠付</label>
             <div class="layui-block">
-              <input v-model="ruleFormWhite.paymentDeduction" type="text" class="layui-input"/>
+              <input v-model="ruleForm.qianfu" type="text" class="layui-input"/>
             </div>
           </div>
         </div>
@@ -402,13 +406,13 @@
         </div>
         <div>
           <div class="layui-form-item">
-            <el-checkbox v-model="ruleFormWhite.konghuo">控货</el-checkbox>
-            <el-checkbox v-model="ruleFormWhite.tihuo">提货</el-checkbox>
+            <el-checkbox v-model="ruleForm.konghuo" true-label="1" false-label="0">控货</el-checkbox>
+            <el-checkbox v-model="ruleForm.tihuo" true-label="1" false-label="0">提货</el-checkbox>
           </div>
         </div>
         <div>
           <div class="layui-form-item">
-            <select v-model="ruleFormWhite.huidan" class="layui-input">
+            <select v-model="ruleForm.huidan" class="layui-input">
               <option
                 v-for="item in huidanList"
                 :key="item.code"
@@ -416,7 +420,7 @@
                 :value="item.code">
               </option>
             </select>
-            <input v-model="ruleFormWhite.fenshu" type="text" class="layui-input textCenter">
+            <input v-model="ruleForm.huidanfen" type="text" class="layui-input textCenter">
             <div>份</div>
           </div>
         </div>
@@ -424,7 +428,7 @@
           <div class="layui-form-item">
             <label class="layui-form-label">备注</label>
             <div class="layui-block">
-              <input v-model="ruleFormWhite.remark" type="text" class="layui-input">
+              <input v-model="ruleForm.remark" type="text" class="layui-input">
             </div>
           </div>
         </div>
@@ -475,28 +479,10 @@
       }
       return {
         // 发货人
-        deliveryPersonList: [
-          {
-            name: '11',
-            value: '22'
-          },
-          {
-            name: '113333',
-            value: '23'
-          }
-        ],
+        deliveryPersonList: [],
         deliveryPerson: false,
         // 收货人
-        receivingPersonList: [
-          {
-            name: '11',
-            value: '22'
-          },
-          {
-            name: '11',
-            value: '22'
-          }
-        ],
+        receivingPersonList: [],
         receivingPerson: false,
         huidanList: [
           {
@@ -524,10 +510,6 @@
             code: '5'
           }
         ],
-        ruleFormWhite: {
-          huidan: '0',
-          fenshu: 0
-        },
         goodsTableHead: [
           {
             label: "货物名称",
@@ -709,7 +691,9 @@
           deliveryPerson: '',
           receivingPerson: '',
           deliverySms: 1,
-          receiveSms: 1
+          receiveSms: 1,
+          huidan: '0',
+          huidanfen: 0
         },
         rules_system: {
           waybillNo: [
@@ -874,25 +858,34 @@
       // 发货人
       selectValueHandle(value){
         this.deliveryPerson = false
-        this.ruleForm.deliveryPerson = value.name
+        this.ruleForm.deliveryCompany = value.company
+        this.ruleForm.deliveryPerson = value.person
+        this.ruleForm.shippingAddress = value.address
+        this.ruleForm.deliveryPhone = value.phone
       },
       deliveryPersonChange () {
         let params = {
           phone: this.ruleForm.deliveryPhone
         }
         this.getWaybillPhone(params).then(res => {
-          console.log(res)
+          this.deliveryPersonList = res.data.data
         })
-        // this.deliveryPersonList = []
       },
       // 收货人
       selectReceivingValueHandle(value){
         this.receivingPerson = false
-        this.ruleForm.receivingPerson = value.name
+        this.ruleForm.receivingCompany = value.company
+        this.ruleForm.receivingPerson = value.person
+        this.ruleForm.receivingAddress = value.address
+        this.ruleForm.receivingPhone = value.phone
       },
       receivingPersonChange () {
-        // this.receivingPersonList = []
-        console.log(1111)
+        let params = {
+          phone: this.ruleForm.receivingPhone
+        }
+        this.getWaybillPhone(params).then(res => {
+          this.receivingPersonList = res.data.data
+        })
       },
       addGoodsList () {
         this.goodsTableData.push({

@@ -20,7 +20,7 @@ Vue.use(ElementUI)
 const config = {
   errorBagName: 'errors',
   fieldsBagName: 'fieldBags',
-  delay: 100,
+  delay: 500,
   locale: 'zh_CN',
   strict: true,
   enableAutoClasses: true,
