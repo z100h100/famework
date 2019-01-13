@@ -21,7 +21,7 @@ export const constantRouterMapDefault = [
   },
   // 表单
   {
-    path: '/trackDetails',
+    path: '/trackDetails/:id',
     label: 'trackDetails',
     component: resolve => require(['@/views/trackDetails/index'], resolve),
     hidden: true
@@ -155,7 +155,7 @@ export default new Router({
       hidden: true
     },
     {
-      path: '/trackDetails',
+      path: '/trackDetails/:id',
       label: 'trackDetails',
       component: resolve => require(['@/views/trackDetails/index'], resolve),
       hidden: true

@@ -50,5 +50,10 @@ export default {
     return getDate.GET_SMS(userInfo).then(response => {
       return response
     })
+  },
+  getWaybillPhone ({ commit }, userInfo) {
+    return getDate.GET_WAYBILLPHONE(userInfo).then(response => {
+      return response
+    })
   }
 }

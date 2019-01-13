@@ -162,7 +162,7 @@
     watch: {
       '$route' () {
         let params = {
-          id: Base64.decode(this.$route.query.id).slice(3, -3)
+          id: Base64.decode(this.$route.params.id).slice(3, -3)
         }
         this.getWaybillGet(params).then(res => {
           // console.log(res)
@@ -176,7 +176,7 @@
     },
     mounted () {
       let params = {
-        id: Base64.decode(this.$route.query.id).slice(3, -3)
+        id: Base64.decode(this.$route.params.id).slice(3, -3)
       }
       this.getWaybillGet(params).then(res => {
         // console.log(res)

@@ -103,12 +103,7 @@
                 <div class="layui-block">
                   <input v-model="ruleForm.deliveryPerson" v-validate="'required'"
                          :class="{'input': true, 'is-danger': errors.has('deliveryPerson')}"
-                         type="text" name="deliveryPerson" class="layui-input" placeholder="发货人" @click="deliveryPerson=!deliveryPerson" @input="deliveryPersonChange">
-                  <selectList
-                    v-show="deliveryPerson"
-                    :list="deliveryPersonList"
-                    @value1="selectValueHandle"
-                  ></selectList>
+                         type="text" name="deliveryPerson" class="layui-input" placeholder="发货人">
                   <el-tooltip class="item" effect="pink" :content="errors.first('deliveryPerson')" placement="top">
                     <i v-show="errors.has('deliveryPerson')" class="el-icon-warning errClass" v-cloak></i>
                   </el-tooltip>
@@ -121,7 +116,12 @@
                 <div class="layui-block">
                   <input v-model="ruleForm.deliveryPhone" v-validate="'required|phone'"
                          :class="{'input': true, 'is-danger': errors.has('deliveryPhone')}"
-                         type="text" name="deliveryPhone" class="layui-input" placeholder="手机号码">
+                         type="text" name="deliveryPhone" class="layui-input" placeholder="手机号码" @click="deliveryPerson=!deliveryPerson" @input="deliveryPersonChange">
+                  <selectList
+                    v-show="deliveryPerson"
+                    :list="deliveryPersonList"
+                    @value1="selectValueHandle"
+                  ></selectList>
                   <el-tooltip class="item" effect="pink" :content="errors.first('deliveryPhone')" placement="top">
                     <i v-show="errors.has('deliveryPhone')" class="el-icon-warning errClass" v-cloak></i>
                   </el-tooltip>
@@ -868,6 +868,7 @@
         'getWaybillSave',
         'getWaybillSaveSMS',
         'getSMS',
+        'getWaybillPhone',
         'getUserAllUser'
       ]),
       // 发货人
@@ -876,7 +877,12 @@
         this.ruleForm.deliveryPerson = value.name
       },
       deliveryPersonChange () {
-        console.log(1111)
+        let params = {
+          phone: this.ruleForm.deliveryPhone
+        }
+        this.getWaybillPhone(params).then(res => {
+          console.log(res)
+        })
         // this.deliveryPersonList = []
       },
       // 收货人
@@ -973,34 +979,34 @@
                   message: '保存成功'
                 })
                 // 发送短信接口
-                let user = this.allUserList.filter(item => params.operator.id === item.id)[0]
-                let that = this
-                if (params.deliverySms) {
-                  let url = `http://v.juhe.cn/sms/send?mobile=${this.ruleForm.deliveryPhone}&tpl_id=124130&dtype=&key=af4081f38599357f56c71d9aa3dc3c32&tpl_value=`
-                  let paramsUrl = `#发货人#=${this.ruleForm.deliveryPerson}&#运单号#=${this.ruleForm.waybillNo}&#短信跟踪链接#=${`http://122.112.211.21/#/trackDetails?id=` + Base64.encode(`btd${res.data.data}btd`)}&#当前组织联系电话#=${user.phone}`
-                  let trueUrl = url + encodeURIComponent(paramsUrl)
-                  JSONP(trueUrl, function (json) {
-                    that.btnSaveLoading = false
-                  })
-                }
-                if (params.receiveSms) {
-                  // let deliveryParams = {
-                  //   mobile: this.ruleForm.deliveryPhone,
-                  //   tpl_id: 124130,
-                  //   '#收货人#': this.ruleForm.receivingPerson,
-                  //   '#运单号#': this.ruleForm.waybillNo,
-                  //   '#短信跟踪链接#': `http://122.112.211.21/#/trackDetails?id=` + Base64.encode(`btd${res.data.data}btd`),
-                  //   '#当前组织联系电话#': user.phone,
-                  //   dtype: '',
-                  //   key: 'af4081f38599357f56c71d9aa3dc3c32'
-                  // }
-                  let url = `http://v.juhe.cn/sms/send?mobile=${this.ruleForm.receivingPhone}&tpl_id=124131&dtype=&key=af4081f38599357f56c71d9aa3dc3c32&tpl_value=`
-                  let paramsUrl = `#收货人#=${this.ruleForm.receivingPerson}&#运单号#=${this.ruleForm.waybillNo}&#短信跟踪链接#=${`http://122.112.211.21/#/trackDetails?id=` + Base64.encode(`btd${res.data.data}btd`)}&#当前组织联系电话#=${user.phone}`
-                  let trueUrl = url + encodeURIComponent(paramsUrl)
-                  JSONP(trueUrl, function (json) {
-                    that.btnSaveLoading = false
-                  })
-                }
+                // let user = this.allUserList.filter(item => params.operator.id === item.id)[0]
+                // let that = this
+                // if (params.deliverySms) {
+                //   let url = `http://v.juhe.cn/sms/send?mobile=${this.ruleForm.deliveryPhone}&tpl_id=124130&dtype=&key=af4081f38599357f56c71d9aa3dc3c32&tpl_value=`
+                //   let paramsUrl = `#发货人#=${this.ruleForm.deliveryPerson}&#运单号#=${this.ruleForm.waybillNo}&#短信跟踪链接#=${`http://122.112.211.21/#/trackDetails?id=` + Base64.encode(`btd${res.data.data}btd`)}&#当前组织联系电话#=${user.phone}`
+                //   let trueUrl = url + encodeURIComponent(paramsUrl)
+                //   JSONP(trueUrl, function (json) {
+                //     that.btnSaveLoading = false
+                //   })
+                // }
+                // if (params.receiveSms) {
+                //   // let deliveryParams = {
+                //   //   mobile: this.ruleForm.deliveryPhone,
+                //   //   tpl_id: 124130,
+                //   //   '#收货人#': this.ruleForm.receivingPerson,
+                //   //   '#运单号#': this.ruleForm.waybillNo,
+                //   //   '#短信跟踪链接#': `http://122.112.211.21/#/trackDetails?id=` + Base64.encode(`btd${res.data.data}btd`),
+                //   //   '#当前组织联系电话#': user.phone,
+                //   //   dtype: '',
+                //   //   key: 'af4081f38599357f56c71d9aa3dc3c32'
+                //   // }
+                //   let url = `http://v.juhe.cn/sms/send?mobile=${this.ruleForm.receivingPhone}&tpl_id=124131&dtype=&key=af4081f38599357f56c71d9aa3dc3c32&tpl_value=`
+                //   let paramsUrl = `#收货人#=${this.ruleForm.receivingPerson}&#运单号#=${this.ruleForm.waybillNo}&#短信跟踪链接#=${`http://122.112.211.21/#/trackDetails?id=` + Base64.encode(`btd${res.data.data}btd`)}&#当前组织联系电话#=${user.phone}`
+                //   let trueUrl = url + encodeURIComponent(paramsUrl)
+                //   JSONP(trueUrl, function (json) {
+                //     that.btnSaveLoading = false
+                //   })
+                // }
                 this.$router.push({name: 'orderList'})
               })
             }).catch(() => {
