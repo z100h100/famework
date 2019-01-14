@@ -347,7 +347,7 @@
         if (!isLt2M) {
           this.$message.error('上传头像图片大小不能超过 2MB!')
         }
-        return isLt2M
+        return (isJPG || isPNG) && isLt2M
       },
       saveTracking () {
         this.listLoading = false
@@ -473,7 +473,7 @@
 <style lang="scss">
   .avatar-uploader {
     display: inline-flex;
-    width: 148px;
+    /*width: 148px;*/
     height: 148px;
     padding: 5px;
     .el-upload-list--picture-card {

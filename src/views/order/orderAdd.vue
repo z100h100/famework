@@ -239,8 +239,8 @@
                 <div class="layui-form-item" v-if="item.label === '件数'">
                   <label class="layui-form-label">{{item.label}}</label>
                   <div class="layui-block">
-                    <input v-model="scope.row[scope.column.property]" v-validate="'quantity'" :class="{'input': true, 'is-danger': errors.has('name')}"
-                           type="text" :name="scope.column.property + scope.$index" class="layui-input" :placeholder="item.placeholder"/>
+                    <input type="number" v-model="scope.row[scope.column.property]" v-validate="'quantity'" :class="{'input': true, 'is-danger': errors.has('name')}"
+                           :name="scope.column.property + scope.$index" class="layui-input" :placeholder="item.placeholder"/>
                     <el-tooltip class="item" effect="pink" :content="errors.first(scope.column.property + scope.$index)" placement="top">
                       <i v-show="errors.has(scope.column.property + scope.$index)" class="el-icon-warning errClass" v-cloak></i>
                     </el-tooltip>
@@ -916,6 +916,7 @@
         this.smsList.map(item => {
           this.ruleForm[item.id] = item.status
         })
+        // console.log(this.ruleForm)
         this.dialogVisible = false
       },
       selectStatus (selection) {
@@ -963,7 +964,7 @@
             this.getWaybillSave(params).then(res => {
               let _params = {
                 deliverySms: params.deliverySms,
-                receiveSms: params.deliverySms,
+                receiveSms: params.receiveSms,
                 id: res.data.data
               }
               this.getWaybillSaveSMS(_params).then(() => {
