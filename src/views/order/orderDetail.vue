@@ -57,9 +57,9 @@
               </div>
               <div>
                 <div class="layui-form-item">
-                  <label class="layui-form-label">路由</label>
+                  <label class="layui-form-label">中转</label>
                   <div class="layui-block">
-                    <input v-model="ruleForm.transferStation" class="layui-input" placeholder="路由" disabled>
+                    <input v-model="ruleForm.transferStation" class="layui-input" placeholder="中转" disabled>
                   </div>
                 </div>
               </div>
