@@ -3,7 +3,7 @@
     <div
       v-for="item in list"
       @click="searchValueHandle(item)"
-    >{{item.phone}}</div>
+    >{{item.name}}</div>
   </div>
 </template>
 
