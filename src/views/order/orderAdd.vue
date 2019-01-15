@@ -433,6 +433,36 @@
           </div>
         </div>
       </div>
+      <!--中转信息-->
+      <div class="order-editor-info plain create">
+        <div class="order-card full">
+          <h3><i class="fn-icon fn-icon-carry-out"></i>中转信息</h3>
+        </div>
+        <div class="table-wrap">
+          <el-table
+            :data="goodsTableData"
+            class="table-header"
+            border
+            width="100%">
+            <el-table-column v-for="item in goodsTableHead" :label="item.label" :property="item.property" min-width="150">
+              <template slot-scope="scope">
+                <div class="layui-form-item" v-if="item.label === '件数'">
+                  <div class="layui-block">
+                    <input type="number" v-model="scope.row[scope.column.property]" v-validate="'quantity'" :class="{'input': true, 'is-danger': errors.has('name')}"
+                           :name="scope.column.property + scope.$index" class="layui-input" :placeholder="item.placeholder"/>
+                    <el-tooltip class="item" effect="pink" :content="errors.first(scope.column.property + scope.$index)" placement="top">
+                      <i v-show="errors.has(scope.column.property + scope.$index)" class="el-icon-warning errClass" v-cloak></i>
+                    </el-tooltip>
+                  </div>
+                </div>
+                <div class="layui-form-item"  v-else>
+                  <input v-model="scope.row[scope.column.property]" type="text" class="layui-input" :placeholder="item.placeholder"/>
+                </div>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+      </div>
     </el-form>
 
     <div class="footer-Button">
@@ -1019,7 +1049,34 @@
   }
 </script>
 
+
 <style lang="scss" scoped>
+  .order-editor-info {
+    .plain {
+      border-right: 0;
+      padding-top: 5px;
+      background: linear-gradient(270deg,#78aadd 1px,#fff 0);
+    }
+    .order-card {
+      border-right: 1px solid #78aadd;
+      h3 {
+        min-width: 98px;
+        height: 32px;
+        line-height: 32px;
+        font-size: 14px;
+        background: #cae0f6;
+        color: #333;
+        border-top: 1px solid #78aadd;
+        border-bottom: 1px solid #78aadd;
+        &:before {
+          content: "";
+          padding: 0 1px;
+          background: #ff8100;
+          margin: 0 6px;
+        }
+      }
+    }
+  }
   /deep/.el-table--enable-row-hover .el-table__body tr:hover>td {
     background: none !important;
   }
@@ -1328,5 +1385,10 @@
     color: #aab2bd;
     /* placeholder字体大小  */
     font-size: 12px;
+  }
+</style>
+<style>
+  .el-table.table-header td, .el-table.table-header th{
+    padding: 4px 0 !important;
   }
 </style>
