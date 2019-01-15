@@ -54,9 +54,9 @@
           </div>
           <div>
             <div class="layui-form-item">
-              <label class="layui-form-label">中转</label>
+              <label class="layui-form-label">路由</label>
               <div class="layui-block">
-                <input v-model="ruleForm.transferStation" class="layui-input" placeholder="中转">
+                <input v-model="ruleForm.transferStation" class="layui-input" placeholder="路由">
               </div>
             </div>
           </div>
@@ -102,8 +102,14 @@
                 <label class="layui-form-label requireClass">发货人</label>
                 <div class="layui-block">
                   <input v-model="ruleForm.deliveryPerson" v-validate="'required'"
+                         autocomplete="off"
                          :class="{'input': true, 'is-danger': errors.has('deliveryPerson')}"
-                         type="text" name="deliveryPerson" class="layui-input" placeholder="发货人">
+                         type="text" name="deliveryPerson" class="layui-input" placeholder="发货人" @click="deliveryPerson=!deliveryPerson" @input="deliveryPersonChange">
+                  <selectList
+                    v-show="deliveryPerson"
+                    :list="deliveryPersonList"
+                    @value1="selectValueHandle"
+                  ></selectList>
                   <el-tooltip class="item" effect="pink" :content="errors.first('deliveryPerson')" placement="top">
                     <i v-show="errors.has('deliveryPerson')" class="el-icon-warning errClass" v-cloak></i>
                   </el-tooltip>
@@ -119,12 +125,7 @@
                          detect-change="off"
                          initial='off'
                          :class="{'input': true, 'is-danger': errors.has('deliveryPhone')}"
-                         type="text" name="deliveryPhone" class="layui-input" placeholder="手机号码" @click="deliveryPerson=!deliveryPerson" @input="deliveryPersonChange">
-                  <selectList
-                    v-show="deliveryPerson"
-                    :list="deliveryPersonList"
-                    @value1="selectValueHandle"
-                  ></selectList>
+                         type="text" name="deliveryPhone" class="layui-input" placeholder="手机号码">
                   <el-tooltip class="item" effect="pink" :content="errors.first('deliveryPhone')" placement="top">
                     <i v-show="errors.has('deliveryPhone')" class="el-icon-warning errClass" v-cloak></i>
                   </el-tooltip>
@@ -171,8 +172,14 @@
                 <label class="layui-form-label requireClass">收货人</label>
                 <div class="layui-block">
                   <input v-model="ruleForm.receivingPerson" v-validate="'required'"
+                         autocomplete="off"
                          :class="{'input': true, 'is-danger': errors.has('receivingPerson')}"
-                         type="text" name="receivingPerson" class="layui-input" placeholder="收货人">
+                         type="text" name="receivingPerson" class="layui-input" placeholder="收货人" @click="receivingPerson=!receivingPerson" @input="receivingPersonChange">
+                  <selectList
+                    v-show="receivingPerson"
+                    :list="receivingPersonList"
+                    @value1="selectReceivingValueHandle"
+                  ></selectList>
                   <el-tooltip class="item" effect="pink" :content="errors.first('receivingPerson')" placement="top">
                     <i v-show="errors.has('receivingPerson')" class="el-icon-warning errClass" v-cloak></i>
                   </el-tooltip>
@@ -186,12 +193,7 @@
                   <input v-model="ruleForm.receivingPhone" v-validate="'required|phone'"
                          autocomplete="off"
                          :class="{'input': true, 'is-danger': errors.has('receivingPhone')}"
-                         type="text" name="receivingPhone" class="layui-input" placeholder="手机号码" @click="receivingPerson=!receivingPerson" @input="receivingPersonChange">
-                  <selectList
-                    v-show="receivingPerson"
-                    :list="receivingPersonList"
-                    @value1="selectReceivingValueHandle"
-                  ></selectList>
+                         type="text" name="receivingPhone" class="layui-input" placeholder="手机号码">
                   <el-tooltip class="item" effect="pink" :content="errors.first('receivingPhone')" placement="top">
                     <i v-show="errors.has('receivingPhone')" class="el-icon-warning errClass" v-cloak></i>
                   </el-tooltip>
@@ -440,22 +442,40 @@
         </div>
         <div class="table-wrap">
           <el-table
-            :data="goodsTableData"
-            class="table-header"
+            :data="zzInfoTableData"
+            class="table-wrap-header"
             border
             width="100%">
-            <el-table-column v-for="item in goodsTableHead" :label="item.label" :property="item.property" min-width="150">
+            <el-table-column v-for="item in zzInfoTableHead" :label="item.label" :property="item.property" min-width="150" align="center">
               <template slot-scope="scope">
-                <div class="layui-form-item" v-if="item.label === '件数'">
+                <div class="layui-form-item" v-if="item.label === '承运商'">
                   <div class="layui-block">
-                    <input type="number" v-model="scope.row[scope.column.property]" v-validate="'quantity'" :class="{'input': true, 'is-danger': errors.has('name')}"
-                           :name="scope.column.property + scope.$index" class="layui-input" :placeholder="item.placeholder"/>
-                    <el-tooltip class="item" effect="pink" :content="errors.first(scope.column.property + scope.$index)" placement="top">
-                      <i v-show="errors.has(scope.column.property + scope.$index)" class="el-icon-warning errClass" v-cloak></i>
-                    </el-tooltip>
+                    <input v-model="ruleForm.receivingPerson"
+                           autocomplete="off"
+                           type="text"
+                           name="receivingPerson"
+                           class="layui-input"
+                           placeholder="承运商"
+                           @click="receivingPerson=!receivingPerson"
+                           @input="receivingPersonChange">
+                    <selectList
+                      v-show="receivingPerson"
+                      :list="receivingPersonList"
+                      @value1="selectReceivingValueHandle"
+                    ></selectList>
                   </div>
                 </div>
-                <div class="layui-form-item"  v-else>
+                <div class="layui-form-item" v-else-if="item.label === '中转类型'">
+                  <select v-model="scope.row[scope.column.property]" class="layui-input">
+                    <option
+                      v-for="item in huidanList"
+                      :key="item.code"
+                      :label="item.name"
+                      :value="item.code">
+                    </option>
+                  </select>
+                </div>
+                <div class="layui-form-item" v-else>
                   <input v-model="scope.row[scope.column.property]" type="text" class="layui-input" :placeholder="item.placeholder"/>
                 </div>
               </template>
@@ -538,6 +558,123 @@
           {
             name: '信封',
             code: '5'
+          }
+        ],
+        zzInfoTableData: [
+          {
+            name: "",
+            packing: "",
+            quantity: "",
+            weight: "",
+            volume: "",
+            unitPrice: ""
+          }
+        ],
+        zzInfoTableHead: [
+          {
+            label: "中转类型",
+            placeholder: '',
+            property: "name"
+          },
+          {
+            label: "中转单号",
+            placeholder: '',
+            property: "name"
+          },
+          {
+            label: "承运商",
+            placeholder: '',
+            property: "name"
+          },
+          {
+            label: "承运商手机号",
+            placeholder: '',
+            property: "name"
+          },
+          {
+            label: "中转到站",
+            placeholder: '',
+            property: "name"
+          },
+          {
+            label: "中转到站业务电话",
+            placeholder: '',
+            property: "name"
+          },
+          {
+            label: "交接方式",
+            placeholder: '',
+            property: "name"
+          },
+          {
+            label: "承运经办人",
+            placeholder: '',
+            property: "name"
+          },
+          {
+            label: "核定中转费",
+            placeholder: '',
+            property: "name"
+          },
+          {
+            label: "中转费",
+            placeholder: '',
+            property: "name"
+          },
+          {
+            label: "付款方式",
+            placeholder: '',
+            property: "name"
+          },
+          {
+            label: "中转返款",
+            placeholder: '',
+            property: "name"
+          },
+          {
+            label: "中转费合计",
+            placeholder: '',
+            property: "name"
+          },
+          {
+            label: "中转现付",
+            placeholder: '',
+            property: "name"
+          },
+          {
+            label: "中转到付",
+            placeholder: '',
+            property: "name"
+          },
+          {
+            label: "中转回付",
+            placeholder: '',
+            property: "name"
+          },
+          {
+            label: "中转月结",
+            placeholder: '',
+            property: "name"
+          },
+          {
+            label: "中转欠付",
+            placeholder: '',
+            property: "name"
+          },
+          {
+            label: "中转货款扣",
+            placeholder: '',
+            property: "name"
+          },
+          {
+            label: "中转货到打卡",
+            placeholder: '',
+            property: "name"
+          },
+          {
+            label: "中转备注",
+            placeholder: '',
+            property: "name"
           }
         ],
         goodsTableHead: [
@@ -895,7 +1032,7 @@
       },
       deliveryPersonChange () {
         let params = {
-          phone: this.ruleForm.deliveryPhone
+          phone: this.ruleForm.deliveryPerson
         }
         this.getWaybillPhone(params).then(res => {
           this.deliveryPersonList = res.data.data
@@ -911,7 +1048,7 @@
       },
       receivingPersonChange () {
         let params = {
-          phone: this.ruleForm.receivingPhone
+          phone: this.ruleForm.receivingPerson
         }
         this.getWaybillPhone(params).then(res => {
           this.receivingPersonList = res.data.data
@@ -1388,7 +1525,22 @@
   }
 </style>
 <style>
-  .el-table.table-header td, .el-table.table-header th{
+  .el-table.table-wrap-header td, .el-table.table-wrap-header th{
     padding: 4px 0 !important;
+  }
+  ::-webkit-scrollbar {
+    width: 6px;
+    height:7px;
+    background-color:#b5b1b1;
+  }
+  ::-webkit-scrollbar-track{
+     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.1);
+     border-radius: 10px;
+     background-color: #ffffff;
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.1);
+    background-color:#b5b1b1;
   }
 </style>
