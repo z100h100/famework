@@ -46,7 +46,7 @@ export const constantRouterMap = [
         parent: 'Order',
         key: 'Auths_OrderAdd',
         component: resolve => require(['@/views/order/orderAdd'], resolve),
-        meta: { title: '创建运单', icon: 'delete' }
+        meta: { title: '创建运单', icon: 'edit' }
       },
       {
         path: 'orderList',
@@ -55,7 +55,7 @@ export const constantRouterMap = [
         parent: 'Order',
         key: 'Auths_OrderList',
         component: resolve => require(['@/views/order/orderList'], resolve),
-        meta: { title: '运单列表', icon: 'share' }
+        meta: { title: '运单列表', icon: 'edit' }
       },
       {
         path: 'orderDetail/:id',

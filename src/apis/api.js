@@ -102,6 +102,6 @@ export default {
     return api.fetch('get', `http://v.juhe.cn/sms/send`, params)
   },
   GET_WAYBILLPHONE (params) {
-    return api.fetch('get', `${base}/waybill/visitingcard/phone`, params)
+    return api.fetch('get', `${base}/waybill/visitingcard/name`, params)
   }
 }

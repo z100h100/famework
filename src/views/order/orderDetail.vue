@@ -57,9 +57,9 @@
               </div>
               <div>
                 <div class="layui-form-item">
-                  <label class="layui-form-label">中转</label>
+                  <label class="layui-form-label">路由</label>
                   <div class="layui-block">
-                    <input v-model="ruleForm.transferStation" class="layui-input" placeholder="中转" disabled>
+                    <input v-model="ruleForm.transferStation" class="layui-input" placeholder="路由" disabled>
                   </div>
                 </div>
               </div>
@@ -422,6 +422,203 @@
               </div>
             </div>
           </div>
+
+          <!--中转信息-->
+          <div class="order-editor-info plain create">
+            <div class="order-card full">
+              <h3><i class="fn-icon fn-icon-carry-out"></i>中转信息</h3>
+            </div>
+            <div class="table-wrap">
+              <el-table
+                :data="zzInfoTableData"
+                class="table-wrap-header"
+                border
+                width="100%">
+                <el-table-column label="中转类型" min-width="150" align="center">
+                  <template slot-scope="scope">
+                    <div class="layui-form-item">
+                      <select v-model="zzType" class="layui-input" disabled>
+                        <option
+                          v-for="item in zzTypeList"
+                          :key="item.code"
+                          :label="item.name"
+                          :value="item.code">
+                        </option>
+                      </select>
+                    </div>
+                  </template>
+                </el-table-column>
+                <el-table-column label="中转单号" min-width="150" align="center">
+                  <template slot-scope="scope">
+                    <div class="layui-form-item">
+                      <input v-model="ruleForm.zzdh" type="text" class="layui-input" disabled/>
+                    </div>
+                  </template>
+                </el-table-column>
+                <el-table-column label="承运商" prop="" min-width="150" align="center">
+                  <template slot-scope="scope">
+                    <div class="layui-form-item">
+                      <div class="layui-block">
+                        <input v-model="ruleForm.cys"
+                               autocomplete="off"
+                               type="text"
+                               name="receivingPerson"
+                               class="layui-input"
+                               placeholder="承运商"
+                               disabled>
+                        <selectList
+                          v-show="cys"
+                          :list="cysList"
+                          @value1="selectCysValueHandle"
+                        ></selectList>
+                      </div>
+                    </div>
+                  </template>
+                </el-table-column>
+                <el-table-column label="承运商手机号" min-width="150" align="center">
+                  <template slot-scope="scope">
+                    <div class="layui-form-item">
+                      <input v-model="ruleForm.cyssjh" type="text" class="layui-input" disabled/>
+                    </div>
+                  </template>
+                </el-table-column>
+                <el-table-column label="中转到站" min-width="150" align="center">
+                  <template slot-scope="scope">
+                    <div class="layui-form-item">
+                      <select v-model="ruleForm.zzdz" class="layui-input" disabled>
+                      </select>
+                    </div>
+                  </template>
+                </el-table-column>
+                <el-table-column label="中转到站业务电话" min-width="150" align="center">
+                  <template slot-scope="scope">
+                    <div class="layui-form-item">
+                      <input v-model="ruleForm.zzdzywdh" type="text" class="layui-input" disabled/>
+                    </div>
+                  </template>
+                </el-table-column>
+                <el-table-column label="交接方式" min-width="150" align="center">
+                  <template slot-scope="scope">
+                    <div class="layui-form-item">
+                      <select v-model="ruleForm.jjfs" class="layui-input" disabled>
+                        <option
+                          v-for="item in jjfsList"
+                          :key="item.code"
+                          :label="item.name"
+                          :value="item.code">
+                        </option>
+                      </select>
+                    </div>
+                  </template>
+                </el-table-column>
+                <el-table-column label="承运经办人" min-width="150" align="center">
+                  <template slot-scope="scope">
+                    <div class="layui-form-item">
+                      <input type="text" class="layui-input" disabled/>
+                    </div>
+                  </template>
+                </el-table-column>
+                <el-table-column label="核定中转费" min-width="150" align="center">
+                  <template slot-scope="scope">
+                    <div class="layui-form-item">
+                      <input v-model="ruleForm.hdzzf" type="text" class="layui-input" disabled/>
+                    </div>
+                  </template>
+                </el-table-column>
+                <el-table-column label="中转费" min-width="150" align="center">
+                  <template slot-scope="scope">
+                    <div class="layui-form-item">
+                      <input v-model="ruleForm.zzf" type="text" class="layui-input" disabled/>
+                    </div>
+                  </template>
+                </el-table-column>
+                <el-table-column label="付款方式" min-width="150" align="center">
+                  <template slot-scope="scope">
+                    <div class="layui-form-item">
+                      <select v-model="ruleForm.fkfs" class="layui-input" disabled>
+                        <option
+                          v-for="item in payMode"
+                          :key="item.code"
+                          :label="item.name"
+                          :value="item.code">
+                        </option>
+                      </select>
+                    </div>
+                  </template>
+                </el-table-column>
+                <el-table-column label="中转返款" min-width="150" align="center">
+                  <template slot-scope="scope">
+                    <div class="layui-form-item">
+                      <input v-model="ruleForm.zzfk" type="text" class="layui-input" disabled/>
+                    </div>
+                  </template>
+                </el-table-column>
+                <el-table-column label="中转费合计" min-width="150" align="center">
+                  <template slot-scope="scope">
+                    <div class="layui-form-item">
+                      <input v-model="ruleForm.zzfhj" type="text" class="layui-input" disabled/>
+                    </div>
+                  </template>
+                </el-table-column>
+                <el-table-column label="中转现付" min-width="150" align="center">
+                  <template slot-scope="scope">
+                    <div class="layui-form-item">
+                      <input v-model="ruleForm.zzxf" type="text" class="layui-input" disabled/>
+                    </div>
+                  </template>
+                </el-table-column>
+                <el-table-column label="中转到付" min-width="150" align="center">
+                  <template slot-scope="scope">
+                    <div class="layui-form-item">
+                      <input v-model="ruleForm.zzdf" type="text" class="layui-input" disabled/>
+                    </div>
+                  </template>
+                </el-table-column>
+                <el-table-column label="中转回付" min-width="150" align="center">
+                  <template slot-scope="scope">
+                    <div class="layui-form-item">
+                      <input v-model="ruleForm.zzhf" type="text" class="layui-input" disabled/>
+                    </div>
+                  </template>
+                </el-table-column>
+                <el-table-column label="中转月结" min-width="150" align="center">
+                  <template slot-scope="scope">
+                    <div class="layui-form-item">
+                      <input v-model="ruleForm.zzyj" type="text" class="layui-input" disabled/>
+                    </div>
+                  </template>
+                </el-table-column>
+                <el-table-column label="中转欠付" min-width="150" align="center">
+                  <template slot-scope="scope">
+                    <div class="layui-form-item">
+                      <input v-model="ruleForm.zzqf" type="text" class="layui-input" disabled/>
+                    </div>
+                  </template>
+                </el-table-column>
+                <el-table-column label="中转货款扣" min-width="150" align="center">
+                  <template slot-scope="scope">
+                    <div class="layui-form-item">
+                      <input v-model="ruleForm.zzhkk" type="text" class="layui-input" disabled/>
+                    </div>
+                  </template>
+                </el-table-column>
+                <el-table-column label="中转货到打卡" min-width="150" align="center">
+                  <template slot-scope="scope">
+                    <div class="layui-form-item">
+                      <input v-model="ruleForm.zzhddk" type="text" class="layui-input" disabled/>
+                    </div>
+                  </template>
+                </el-table-column>
+                <el-table-column label="中转备注" min-width="150" align="center">
+                  <template slot-scope="scope">
+                    <div class="layui-form-item">
+                      <input v-model="ruleForm.zzbz" type="text" class="layui-input" disabled/>
+                    </div>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </div>
+          </div>
         </el-form>
       </div>
       <div class="footer-Button">
@@ -451,6 +648,7 @@
 
 <script>
   import {mapState, mapActions} from 'vuex'
+  import selectList from '@/components/selectList'
   export default {
     data () {
       var checkPhone = (rule, value, callback) => {
@@ -463,6 +661,9 @@
         callback()
       }
       return {
+        // cys
+        cys: false,
+        cysList: [],
         huidanList: [
           {
             name: '回单',
@@ -489,6 +690,7 @@
             code: '5'
           }
         ],
+        zzInfoTableData: [{}],
         goodsTableHead: [
           {
             label: "货物名称",
@@ -519,6 +721,23 @@
             label: "单价",
             placeholder: '',
             property: "unitPrice"
+          }
+        ],
+        zzType: 0,
+        zzTypeList: [
+          {
+            name: '外部中转',
+            code: '0'
+          }
+        ],
+        jjfsList: [
+          {
+            name: '送到承运公司',
+            code: '0'
+          },
+          {
+            name: '承运公司上门提货',
+            code: '1'
           }
         ],
         // 数据值
@@ -691,6 +910,9 @@
       this.multipleSelection = [this.tableData[0], this.tableData[1]]
       this.getAllUser()
     },
+    components: {
+      selectList: selectList
+    },
     computed: {
       ...mapState({
         ruleForm: state=> state.order.orderTrackList,
@@ -702,8 +924,24 @@
         'getWaybillGet',
         'getWaybillSave',
         'getWaybillSaveSMS',
-        'getUserAllUser'
+        'getUserAllUser',
+        'getWaybillPhone'
       ]),
+      // 承运商
+      selectCysValueHandle(value){
+        this.cys = false
+        this.ruleForm.cys = value.name
+        this.ruleForm.cyssjh = value.phone
+      },
+      cysChange () {
+        let params = {
+          name: this.ruleForm.cys,
+          type: 2 // 1收发人 2承运
+        }
+        this.getWaybillPhone(params).then(res => {
+          this.cysList = res.data.data
+        })
+      },
       // 获取全部user
       getAllUser () {
         this.getUserAllUser().then(res => {
@@ -796,7 +1034,53 @@
   }
 </script>
 
+<style>
+  .el-table.table-wrap-header td, .el-table.table-wrap-header th{
+    padding: 4px 0 !important;
+  }
+  ::-webkit-scrollbar {
+    width: 6px;
+    height:7px;
+    background-color:#b5b1b1;
+  }
+  ::-webkit-scrollbar-track{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.1);
+    border-radius: 10px;
+    background-color: #ffffff;
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.1);
+    background-color:#b5b1b1;
+  }
+</style>
 <style lang="scss" scoped>
+  .order-editor-info {
+    .plain {
+      border-right: 0;
+      padding-top: 5px;
+      background: linear-gradient(270deg,#78aadd 1px,#fff 0);
+    }
+    .order-card {
+      border-right: 1px solid #78aadd;
+      h3 {
+        min-width: 98px;
+        height: 32px;
+        line-height: 32px;
+        font-size: 14px;
+        background: #cae0f6;
+        color: #333;
+        border-top: 1px solid #78aadd;
+        border-bottom: 1px solid #78aadd;
+        &:before {
+          content: "";
+          padding: 0 1px;
+          background: #ff8100;
+          margin: 0 6px;
+        }
+      }
+    }
+  }
   .layui-input[disabled] {
     background: #fff;
     cursor: not-allowed;
