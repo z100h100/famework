@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import app from './modules/app/index'
-import user from './modules/user/index'
-import just from './modules/just/index'
-import role from './modules/role/index'
-import order from './modules/order/index'
+import app from './modules/app'
+import user from './modules/user'
+import just from './modules/just'
+import role from './modules/role'
+import order from './modules/order'
 import getters from './getters'
 
 Vue.use(Vuex)
