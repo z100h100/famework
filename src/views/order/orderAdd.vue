@@ -28,6 +28,7 @@
               class="orderInput"
               :picker-options="pickerOptions1"
               size="mini"
+              value-format="timestamp"
               style="width:200px">
             </el-date-picker>
           </el-form-item>
@@ -1313,9 +1314,11 @@
       // 提交
       submitForm () {
         this.btnSaveLoading = true
+        // console.log(this.$moment(this.ruleForm.waybillDate).format('YYYY-MM-DD hh:mm:ss'))
         this.$validator.validateAll().then((result) => {
           if (result) {
             let params = Object.assign({}, this.ruleForm)
+            params.waybillDate = this.$moment(params.waybillDate).format('YYYY-MM-DD hh:mm:ss')
             params.operator = {
               id: params.operator
             }
