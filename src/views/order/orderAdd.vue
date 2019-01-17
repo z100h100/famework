@@ -498,8 +498,7 @@
             <el-table-column label="中转到站" min-width="150" align="center">
               <template slot-scope="scope">
                 <div class="layui-form-item">
-                  <select v-model="ruleForm.zzdz" class="layui-input">
-                  </select>
+                  <input v-model="ruleForm.zzdz" type="text" class="layui-input"/>
                 </div>
               </template>
             </el-table-column>
@@ -1258,26 +1257,41 @@
       },
       // 短信方确认
       onsmsClick () {
-        this.smsList.map(item => {
-          this.ruleForm[item.id] = item.status
-        })
-        // console.log(this.ruleForm)
+        if (this.smsList.length) {
+          this.smsList.map(item => {
+            this.ruleForm[item.id] = item.status
+          })
+        } else {
+          this.ruleForm['deliverySms'] = 0
+          this.ruleForm['receiveSms'] = 0
+        }
+        // console.log(this.ruleForm, 2222)
         this.dialogVisible = false
       },
       selectStatus (selection) {
         this.multipleSelection = selection
         let aa = []
-        this.tableData.map(item => {
+        if (selection.length == 1) {
           selection.map(v => {
-            if (item.id === v.id) {
-              item.status = 1
-            } else {
-              item.status = 0
-            }
-            aa.push(item)
+            this.tableData.map(item => {
+              if (item.id === v.id) {
+                item.status = 1
+              } else {
+                item.status = 0
+              }
+            })
           })
-        })
-        this.smsList = this.uniq(aa)
+        } else if (selection.length == 2) {
+          this.tableData.map(item => {
+            item.status = 1
+          })
+        } else {
+          this.tableData.map(item => {
+            item.status = 0
+          })
+        }
+        this.smsList = this.tableData
+        // console.log(this.tableData)
       },
       uniq (array) {
         var temp = [] //一个新的临时数组
@@ -1307,18 +1321,23 @@
             }
             params.goods = this.goodsTableData
             this.getWaybillSave(params).then(res => {
-              let _params = {
-                deliverySms: params.deliverySms,
-                receiveSms: params.receiveSms,
-                id: res.data.data
-              }
-              this.getWaybillSaveSMS(_params).then(() => {
-                this.$message({
-                  type: 'success',
-                  message: '保存成功'
-                })
-                this.$router.push({name: 'orderList'})
+              // let _params = {
+              //   deliverySms: params.deliverySms,
+              //   receiveSms: params.receiveSms,
+              //   id: res.data.data
+              // }
+              // this.getWaybillSaveSMS(_params).then(() => {
+              //   this.$message({
+              //     type: 'success',
+              //     message: '保存成功'
+              //   })
+              //   this.$router.push({name: 'orderList'})
+              // })
+              this.$message({
+                type: 'success',
+                message: '保存成功'
               })
+              this.$router.push({name: 'orderList'})
             }).catch(() => {
               this.btnSaveLoading = false
             })
