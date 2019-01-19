@@ -103,5 +103,8 @@ export default {
   },
   GET_WAYBILLPHONE (params) {
     return api.fetch('get', `${base}/waybill/visitingcard/name`, params)
+  },
+  GET_WAYBILLNODUPLICATE (params) {
+    return api.fetch('get', `${base}waybill/duplicate/${params.billNo}`)
   }
 }

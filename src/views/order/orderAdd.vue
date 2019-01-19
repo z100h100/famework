@@ -6,7 +6,8 @@
           <div class="layui-form-item fr waybillNoClass">
             <label class="layui-form-label requireClass">运单号</label>
             <div class="layui-block" style="width: 160px">
-              <input v-model="ruleForm.waybillNo" v-validate="'required'"
+              <input v-model="ruleForm.waybillNo" v-validate="'required|waybillNo'"
+                     autocomplete="off"
                      :class="{'input': true, 'is-danger': errors.has('waybillNo')}" type="text" name="waybillNo"
                      class="layui-input" placeholder="运单号">
               <el-tooltip class="item" effect="pink" :content="errors.first('waybillNo')" placement="top">
@@ -242,7 +243,7 @@
                 <div class="layui-form-item" v-if="item.label === '件数'">
                   <label class="layui-form-label">{{item.label}}</label>
                   <div class="layui-block">
-                    <input type="number" v-model="scope.row[scope.column.property]" v-validate="'quantity'" :class="{'input': true, 'is-danger': errors.has('name')}"
+                    <input type="number" v-model="scope.row[scope.column.property]" v-validate="'required|quantity'" :class="{'input': true, 'is-danger': errors.has(scope.column.property + scope.$index)}"
                            :name="scope.column.property + scope.$index" class="layui-input" :placeholder="item.placeholder"/>
                     <el-tooltip class="item" effect="pink" :content="errors.first(scope.column.property + scope.$index)" placement="top">
                       <i v-show="errors.has(scope.column.property + scope.$index)" class="el-icon-warning errClass" v-cloak></i>
@@ -251,7 +252,13 @@
                 </div>
                 <div class="layui-form-item"  v-else>
                   <label class="layui-form-label">{{item.label}}</label>
-                  <input v-model="scope.row[scope.column.property]" type="text" class="layui-input" :placeholder="item.placeholder"/>
+                  <div class="layui-block">
+                    <input type="text" v-model="scope.row[scope.column.property]" v-validate="'required'" :class="{'input': true, 'is-danger': errors.has(scope.column.property + scope.$index)}"
+                           :name="scope.column.property + scope.$index" class="layui-input" :placeholder="item.placeholder"/>
+                    <el-tooltip class="item" effect="pink" :content="errors.first(scope.column.property + scope.$index)" placement="top">
+                      <i v-show="errors.has(scope.column.property + scope.$index)" class="el-icon-warning errClass" v-cloak></i>
+                    </el-tooltip>
+                  </div>
                 </div>
               </template>
             </el-table-column>
@@ -470,7 +477,7 @@
             </el-table-column>
             <el-table-column label="承运商" prop="" min-width="150" align="center">
               <template slot-scope="scope">
-                <div class="layui-form-item">
+                <!--<div class="layui-form-item">-->
                   <div class="layui-block">
                     <input v-model="ruleForm.cys"
                            autocomplete="off"
@@ -483,10 +490,11 @@
                     <selectList
                       v-show="cys"
                       :list="cysList"
+                      class="cysShowClass"
                       @value1="selectCysValueHandle"
                     ></selectList>
                   </div>
-                </div>
+                <!--</div>-->
               </template>
             </el-table-column>
             <el-table-column label="承运商手机号" min-width="150" align="center">
@@ -661,7 +669,6 @@
 
 <script>
   import { Base64 } from 'js-base64'
-  import JSONP from 'node-jsonp'
   import { mapState, mapActions } from 'vuex'
   import '../trackDetails/vali'
   import selectList from '@/components/selectList'
@@ -1181,6 +1188,7 @@
         'getWaybillSaveSMS',
         'getSMS',
         'getWaybillPhone',
+        'getWaybillNoDuplicate',
         'getUserAllUser'
       ]),
       // 发货人
@@ -1220,7 +1228,7 @@
       // 承运商
       selectCysValueHandle(value){
         this.cys = false
-        this.ruleForm.cys = value.name
+        this.ruleForm.cys = value.person
         this.ruleForm.cyssjh = value.phone
       },
       cysChange () {
@@ -1696,6 +1704,14 @@
   .layui-input[disabled] {
     background: #f2f9ff;
     cursor: not-allowed;
+  }
+
+  .cysShowClass {
+    position: fixed;
+    z-index: 2222;
+    width: 150px;
+    max-height: 250px;
+    overflow: scroll;
   }
 </style>
 <style>

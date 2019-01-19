@@ -1,4 +1,5 @@
 import {Validator} from 'vee-validate'
+import store from '@/store'
 // 自定义扩展
 // 收货人电话号码
 Validator.extend('phone', {
@@ -8,6 +9,20 @@ Validator.extend('phone', {
   validate: value => {
     // 获取输入的value
     return /^1[34578]\d{9}$/.test(value)
+  }
+})
+Validator.extend('waybillNo', {
+  getMessage: (field, [args]) => {
+    return `运单号不能重复`
+  },
+  validate: value => {
+    // 获取输入的value
+    let params = {
+      billNo: value
+    }
+    return store.dispatch('getWaybillNoDuplicate', params).then(res => {
+      return !res.data.data
+    })
   }
 })
 // 件数
