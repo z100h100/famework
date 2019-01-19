@@ -22,6 +22,8 @@ Validator.extend('waybillNo', {
     }
     return store.dispatch('getWaybillNoDuplicate', params).then(res => {
       return !res.data.data
+    }).catch(err => {
+      console.log(err)
     })
   }
 })
