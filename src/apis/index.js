@@ -13,6 +13,6 @@ export default {
       } else if (method === 'delete') {
         resolve(axios.delete(url, data))
       }
-    })
+    }).catch(error => console.log('caught', error))
   }
 }

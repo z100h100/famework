@@ -1,4 +1,4 @@
-import {Validator} from 'vee-validate'
+import { Validator } from 'vee-validate'
 import store from '@/store'
 // 自定义扩展
 // 收货人电话号码

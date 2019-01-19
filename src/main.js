@@ -12,7 +12,7 @@ import '@/styles/index.scss' // global css
 
 import './icons' // icon
 import './permission' // permission control
-import VeeValidate, {Validator} from 'vee-validate'
+import VeeValidate, { Validator } from 'vee-validate'
 import zh from 'vee-validate/dist/locale/zh_CN'
 Validator.localize(zh)
 
@@ -27,7 +27,7 @@ const config = {
   events: 'blur',
   inject: true
 }
-Vue.use(VeeValidate,config)
+Vue.use(VeeValidate, config)
 
 Object.defineProperty(Vue.prototype, '$moment', { value: moment })
 
