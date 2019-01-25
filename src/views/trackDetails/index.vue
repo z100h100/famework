@@ -191,9 +191,7 @@
       let params = {
         id: Base64.decode(this.$route.params.id).slice(3, -3)
       }
-      this.getWaybillGet(params).then(res => {
-        // console.log(res)
-      })
+      this.getWaybillGet(params)
     },
     filters: {
       filterStatus (value, list) {
@@ -209,7 +207,8 @@
     },
     methods: {
       ...mapActions([
-        'getWaybillGet'
+        'getWaybillGet',
+        'getWaybillNo'
       ]),
       showPic(items) {
         this.showImg = true
@@ -221,7 +220,10 @@
       },
       // 搜索
       onSubmit () {
-
+        let params = {
+          waybillNo: this.searchModel.name
+        }
+        this.getWaybillGet(params)
       }
     }
   }

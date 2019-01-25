@@ -89,6 +89,9 @@ export default {
   GET_WAYBILLGET (params) {
     return api.fetch('get', `${base}/waybill/get`, params)
   },
+  GET_WAYBILLNO (params) {
+    return api.fetch('get', `${base}/waybill/waybillNo/${params.waybillNo}`, params)
+  },
   GET_WAYBILLSAVE (params) {
     return api.fetch('post', `${base}/waybill/save`, params)
   },

@@ -24,6 +24,14 @@ export default {
       return response
     })
   },
+  // 搜索运单
+  getWaybillNo ({ commit }, userInfo) {
+    return getDate.GET_WAYBILLNO(userInfo).then(response => {
+      const data = response.data.data
+      commit(types.GETWAYBILLGET, data)
+      return response
+    })
+  },
   // 添加运单
   getWaybillSaveTracking ({ commit }, userInfo) {
     return getDate.GET_WAYBILLSAVETRACKING(userInfo).then(response => {
