@@ -4,14 +4,14 @@
       <div class="header-title">
         邦达通物流管理系统
       </div>
-      <!--<el-form inline ref="form" :model="searchModel" class="header-search">-->
-        <!--<el-form-item style="margin-left: 20px">-->
-          <!--<el-input v-model="searchModel.name" placeholder="请输入查单号/运单号"></el-input>-->
-        <!--</el-form-item>-->
-        <!--<el-form-item>-->
-          <!--<el-button type="primary" @click="onSubmit">搜索</el-button>-->
-        <!--</el-form-item>-->
-      <!--</el-form>-->
+      <el-form inline ref="form" :model="searchModel" class="header-search">
+        <el-form-item style="margin-left: 20px">
+          <el-input v-model="searchModel.name" placeholder="请输入查单号/运单号"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="onSubmit">搜索</el-button>
+        </el-form-item>
+      </el-form>
     </div>
 
     <div id="searchResult" class="row outline-panel center-block order-content" v-if="orderTrackList.waybillNo">
@@ -31,6 +31,12 @@
               <ul>
                 <li v-for="item in orderTrackList.trackings">【{{item.operationTime ? $moment(item.operationTime).format('YYYY-MM-DD hh:mm:ss') : ''}}】{{item.status | filterStatus(statusList)}}
                   <p>操作描述：{{item.described ? item.described : '无'}}</p>
+                  <p v-if="item.picture">
+                    图片展示：
+                    <span class="blueColor" v-for="(items, index) in item.picture" @click="showPic(items)">
+                      [{{index}}]
+                    </span>
+                  </p>
                 </li>
               </ul>
             </div>
@@ -38,16 +44,20 @@
         </div>
       </div>
     </div>
+    <big-img v-if="showImg" @clickit="viewImg" :imgSrc="imgSrc"></big-img>
   </div>
 </template>
 
 <script>
   import { Base64 } from 'js-base64'
   import {mapState, mapActions} from 'vuex'
+  import BigImg from '@/components/bigImg/index.vue'
   export default {
     name: 'index',
     data () {
       return {
+        showImg:false,
+        imgSrc: '',
         searchModel: {
           name: ''
         },
@@ -159,6 +169,9 @@
         ]
       }
     },
+    components: {
+      'big-img':BigImg
+    },
     watch: {
       '$route' () {
         let params = {
@@ -198,6 +211,14 @@
       ...mapActions([
         'getWaybillGet'
       ]),
+      showPic(items) {
+        this.showImg = true
+        // 获取当前图片地址
+        this.imgSrc = this.g_Config.IMG_URL + items
+      },
+      viewImg(){
+        this.showImg = false
+      },
       // 搜索
       onSubmit () {
 
