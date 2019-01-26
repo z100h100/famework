@@ -68,6 +68,5 @@
     right: 0;
     margin: auto;
     z-index: 1000;
-    top: 20px;
   }
 </style>

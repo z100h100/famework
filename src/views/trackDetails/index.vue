@@ -1,6 +1,5 @@
 <template>
   <div>
-    <big-img v-if="showImg" @clickit="viewImg" :imgSrc="imgSrc"></big-img>
     <div>
       <div class="header-title">
         邦达通物流管理系统
@@ -14,7 +13,7 @@
         </el-form-item>
       </el-form>
     </div>
-
+    <big-img v-if="showImg" @clickit="viewImg" :imgSrc="imgSrc"></big-img>
     <div id="searchResult" class="row outline-panel center-block order-content" v-if="orderTrackList">
       <div class="order_detail fn-clear">
         <div class="p-left-continer">
