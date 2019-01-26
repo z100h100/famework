@@ -1,5 +1,6 @@
 <template>
   <div>
+    <big-img v-if="showImg" @clickit="viewImg" :imgSrc="imgSrc"></big-img>
     <div>
       <div class="header-title">
         邦达通物流管理系统
@@ -45,7 +46,6 @@
       </div>
     </div>
     <div style="margin-left: 20px;color: red" v-else>暂无数据,请输入正确的订单号</div>
-    <big-img v-if="showImg" @clickit="viewImg" :imgSrc="imgSrc"></big-img>
   </div>
 </template>
 
