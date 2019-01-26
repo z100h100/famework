@@ -180,12 +180,14 @@
     },
     watch: {
       '$route' () {
-        let params = {
-          id: Base64.decode(this.$route.params.id).slice(3, -3)
+        if (this.$route.params.id) {
+          let params = {
+            id: Base64.decode(this.$route.params.id).slice(3, -3)
+          }
+          this.getWaybillGet(params).then(res => {
+            // console.log(res)
+          })
         }
-        this.getWaybillGet(params).then(res => {
-          // console.log(res)
-        })
       }
     },
     computed: {
@@ -194,10 +196,12 @@
       })
     },
     mounted () {
-      let params = {
-        id: Base64.decode(this.$route.params.id).slice(3, -3)
+      if (this.$route.params.id) {
+        let params = {
+          id: Base64.decode(this.$route.params.id).slice(3, -3)
+        }
+        this.getWaybillGet(params)
       }
-      this.getWaybillGet(params)
     },
     filters: {
       filterStatus (value, list) {
