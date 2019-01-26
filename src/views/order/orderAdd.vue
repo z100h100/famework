@@ -250,6 +250,12 @@
                     </el-tooltip>
                   </div>
                 </div>
+                <div class="layui-form-item" v-else-if="item.label === '单价'">
+                  <label class="layui-form-label">{{item.label}}</label>
+                  <div class="layui-block">
+                    <input type="number" v-model="scope.row[scope.column.property]" class="layui-input" :placeholder="item.placeholder"/>
+                  </div>
+                </div>
                 <div class="layui-form-item"  v-else>
                   <label class="layui-form-label">{{item.label}}</label>
                   <div class="layui-block">

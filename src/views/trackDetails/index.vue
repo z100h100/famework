@@ -4,9 +4,9 @@
       <div class="header-title">
         邦达通物流管理系统
       </div>
-      <el-form inline ref="form" :model="searchModel" class="header-search">
-        <el-form-item style="margin-left: 20px">
-          <el-input v-model="searchModel.name" placeholder="请输入查单号/运单号"></el-input>
+      <el-form inline ref="form" :model="searchModel" :rules="rules" class="header-search">
+        <el-form-item style="margin-left: 20px" prop="name">
+          <el-input v-model="searchModel.name" placeholder="请输入运单号"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="onSubmit">搜索</el-button>
@@ -14,7 +14,7 @@
       </el-form>
     </div>
 
-    <div id="searchResult" class="row outline-panel center-block order-content" v-if="orderTrackList.waybillNo">
+    <div id="searchResult" class="row outline-panel center-block order-content" v-if="orderTrackList">
       <div class="order_detail fn-clear">
         <div class="p-left-continer">
           <div class="p-left">
@@ -44,6 +44,7 @@
         </div>
       </div>
     </div>
+    <div style="margin-left: 20px;color: red" v-else>暂无数据,请输入正确的订单号</div>
     <big-img v-if="showImg" @clickit="viewImg" :imgSrc="imgSrc"></big-img>
   </div>
 </template>
@@ -166,7 +167,12 @@
             name: '部分入库',
             code: '25'
           }
-        ]
+        ],
+        rules: {
+          name: [
+            { required: true, message: '请输入运单号', trigger: 'blur' }
+          ]
+        }
       }
     },
     components: {
@@ -220,10 +226,17 @@
       },
       // 搜索
       onSubmit () {
-        let params = {
-          waybillNo: this.searchModel.name
-        }
-        this.getWaybillGet(params)
+        this.$refs['form'].validate((valid) => {
+          if (valid) {
+            let params = {
+              waybillNo: this.searchModel.name
+            }
+            this.getWaybillNo(params)
+          } else {
+            console.log('error submit!!')
+            return false
+          }
+        })
       }
     }
   }
@@ -244,5 +257,9 @@
   }
   .outline-panel li{
     line-height: 20px;
+  }
+  .blueColor {
+    color: #4979ff;
+    cursor: pointer;
   }
 </style>

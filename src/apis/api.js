@@ -90,7 +90,7 @@ export default {
     return api.fetch('get', `${base}/waybill/get`, params)
   },
   GET_WAYBILLNO (params) {
-    return api.fetch('get', `${base}/waybill/waybillNo/${params.waybillNo}`, params)
+    return api.fetch('get', `${base}/waybill/waybillno/${params.waybillNo}`)
   },
   GET_WAYBILLSAVE (params) {
     return api.fetch('post', `${base}/waybill/save`, params)
