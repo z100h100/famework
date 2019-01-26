@@ -13,7 +13,7 @@
         </el-form-item>
       </el-form>
     </div>
-    <big-img v-if="showImg" @clickit="viewImg" :imgSrc="imgSrc"></big-img>
+
     <div id="searchResult" class="row outline-panel center-block order-content" v-if="orderTrackList">
       <div class="order_detail fn-clear">
         <div class="p-left-continer">
@@ -45,6 +45,7 @@
       </div>
     </div>
     <div style="margin-left: 20px;color: red" v-else>暂无数据,请输入正确的订单号</div>
+    <big-img v-if="showImg" @clickit="viewImg" :imgSrc="imgSrc"></big-img>
   </div>
 </template>
 
