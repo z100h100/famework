@@ -131,7 +131,7 @@ export default {
     handleClose () {
       this.dialogVisible = false
     },
-    submitForm(formName) {
+    submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let params = {
@@ -151,7 +151,7 @@ export default {
         }
       })
     },
-    resetForm(formName) {
+    resetForm (formName) {
       this.$refs[formName].resetFields()
     },
     handleCommand (command) {

@@ -674,7 +674,6 @@
 </template>
 
 <script>
-  import { Base64 } from 'js-base64'
   import { mapState, mapActions } from 'vuex'
   import '../trackDetails/vali'
   import selectList from '@/components/selectList'
@@ -729,152 +728,152 @@
         zzInfoTableData: [{}],
         zzInfoTableHead: [
           {
-            label: "中转类型",
+            label: '中转类型',
             placeholder: '',
-            property: "name"
+            property: 'name'
           },
           {
-            label: "中转单号",
+            label: '中转单号',
             placeholder: '',
-            property: "name"
+            property: 'name'
           },
           {
-            label: "承运商",
+            label: '承运商',
             placeholder: '',
-            property: "name"
+            property: 'name'
           },
           {
-            label: "承运商手机号",
+            label: '承运商手机号',
             placeholder: '',
-            property: "name"
+            property: 'name'
           },
           {
-            label: "中转到站",
+            label: '中转到站',
             placeholder: '',
-            property: "name"
+            property: 'name'
           },
           {
-            label: "中转到站业务电话",
+            label: '中转到站业务电话',
             placeholder: '',
-            property: "name"
+            property: 'name'
           },
           {
-            label: "交接方式",
+            label: '交接方式',
             placeholder: '',
-            property: "name"
+            property: 'name'
           },
           {
-            label: "承运经办人",
+            label: '承运经办人',
             placeholder: '',
-            property: "name"
+            property: 'name'
           },
           {
-            label: "核定中转费",
+            label: '核定中转费',
             placeholder: '',
-            property: "name"
+            property: 'name'
           },
           {
-            label: "中转费",
+            label: '中转费',
             placeholder: '',
-            property: "name"
+            property: 'name'
           },
           {
-            label: "付款方式",
+            label: '付款方式',
             placeholder: '',
-            property: "name"
+            property: 'name'
           },
           {
-            label: "中转返款",
+            label: '中转返款',
             placeholder: '',
-            property: "name"
+            property: 'name'
           },
           {
-            label: "中转费合计",
+            label: '中转费合计',
             placeholder: '',
-            property: "name"
+            property: 'name'
           },
           {
-            label: "中转现付",
+            label: '中转现付',
             placeholder: '',
-            property: "name"
+            property: 'name'
           },
           {
-            label: "中转到付",
+            label: '中转到付',
             placeholder: '',
-            property: "name"
+            property: 'name'
           },
           {
-            label: "中转回付",
+            label: '中转回付',
             placeholder: '',
-            property: "name"
+            property: 'name'
           },
           {
-            label: "中转月结",
+            label: '中转月结',
             placeholder: '',
-            property: "name"
+            property: 'name'
           },
           {
-            label: "中转欠付",
+            label: '中转欠付',
             placeholder: '',
-            property: "name"
+            property: 'name'
           },
           {
-            label: "中转货款扣",
+            label: '中转货款扣',
             placeholder: '',
-            property: "name"
+            property: 'name'
           },
           {
-            label: "中转货到打卡",
+            label: '中转货到打卡',
             placeholder: '',
-            property: "name"
+            property: 'name'
           },
           {
-            label: "中转备注",
+            label: '中转备注',
             placeholder: '',
-            property: "name"
+            property: 'name'
           }
         ],
         goodsTableHead: [
           {
-            label: "货物名称",
+            label: '货物名称',
             placeholder: '',
-            property: "name"
+            property: 'name'
           },
           {
-            label: "包装",
+            label: '包装',
             placeholder: '',
-            property: "packing"
+            property: 'packing'
           },
           {
-            label: "件数",
+            label: '件数',
             placeholder: '',
-            property: "quantity"
+            property: 'quantity'
           },
           {
-            label: "重量(kg)",
+            label: '重量(kg)',
             placeholder: '',
-            property: "weight"
+            property: 'weight'
           },
           {
-            label: "体积(方)",
+            label: '体积(方)',
             placeholder: '长*宽*高*件数(米)',
-            property: "volume"
+            property: 'volume'
           },
           {
-            label: "单价",
+            label: '单价',
             placeholder: '',
-            property: "unitPrice"
+            property: 'unitPrice'
           }
         ],
         // 数据值
         goodsTableData: [
           {
-            name: "",
-            packing: "",
-            quantity: "",
-            weight: "",
-            volume: "",
-            unitPrice: ""
+            name: '',
+            packing: '',
+            quantity: '',
+            weight: '',
+            volume: '',
+            unitPrice: ''
           }
         ],
         name: '',
@@ -1063,7 +1062,7 @@
           ],
           quantity: [
             {required: true, message: '请输入件数', trigger: 'blur'}
-          ],
+          ]
         },
         payMode: [
           {
@@ -1198,7 +1197,7 @@
         'getUserAllUser'
       ]),
       // 发货人
-      selectValueHandle(value){
+      selectValueHandle (value) {
         this.deliveryPerson = false
         this.ruleForm.deliveryCompany = value.company
         this.ruleForm.deliveryPerson = value.person
@@ -1215,7 +1214,7 @@
         })
       },
       // 收货人
-      selectReceivingValueHandle(value){
+      selectReceivingValueHandle (value) {
         this.receivingPerson = false
         this.ruleForm.receivingCompany = value.company
         this.ruleForm.receivingPerson = value.person
@@ -1232,7 +1231,7 @@
         })
       },
       // 承运商
-      selectCysValueHandle(value){
+      selectCysValueHandle (value) {
         this.cys = false
         this.ruleForm.cys = value.person
         this.ruleForm.cyssjh = value.phone
@@ -1248,12 +1247,12 @@
       },
       addGoodsList () {
         this.goodsTableData.push({
-          name: "",
-          packing: "",
-          quantity: "",
-          weight: "",
-          volume: "",
-          unitPrice: ""
+          name: '',
+          packing: '',
+          quantity: '',
+          weight: '',
+          volume: '',
+          unitPrice: ''
         })
       },
       delGoodsList (index) {
@@ -1285,7 +1284,6 @@
       },
       selectStatus (selection) {
         this.multipleSelection = selection
-        let aa = []
         if (selection.length == 1) {
           selection.map(v => {
             this.tableData.map(item => {
@@ -1309,7 +1307,7 @@
         // console.log(this.tableData)
       },
       uniq (array) {
-        var temp = [] //一个新的临时数组
+        var temp = [] // 一个新的临时数组
         for (var i = 0; i < array.length; i++) {
           if (temp.indexOf(array[i]) == -1) {
             temp.push(array[i])

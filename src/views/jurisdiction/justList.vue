@@ -99,7 +99,7 @@
           this.fetchData()
         })
       },
-      onJustAdd() {
+      onJustAdd () {
         this.$router.push('/jurisdiction/justAdd')
       },
       /**
@@ -125,9 +125,9 @@
             pageSize,
             params: [
               {
-                andOr: "and",
-                name: "username",
-                operation: "like",
+                andOr: 'and',
+                name: 'username',
+                operation: 'like',
                 value: this.formInline.username
               }
             ]

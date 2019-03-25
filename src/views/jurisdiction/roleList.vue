@@ -92,10 +92,10 @@
           this.fetchData()
         })
       },
-      onSubmit() {
+      onSubmit () {
         this.listLoading = false
       },
-      onRoleAdd() {
+      onRoleAdd () {
         this.$router.push('/jurisdiction/roleAdd')
       },
       /**
@@ -121,9 +121,9 @@
             pageSize,
             params: [
               {
-                andOr: "and",
-                name: "name",
-                operation: "like",
+                andOr: 'and',
+                name: 'name',
+                operation: 'like',
                 value: this.formInline.name
               }
             ]

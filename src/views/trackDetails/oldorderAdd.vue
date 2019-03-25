@@ -501,51 +501,51 @@
       return {
         tableHead: [
           {
-            label: "姓名",
-            property: "name"
+            label: '姓名',
+            property: 'name'
           },
           {
-            label: "地址",
-            property: "address"
+            label: '地址',
+            property: 'address'
           },
           {
-            label: "地址",
-            property: "address"
+            label: '地址',
+            property: 'address'
           },
           {
-            label: "地址",
-            property: "address"
+            label: '地址',
+            property: 'address'
           },
           {
-            label: "地址",
-            property: "address"
+            label: '地址',
+            property: 'address'
           },
           {
-            label: "地址",
-            property: "address"
+            label: '地址',
+            property: 'address'
           }
         ],
         // 数据值
         tableData: [
           {
-            date: "2016-05-02",
-            name: "王小虎6666",
-            address: "上海市普陀区金沙江路 1518 弄"
+            date: '2016-05-02',
+            name: '王小虎6666',
+            address: '上海市普陀区金沙江路 1518 弄'
           },
           {
-            date: "2016-05-04",
-            name: "王小虎45",
-            address: "上海市普陀区金沙江路 1517 弄"
+            date: '2016-05-04',
+            name: '王小虎45',
+            address: '上海市普陀区金沙江路 1517 弄'
           },
           {
-            date: "2016-05-01",
-            name: "王小虎333",
-            address: "上海市普陀区金沙江路 1519 弄"
+            date: '2016-05-01',
+            name: '王小虎333',
+            address: '上海市普陀区金沙江路 1519 弄'
           },
           {
-            date: "2016-05-03",
-            name: "王小虎222",
-            address: "上海市普陀区金沙江路 1516 弄"
+            date: '2016-05-03',
+            name: '王小虎222',
+            address: '上海市普陀区金沙江路 1516 弄'
           }
         ],
         name: '',
@@ -713,7 +713,7 @@
           ],
           quantity: [
             {required: true, message: '请输入件数', trigger: 'blur'}
-          ],
+          ]
         },
         payMode: [
           {
@@ -793,22 +793,6 @@
           }
         ],
         multipleSelection: [],
-        tableData: [
-          {
-            id: 'deliverySms',
-            status: 1,
-            messageType: '跟踪-发货人',
-            toPerson: '发货人',
-            MSMtemplate: '您好，您发给{收货人}的{货物名称}已受理，运单号{运单号}。查单链接：{短信跟踪链接} {当前组织名称}，电话:{当前组织联系电话}'
-          },
-          {
-            id: 'receiveSms',
-            status: 1,
-            messageType: '跟踪-收货人',
-            toPerson: '收货人',
-            MSMtemplate: '您好，{发货人}发给您的{货物名称}已受理，运单号{运单号}。查单链接：{短信跟踪链接} {当前组织名称}，电话:{当前组织联系电话}'
-          }
-        ],
         smsList: [],
         allUserList: []
       }
@@ -874,7 +858,7 @@
         this.smsList = this.uniq(aa)
       },
       uniq (array) {
-        var temp = [] //一个新的临时数组
+        var temp = [] // 一个新的临时数组
         for (var i = 0; i < array.length; i++) {
           if (temp.indexOf(array[i]) == -1) {
             temp.push(array[i])

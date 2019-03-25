@@ -101,7 +101,7 @@
         pickerOptions: {
           shortcuts: [{
             text: '最近一周',
-            onClick(picker) {
+            onClick (picker) {
               const end = new Date()
               const start = new Date()
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
@@ -109,7 +109,7 @@
             }
           }, {
             text: '最近一个月',
-            onClick(picker) {
+            onClick (picker) {
               const end = new Date()
               const start = new Date()
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
@@ -117,7 +117,7 @@
             }
           }, {
             text: '最近三个月',
-            onClick(picker) {
+            onClick (picker) {
               const end = new Date()
               const start = new Date()
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
@@ -358,21 +358,21 @@
             pageSize,
             params: [
               {
-                andOr: "and",
-                name: "waybillNo",
-                operation: "like",
+                andOr: 'and',
+                name: 'waybillNo',
+                operation: 'like',
                 value: this.formInline.waybillNo
               },
               {
-                andOr: "and",
-                name: "waybillDate",
-                operation: "between",
+                andOr: 'and',
+                name: 'waybillDate',
+                operation: 'between',
                 value: ['#toDate' + new Date(this.formInline.waybillDate[0]).getTime(), '#toDate' + new Date(this.formInline.waybillDate[1]).getTime()]
               },
               {
-                andOr: "and",
-                name: "operator.id",
-                operation: "eq",
+                andOr: 'and',
+                name: 'operator.id',
+                operation: 'eq',
                 value: this.formInline.operator
               }
             ]
@@ -383,15 +383,15 @@
             pageSize,
             params: [
               {
-                andOr: "and",
-                name: "waybillNo",
-                operation: "like",
+                andOr: 'and',
+                name: 'waybillNo',
+                operation: 'like',
                 value: this.formInline.waybillNo
               },
               {
-                andOr: "and",
-                name: "operator.id",
-                operation: "eq",
+                andOr: 'and',
+                name: 'operator.id',
+                operation: 'eq',
                 value: this.formInline.operator
               }
             ]

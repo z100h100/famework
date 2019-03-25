@@ -31,7 +31,7 @@
   import { mapActions, mapState } from 'vuex'
 
   export default {
-    data() {
+    data () {
       return {
         justRolesList: [],
         defaultProps: {
@@ -63,7 +63,7 @@
         }
       }
     },
-    mounted() {
+    mounted () {
       this.getAllRole().then(res => {
         this.justRolesList = res.data.data
       })
@@ -90,9 +90,9 @@
               this.$router.push({name: 'justList'})
             })
           } else {
-            return false;
+            return false
           }
-        });
+        })
       }
     }
   }

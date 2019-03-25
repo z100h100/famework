@@ -2,6 +2,7 @@
   <div>
     <div>
       <div class="header-title">
+        <img src="../../assets/images/backUrl.png" @click="backUrl" alt="邦达通物流管理系统"/>
         邦达通物流管理系统
       </div>
       <el-form inline ref="form" :model="searchModel" :rules="rules" class="header-search">
@@ -57,7 +58,7 @@
     name: 'index',
     data () {
       return {
-        showImg:false,
+        showImg: false,
         imgSrc: '',
         searchModel: {
           name: ''
@@ -176,7 +177,7 @@
       }
     },
     components: {
-      'big-img':BigImg
+      'big-img': BigImg
     },
     watch: {
       '$route' () {
@@ -192,7 +193,7 @@
     },
     computed: {
       ...mapState({
-        orderTrackList: state=> state.order.orderTrackList
+        orderTrackList: state => state.order.orderTrackList
       })
     },
     mounted () {
@@ -220,12 +221,12 @@
         'getWaybillGet',
         'getWaybillNo'
       ]),
-      showPic(items) {
+      showPic (items) {
         this.showImg = true
         // 获取当前图片地址
         this.imgSrc = this.g_Config.IMG_URL + items
       },
-      viewImg(){
+      viewImg () {
         this.showImg = false
       },
       // 搜索
@@ -241,12 +242,15 @@
             return false
           }
         })
+      },
+      backUrl () {
+        window.location.href = 'http://www.bangdatong.cn'
       }
     }
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   @import "wuliu.css";
   .header-title {
     height: 60px;
@@ -255,6 +259,18 @@
     color: #fff;
     padding-left: 20px;
     font-weight: bold;
+    img {
+      cursor: pointer;
+      height: 60px;
+      float: left;
+    }
+  }
+  @media screen and (max-width: 900px) {
+    .header-title {
+      img {
+        display: none;
+      }
+    }
   }
   .header-search {
     margin-top: 10px;

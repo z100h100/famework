@@ -118,7 +118,6 @@
 
 <script>
   import {mapState, mapActions} from 'vuex'
-  import {formatDate} from '@/utils/index'
   export default {
     data () {
       return {
@@ -262,7 +261,7 @@
         listLoading: true,
         pictureList: [],
         dialogPicVisible: false,
-        pictureUrl: '',
+        pictureUrl: ''
       }
     },
     mounted () {
@@ -282,7 +281,7 @@
     },
     computed: {
       ...mapState({
-        orderTrackList: state=> state.order.orderTrackList
+        orderTrackList: state => state.order.orderTrackList
       })
     },
     methods: {
@@ -318,14 +317,14 @@
       handleClose () {
         this.dialogVisible = false
       },
-      handleAvatarSuccess(res, file) {
+      handleAvatarSuccess (res, file) {
         this.imageUrl.push({url: this.g_Config.IMG_URL + res.data})
         this.pictureList.push(res.data)
       },
       handleAvatarExceed (files, fileList) {
         this.$message.error('最多一次只能上传5张图片')
       },
-      handleRemove(file, fileList) {
+      handleRemove (file, fileList) {
         let params = 99
         this.imageUrl.forEach((item, index) => {
           if (file.uid === item.uid) {
@@ -337,7 +336,7 @@
           this.pictureList.splice(params, 1)
         }
       },
-      beforeAvatarUpload(file) {
+      beforeAvatarUpload (file) {
         const isJPG = file.type === 'image/jpeg'
         const isPNG = file.type === 'image/png'
         const isLt2M = file.size / 1024 / 1024 < 2
@@ -353,7 +352,7 @@
         this.listLoading = false
         let params = {
           ...this.formInline,
-          waybill:{
+          waybill: {
             id: this.$route.params.id
           }
         }

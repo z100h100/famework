@@ -18,7 +18,7 @@
   export default {
     props: ['imgSrc'],
     methods: {
-      bigImg() {
+      bigImg () {
         // 发送事件
         this.$emit('clickit')
       }

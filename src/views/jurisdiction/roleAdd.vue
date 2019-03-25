@@ -27,7 +27,7 @@
 <script>
   import {mapState, mapActions} from 'vuex'
   export default {
-    data() {
+    data () {
       var validateTreeAuth = (rule, value, callback) => {
         let aa = this.$refs.treeAuth.getCheckedKeys().concat(this.$refs.treeAuth.getHalfCheckedKeys())
         if (aa.length == 0) {
@@ -58,7 +58,7 @@
         }
       }
     },
-    mounted() {},
+    mounted () {},
     computed: {
       ...mapState({
         SETMENU: state => state.user.currentSign
@@ -96,7 +96,7 @@
           }
         })
       },
-      setCheckedKeys() {
+      setCheckedKeys () {
         this.$refs.treeAuth.setCheckedKeys(['Auths_justList'])
       }
     }

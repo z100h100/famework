@@ -18,7 +18,7 @@ export default {
     }
   },
   methods: {
-    searchValueHandle(item){
+    searchValueHandle (item) {
       this.$emit('value1', item)
     }
   }

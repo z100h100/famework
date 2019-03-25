@@ -248,7 +248,7 @@
           ],
           quantity: [
             {required: true, message: '请输入件数', trigger: 'blur'}
-          ],
+          ]
         },
         payMode: [
           {
@@ -372,7 +372,7 @@
         'getWaybillSaveSMS',
         'getUserAllUser'
       ]),
-// 获取全部user
+      // 获取全部user
       getAllUser () {
         this.getUserAllUser().then(res => {
           this.allUserList = res.data.data
@@ -382,7 +382,7 @@
       handleClose () {
         this.multipleSelection = [this.tableData[0], this.tableData[1]]
       },
-// 短信方确认
+      // 短信方确认
       onsmsClick () {
         this.smsList.map(item => {
           this.ruleForm[item.id] = item.status
@@ -405,7 +405,7 @@
         this.smsList = this.uniq(aa)
       },
       uniq (array) {
-        var temp = [] //一个新的临时数组
+        var temp = [] // 一个新的临时数组
         for (var i = 0; i < array.length; i++) {
           if (temp.indexOf(array[i]) == -1) {
             temp.push(array[i])
@@ -421,7 +421,7 @@
           })
         })
       },
-// 提交
+      // 提交
       submitForm () {
         this.btnSaveLoading = false
         this.$refs['ruleForm'].validate((valid) => {

@@ -6,11 +6,11 @@
 
 <script>
 export default {
-    data() {
-        return {}
-    },
-    mounted() {
+  data () {
+    return {}
+  },
+  mounted () {
 
-    }
+  }
 }
 </script>

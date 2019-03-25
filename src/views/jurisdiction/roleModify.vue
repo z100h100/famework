@@ -24,7 +24,7 @@
 <script>
   import {mapState, mapActions} from 'vuex'
   export default {
-    data() {
+    data () {
       return {
         actions: [],
         formInline: {
@@ -41,7 +41,7 @@
         }
       }
     },
-    mounted() {
+    mounted () {
       if (this.$route.query.id) {
         let params = {
           id: parseInt(this.$route.query.id)
@@ -95,7 +95,7 @@
           }
         })
       },
-      setCheckedKeys() {
+      setCheckedKeys () {
         this.$refs.treeAuth.setCheckedKeys(['Auths_justList'])
       }
     }

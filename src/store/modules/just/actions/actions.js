@@ -12,7 +12,6 @@ export default {
   },
   getDelJust ({ commit }, userInfo) {
     return getDate.GET_DELJUST(userInfo).then(response => {
-      const data = response.data.data
       return response
     })
   },

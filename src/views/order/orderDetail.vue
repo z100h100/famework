@@ -655,7 +655,7 @@
         if (!value) {
           return callback(new Error('手机号不能为空'))
         }
-        if(!(/^1[34578]\d{9}$/.test(value))){
+        if (!(/^1[34578]\d{9}$/.test(value))) {
           return callback(new Error('请填写正确的手机号'))
         }
         callback()
@@ -693,34 +693,34 @@
         zzInfoTableData: [{}],
         goodsTableHead: [
           {
-            label: "货物名称",
+            label: '货物名称',
             placeholder: '',
-            property: "name"
+            property: 'name'
           },
           {
-            label: "包装",
+            label: '包装',
             placeholder: '',
-            property: "packing"
+            property: 'packing'
           },
           {
-            label: "件数",
+            label: '件数',
             placeholder: '',
-            property: "quantity"
+            property: 'quantity'
           },
           {
-            label: "重量(kg)",
+            label: '重量(kg)',
             placeholder: '',
-            property: "weight"
+            property: 'weight'
           },
           {
-            label: "体积(方)",
+            label: '体积(方)',
             placeholder: '长*宽*高*件数(米)',
-            property: "volume"
+            property: 'volume'
           },
           {
-            label: "单价",
+            label: '单价',
             placeholder: '',
-            property: "unitPrice"
+            property: 'unitPrice'
           }
         ],
         zzType: 0,
@@ -743,12 +743,12 @@
         // 数据值
         goodsTableData: [
           {
-            name: "",
-            packing: "",
-            quantity: "",
-            weight: "",
-            volume: "",
-            unitPrice: ""
+            name: '',
+            packing: '',
+            quantity: '',
+            weight: '',
+            volume: '',
+            unitPrice: ''
           }
         ],
         dialogVisible: false,
@@ -807,7 +807,7 @@
           ],
           quantity: [
             {required: true, message: '请输入件数', trigger: 'blur'}
-          ],
+          ]
         },
         payMode: [
           {
@@ -915,7 +915,7 @@
     },
     computed: {
       ...mapState({
-        ruleForm: state=> state.order.orderTrackList,
+        ruleForm: state => state.order.orderTrackList,
         user: state => state.user.user
       })
     },
@@ -928,7 +928,7 @@
         'getWaybillPhone'
       ]),
       // 承运商
-      selectCysValueHandle(value){
+      selectCysValueHandle (value) {
         this.cys = false
         this.ruleForm.cys = value.name
         this.ruleForm.cyssjh = value.phone
@@ -983,7 +983,7 @@
         this.smsList = this.uniq(aa)
       },
       uniq (array) {
-        var temp = [] //一个新的临时数组
+        var temp = [] // 一个新的临时数组
         for (var i = 0; i < array.length; i++) {
           if (temp.indexOf(array[i]) == -1) {
             temp.push(array[i])
