@@ -1,4 +1,9 @@
-﻿# 统一框架 project
+<p>
+  <a href="https://github.com/996icu/996.ICU/blob/master/LICENSE_CN">
+    <img alt="996icu" src="https://img.shields.io/badge/license-NPL%20%28The%20996%20Prohibited%20License%29-blue.svg">
+  </a>
+</p>
+# 统一框架 project
 
 1. 这个项目是作为vue项目开发的一个公用项目模板
 2. 这里包括了项目开发所需准备的初步准备工作
